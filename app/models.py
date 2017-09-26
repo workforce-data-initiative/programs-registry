@@ -16,8 +16,9 @@ class Program(db.Model):
     language = db.Column(db.String(20), default="English")
     costs = db.Column(db.Integer)
     date_created = db.Column(db.Datetime, default=db.func.current_timestamp())
-    date_modifed = db.Column(db.Datetime, default=db.func.current_timestamp(),
-        on_update=db.func.current_timestamp())
+    date_modifed = db.Column(db.Datetime,
+                             default=db.func.current_timestamp(),
+                             on_update=db.func.current_timestamp())
 
 
     def __init__(self, name, location, services, costs):
@@ -45,5 +46,3 @@ class Program(db.Model):
     def __repr__(self):
         """Return a representation of the program model instance."""
         return "<Program: {} - {}>".format(self.id, self.name)
-
-
