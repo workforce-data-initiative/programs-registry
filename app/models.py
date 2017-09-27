@@ -20,6 +20,11 @@ class Organization(db.Model):
         self.name = name
         self.description = description
 
+    def save(self):
+        """Save an organization when creating or updating one."""
+        db.session.add(self)
+        db.session.commit()
+
 
 class Program(db.Model):
     """This class defines the program table."""
