@@ -39,4 +39,5 @@ jobs:
           name: Deploy to Heroku
           command: |
             . venv/bin/activate
-            sh heroku.sh
+            if [ $CIRCLE_BRANCH = 'master' ]; then sh heroku.sh; fi
+            if [ $CIRCLE_BRANCH = 'develop' ]; then sh heroku.sh; fi
