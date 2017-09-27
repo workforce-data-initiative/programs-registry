@@ -15,10 +15,10 @@ class Program(db.Model):
     services = db.Column(db.String(256))
     language = db.Column(db.String(20), default="English")
     costs = db.Column(db.Integer)
-    date_created = db.Column(db.Datetime, default=db.func.current_timestamp())
-    date_modifed = db.Column(db.Datetime,
+    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
+    date_modifed = db.Column(db.DateTime,
                              default=db.func.current_timestamp(),
-                             on_update=db.func.current_timestamp())
+                             onupdate=db.func.current_timestamp())
 
 
     def __init__(self, name, location, services, costs):
