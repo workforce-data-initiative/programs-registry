@@ -22,9 +22,9 @@ def create_app(config_name):
 
 
     # define the routes for the service
-    @app.route('/programs/', methods=['POST', 'GET'])¬
+    @app.route('/programs/', methods=['POST', 'GET'])
     def bucketlists():
         response = {}
-        return make_response(jsonify(response), 200
+        return make_response(jsonify(response), 200)
 
     return app
