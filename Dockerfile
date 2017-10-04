@@ -7,4 +7,6 @@ ADD requirements.txt .
 RUN pip install -r requirements.txt
 ADD . .
 ENV APP_SETTINGS="development"
-CMD [ "python3", "app.py" ]
+EXPOSE 5000
+ENV DATABASE_URL="postgresql://database:5432/postgres"
+CMD ./init.sh
