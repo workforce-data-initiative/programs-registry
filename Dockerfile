@@ -8,5 +8,5 @@ RUN pip install -r requirements.txt
 ADD . .
 ENV APP_SETTINGS="development"
 EXPOSE 5000
-ENV DATABASE_URL="postgresql://database:5432/postgres"
+ENV DATABASE_URL="postgresql://postgres:postgres@database:5432/postgres"
 CMD ./init.sh
