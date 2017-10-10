@@ -183,6 +183,10 @@ class PhysicalAddress(db.Model):
     postal_code = db.Column(db.String(20), nullable=False)
     country = db.Column(db.String(2), nullable=False) # Two-letter country code
 
+    def save(self):
+        """Save the instance of the physical address."""
+        db.session.add(self)
+        db.session.commit()
 
     def __repr__(self):
         """Return a representation of the model instance."""

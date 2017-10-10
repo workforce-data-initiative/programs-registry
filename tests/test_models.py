@@ -29,7 +29,7 @@ class BaseTestCase(unittest.TestCase):
 class OrganizationTestCase(BaseTestCase):
     """This class represents the Organization model test case."""
 
-    def test_organization_creation(self):
+    def test_organization_instance_creation(self):
         """Test that the organization model can be created."""
         org_data = {
             "name": "Test-Org",
@@ -45,7 +45,7 @@ class OrganizationTestCase(BaseTestCase):
 class ProgramTestCase(BaseTestCase):
     """This class represents the program model test case."""
 
-    def test_program_creation(self):
+    def test_program_instance_creation(self):
         """Test that a program can be created."""
         program_data = {
             "name": "Test program",
@@ -61,7 +61,7 @@ class ProgramTestCase(BaseTestCase):
 class ServiceModelTestCase(BaseTestCase):
     """This class represents the service model test case."""
 
-    def test_service_creation(self):
+    def test_service_instance_creation(self):
         """Test that a given service under an org can be created."""
         org_data= {
             "name": "A good org",
@@ -93,7 +93,7 @@ class ServiceModelTestCase(BaseTestCase):
 class LocationModelTestCase(BaseTestCase):
     """This class represents the location model test case."""
 
-    def test_location_creation(self):
+    def test_location_instance_creation(self):
         """Test that a location can be created."""
 
         # first, create the organization
@@ -115,3 +115,45 @@ class LocationModelTestCase(BaseTestCase):
         location_instance.save()
         new_count = Location.query.count()
         self.assertNotEqual(new_count, old_count)
+
+
+class PhysicalAddressModelTestCase(BaseTestCase):
+    """This class represents the physical address model test case."""
+
+    def test_physical_address_instance_creation(self):
+        """Test that an instance of physical address can be created."""
+
+        # first, create the organization
+        org_data = {
+            "name": "An org",
+            "description": "A really big org"
+        }
+        organization = Organization(**org_data)
+        organization.save()
+
+        # then, create the location
+        location_data = {
+            "name": "BrightHive",
+            "organization_id": organization.id,
+            "alternate_name": "another name",
+            "description": "Making sense of data"
+        }
+
+        location_instance = Location(**location_data)
+        location_instance.save()
+
+        # then create the physical address of the org
+        physical_address_data = {
+            "location_id": location_instance.id,
+            "address": "123 State St",
+            "city": "Chicago",
+            "state": "Illinois",
+            "postal_code": "60621",
+            "country": "US"
+        }
+        old_count = PhysicalAddress.query.count()
+        address = PhysicalAddress(**physical_address_data)
+        address.save()
+        new_count = PhysicalAddress.query.count()
+        self.assertNotEqual(new_count, old_count)
+
