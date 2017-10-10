@@ -90,4 +90,28 @@ class ServiceModelTestCase(BaseTestCase):
         self.assertNotEqual(new_count, old_count)
 
 
+class LocationModelTestCase(BaseTestCase):
+    """This class represents the location model test case."""
 
+    def test_location_creation(self):
+        """Test that a location can be created."""
+
+        # first, create the organization
+        org_data = {
+            "name": "An org",
+            "description": "A really big org"
+        }
+        organization = Organization(**org_data)
+        organization.save()
+
+        location_data = {
+            "name": "BrightHive",
+            "organization_id": organization.id,
+            "alternate_name": "another name",
+            "description": "Making sense of data"
+        }
+        old_count = Location.query.count()
+        location_instance = Location(**location_data)
+        location_instance.save()
+        new_count = Location.query.count()
+        self.assertNotEqual(new_count, old_count)
