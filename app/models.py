@@ -29,6 +29,10 @@ class Organization(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def get_all():
+        """Return all the organizations."""
+        return Organization.query.all()
+
     def __repr__(self):
         """Return a representation of the model instance."""
         return "{}: {}".format(self.id, self.name)
@@ -51,7 +55,7 @@ class Program(db.Model):
         self.alternate_name = alternate_name
 
     @staticmethod
-    def get_all(program_id):
+    def get_all():
         """This method gets all the programs in the registry."""
         return Program.query.all()
 
@@ -145,6 +149,12 @@ class Location(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
+    @staticmethod
+    def get_all(organization_id):
+        """Return all the locations for a given organization."""
+        return Location.query.filter_by(organization_id=organization_id)
+
     def __repr__(self):
         """Return a representation of the model instance."""
         return "{}: {}".format(self.id, self.name)
@@ -165,9 +175,15 @@ class ServiceLocation(db.Model):
         self.service_id = service_id
         self.location_id = location_id
 
+    @staticmethod
+    def get_all(service_id):
+        """Get all the location ids for a given service."""
+        return ServiceLocation.query.filter_by(service_id=service_id)
+
     def __repr__(self):
         """Return a representation of the model instance."""
         return "{}".format(self.id)
+
 
 
 class PhysicalAddress(db.Model):
@@ -187,6 +203,11 @@ class PhysicalAddress(db.Model):
         """Save the instance of the physical address."""
         db.session.add(self)
         db.session.commit()
+
+    @staticmethod
+    def get_all(location_id):
+        """Get the physical address given the location."""
+        return PhysicalAddress.query.filter_by(location_id=location_id)
 
     def __repr__(self):
         """Return a representation of the model instance."""
