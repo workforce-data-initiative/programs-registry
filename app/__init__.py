@@ -21,10 +21,8 @@ def create_app(config_name):
     db.init_app(app)
 
 
-    # define the routes for the service
-    @app.route('/programs/', methods=['POST', 'GET'])
-    def bucketlists():
-        response = {}
-        return make_response(jsonify(response), 200)
+    # import the organization blueprint and register it on the app
+    from .organization import org_blueprint
+    app.register_blueprint(org_blueprint)
 
     return app
