@@ -16,7 +16,8 @@ class OrganizationView(MethodView):
         """
         try:
             # Create the organization
-            organization = Organization(**request.data)
+            payload = request.data.to_dict()
+            organization = Organization(**payload)
             organization.save()
             response = {
                 'id': organization.id,
