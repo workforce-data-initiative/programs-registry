@@ -1,5 +1,5 @@
 import os
-
+import tempfile
 
 class Config(object):
     """Parent configuration class."""
@@ -17,7 +17,6 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     """Configurations for Testing."""
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/test_db'
     DEBUG = True
 
 
