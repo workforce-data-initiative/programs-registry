@@ -6,18 +6,21 @@ class Config(object):
     DEBUG = False
     CSRF_ENABLED = True
     SECRET = os.getenv('SECRET')
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
 
 class DevelopmentConfig(Config):
     """Configurations for Development."""
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
 
 class TestingConfig(Config):
     """Configurations for Testing."""
     TESTING = True
     DEBUG = True
+    DB_FD, DATABASE = tempfile.mkstemp()
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATABASE)
+    SECRET = "Secret"
 
 
 class StagingConfig(Config):
