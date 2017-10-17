@@ -33,6 +33,11 @@ class Organization(db.Model):
         """Return all the organizations."""
         return Organization.query.all()
 
+    def delete(self):
+        """Delete an org."""
+        db.session.delete(self)
+        db.session.commit()
+
     def __repr__(self):
         """Return a representation of the model instance."""
         return "{}: {}".format(self.id, self.name)
