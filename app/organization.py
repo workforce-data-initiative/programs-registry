@@ -101,6 +101,15 @@ class OrganizationView(MethodView):
                     response['year_incorporated'] = org.year_incorporated
                 org.save()
 
+                response = {
+                    "name": org.name,
+                    "description": org.description,
+                    "email": org.email,
+                    "url": org.url,
+                    "year_incorporated": org.year_incorporated,
+                }
+                return make_response(jsonify(response)), 200
+
             except Exception as e:
                 response = {
                     "message": str(e)
@@ -117,7 +126,7 @@ class OrganizationView(MethodView):
                 response = {
                     "message": "Organization successfully deleted."""
                 }
-                return make_response(jsonify(response)), 200
+                return make_response(jsonify(response)), 202
 
             except Exception as e:
                 # the org does not exist?
