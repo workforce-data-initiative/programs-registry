@@ -11,21 +11,18 @@ from instance import config
 class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
-        registry_app = create_app(config_name="testing")
-        self.app = registry_app
+        self.app = create_app(config_name="testing")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         self.client = self.app.test_client
-
-        # bind the app to the application context
-        with self.app.app_context():
-            db.session.close()
-            db.drop_all()
-            db.create_all()
+        db.create_all()
 
     def tearDown(self):
-        with self.app.app_context():
+        with self.app_context:
             db.session.remove()
             db.drop_all()
-            # os.ulink(self.app.config.get('DATABASE_URL'))
+            self.app_context.pop()
+            os.unlink(self.app.config.get('DATABASE'))
 
 
 class OrganizationTestCase(BaseTestCase):
