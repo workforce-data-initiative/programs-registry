@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, request, jsonify
+from flask import Blueprint, make_response, request, jsonify, abort
 from flask.views import MethodView
 
 from app.models import Program
@@ -35,11 +35,45 @@ class ProgramView(MethodView):
                     response['alternate_name'] = program.alternate_name
 
                 return make_response(jsonify(response)), 201
+            else:
+                abort(404)
 
         except Exception as e:
             response = { "message": str(e) }
             return make_response(jsonify(response)), 400
 
+
+    def get(self, organization_id, program_id):
+        """
+        Get an existing program(s) and return as a json response
+        """
+        if program_id is not None:
+                # handle the get by id
+            try:
+                program = Program.query.filter_by(id=program_id).first()
+                response = {
+                    'id': program.id,
+                    'name': program.name,
+                    'organization_id': program.organization_id,
+                }
+                return make_response(jsonify(response)), 200
+
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+        else:
+            # handle get all
+            programs = Program.get_all()
+            response = []
+
+            for prog in programs:
+                single_prog = {
+                    'id': prog.id,
+                    'name': prog.name,
+                    'organization_id': prog.organization_id
+                }
+                response.append(single_prog)
+                return make_response(jsonify(response)), 200
 
 program_view = ProgramView.as_view('program_view')
 program_blueprint.add_url_rule(
