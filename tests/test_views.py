@@ -18,6 +18,15 @@ class BaseTestCase(unittest.TestCase):
         self.program_data = {
             "name": "Sample Program",
         }
+        self.service_data = {
+            "name": "Service",
+            "organization_id": 1,
+            "program_id": 1,
+            "email": "service@mail.com",
+            "url": "service.com",
+            "fees": "1000",
+            "status": "On"
+        }
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client
@@ -181,6 +190,104 @@ class ProgramViewTestCase(BaseTestCase):
             '/api/organizations/{}/programs/{}'.format(org_id, program_id))
         self.assertEqual(response.status_code, 202)
         self.assertNotIn("Sample Program", str(res.data))
+
+
+class ServiceViewTestCase(BaseTestCase):
+    """This class represents the tests for the service method view."""
+    def create_org(self):
+        self.org_data = {
+            "name": "BHive",
+            "description": "A bee hive of data for social good"
+        }
+        return self.client().post('/api/organizations/', data=self.org_data)
+
+    def create_program(self):
+        self.program_data = {
+        "name": "Program",
+        "organization_id": 1
+        }
+        return self.client().post('/api/organizations/1/programs/',
+                                  data=self.program_data)
+
+    def test_view_can_create_service(self):
+        """Test that the view can handle POST request to create a service"""
+        # create the org and its program
+        self.create_org()
+        self.create_program()
+
+        # create the service under a program
+        service_res = self.client().post(
+            '/api/organizations/1/programs/1/services/',
+            data=self.service_data)
+        self.assertEqual(service_res.status_code, 201)
+
+    def test_view_can_get_a_service(self):
+        """Test that the view can handle GET request for  existing
+        service using its ID.
+        """
+        # create the org and program
+        self.create_org()
+        self.create_program()
+
+        # create the service
+        service_res = self.client().post(
+            '/api/organizations/1/programs/1/services/',
+            data=self.service_data)
+        # get the service by id
+        res = self.client().get('/api/organizations/1/programs/1/services/1')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("Service", str(res.data))
+
+    def test_view_can_get_all_services(self):
+        """Test that the view can handle GET request for all existing
+        services.
+        """
+        # create org and program
+        self.create_org()
+        self.create_program()
+
+        # create service
+        service_res = self.client().post(
+            '/api/organizations/1/programs/1/services/',
+            data=self.service_data)
+        # get all the services
+        res = self.client().get('/api/organizations/1/programs/1/services/')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("Service", str(res.data))
+
+    def test_view_can_update_service(self):
+        """Test that a view can handle a PUT request to update a service."""
+        # create the org and program
+        self.create_org()
+        self.create_program()
+
+        # create the service
+        service_res = self.client().post(
+            '/api/organizations/1/programs/1/services/',
+            data=self.service_data)
+        # update the service with new data
+        new_data = {
+            "name": "Updated Service",
+            "url": "updatedurl.com"
+        }
+        res = self.client().put(
+            '/api/organizations/1/program/1/services/1',
+            data=new_data)
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("Updated Service", str(res.data))
+
+    def test_view_can_delete_service(self):
+        """Test view handles DELETE request to delete a service correctly."""
+        self.create_org()
+        self.create_program()
+
+        self.client().post(
+            '/api/organizations/1/programs/1/services/',
+            data=self.service_data)
+        res = self.client().delete(
+            '/api/organizations/1/programs/1/services/1')
+        self.assertEqual(res.status_code, 202)
+        self.assertNotIn("Service", str(res.data))
 
 
 if __name__ == '__main__':
