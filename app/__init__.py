@@ -24,8 +24,10 @@ def create_app(config_name):
     # import the organization blueprint and register it on the app
     from .organization import org_blueprint
     from .programs import program_blueprint
+    from .services import service_blueprint
 
     app.register_blueprint(org_blueprint)
     app.register_blueprint(program_blueprint)
+    app.register_blueprint(service_blueprint)
 
     return app
