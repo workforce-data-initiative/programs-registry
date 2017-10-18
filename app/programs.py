@@ -67,10 +67,9 @@ class ProgramView(MethodView):
                 response = {}
                 program = Program.query.filter_by(id=program_id).first()
 
-                if 'name' in request.data:
-                    program.name = request.data.get('name')
-                if 'alternate_name' in request.data:
-                    program.alternate_name = request.data.get('alternate_name')
+                for key in request.data.to_dict().keys():
+                    setattr(program, key, request.data.get(key))
+
                 program.save()
                 response = program.serialize()
                 return make_response(jsonify(response)), 200
