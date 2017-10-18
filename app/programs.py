@@ -26,15 +26,7 @@ class ProgramView(MethodView):
                 payload['organization_id'] = organization_id
                 program = Program(**payload)
                 program.save()
-
-                response = {
-                    'id': program.id,
-                    'organization_id': program.organization_id,
-                    'name': program.name,
-                }
-                if program.alternate_name:
-                    response['alternate_name'] = program.alternate_name
-
+                response = program.serialize()
                 return make_response(jsonify(response)), 201
             else:
                 abort(404)
@@ -52,11 +44,7 @@ class ProgramView(MethodView):
                 # handle the get by id
             try:
                 program = Program.query.filter_by(id=program_id).first()
-                response = {
-                    'id': program.id,
-                    'name': program.name,
-                    'organization_id': program.organization_id,
-                }
+                response = program.serialize()
                 return make_response(jsonify(response)), 200
 
             except Exception as e:
@@ -68,13 +56,8 @@ class ProgramView(MethodView):
             response = []
 
             for prog in programs:
-                single_prog = {
-                    'id': prog.id,
-                    'name': prog.name,
-                    'organization_id': prog.organization_id
-                }
-                response.append(single_prog)
-                return make_response(jsonify(response)), 200
+                response.append(prog.serialize())
+            return make_response(jsonify(response)), 200
 
     def put(self, organization_id, program_id):
         """Update an existing program and return a json response."""
@@ -83,17 +66,13 @@ class ProgramView(MethodView):
             try:
                 response = {}
                 program = Program.query.filter_by(id=program_id).first()
-                response['id'] = program.id
 
                 if 'name' in request.data:
                     program.name = request.data.get('name')
                 if 'alternate_name' in request.data:
                     program.alternate_name = request.data.get('alternate_name')
                 program.save()
-
-                response['organization_id'] = program.organization_id
-                response['name'] = program.name
-
+                response = program.serialize()
                 return make_response(jsonify(response)), 200
 
             except Exception as e:
