@@ -63,6 +63,42 @@ class ServiceView(MethodView):
                 response = {"message": str(e)}
                 return make_response(jsonify(e)), 400
 
+    def put(self, organization_id, program_id, service_id):
+        """Update a service and return it as json."""
+
+        if service_id is not None:
+            try:
+                service = Service.query.filter_by(id=service_id).first()
+                for key in request.data.to_dict().keys():
+                    setattr(service, key, request.data.get(key))
+
+                service.save()
+                response = service.serialize()
+                return make_response(jsonify(response)), 200
+
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+        else:
+            abort(404)
+
+    def delete(self, organization_id, program_id, service_id):
+        """Delete a program given its id."""
+
+        if service_id is not None:
+            try:
+                service = Service.query.filter_by(id=service_id).first()
+                service.delete()
+
+                return make_response(jsonify({})), 202
+
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+        else:
+            abort(404)
+
+
 
 service_view = ServiceView.as_view('service_view')
 service_blueprint.add_url_rule(
@@ -72,6 +108,6 @@ service_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
     view_func=service_view, defaults={'service_id': None}, methods=['GET'])
 service_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
+    '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/<int:service_id>',
     view_func=service_view, methods=['GET', 'PUT', 'DELETE'])
 
