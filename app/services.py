@@ -37,8 +37,41 @@ class ServiceView(MethodView):
             response = { "message": str(e) }
             return make_response(jsonify(response)), 400
 
+    def get(self, organization_id, program_id, service_id):
+        """Get a service and return it as json."""
+
+        if service_id is not None:
+            # handle the get by id
+            try:
+                service = Service.query.filter_by(id=service_id).first()
+                response = service.serialize()
+                return make_response(jsonify(response)), 200
+
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+        else:
+            # handle get all
+            try:
+                services = Service.get_all(organization_id)
+                response = []
+
+                for service in services:
+                    response.append(service.serialize())
+                return make_response(jsonify(response)), 200
+            except Exception as e:
+                response = {"message": str(e)}
+                return make_response(jsonify(e)), 400
+
 
 service_view = ServiceView.as_view('service_view')
 service_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
     view_func=service_view, methods=['POST'])
+service_blueprint.add_url_rule(
+    '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
+    view_func=service_view, defaults={'service_id': None}, methods=['GET'])
+service_blueprint.add_url_rule(
+    '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
+    view_func=service_view, methods=['GET', 'PUT', 'DELETE'])
+
