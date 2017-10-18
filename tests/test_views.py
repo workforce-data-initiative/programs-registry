@@ -121,13 +121,11 @@ class ProgramViewTestCase(BaseTestCase):
         self.assertEqual(res.status_code, 200)
         # self.assertIn("Another Program", str(res.data))
         self.assertIn("Sample Program", str(res.data))
-        print (res.data)
 
     def test_view_can_get_program_by_id(self):
         """Test that the view can handle a GET(single) program by id."""
         res = self.client().post('/api/organizations/', data=self.org_data)
-        results = json.loads(res.data.decode())
-        org_id = results['organization_id']
+        org_id = json.loads(res.data.decode())['id']
 
         self.program_data['organization_id'] = org_id
         # create the program
@@ -145,8 +143,7 @@ class ProgramViewTestCase(BaseTestCase):
     def test_view_can_update_program(self):
         """Test that the view can handle a PUT request to update a program."""
         res = self.client().post('/api/organizations/', data=self.org_data)
-        results = json.loads(res.data.decode())
-        org_id = results['organization_id']
+        org_id = json.loads(res.data.decode())['id']
 
         self.program_data['organization_id'] = org_id
         # create the program
@@ -158,10 +155,11 @@ class ProgramViewTestCase(BaseTestCase):
         updated_program = {
             "name": "Updated Program"
         }
-        program_id = json.loads(ProgramViewTestCaseam_res.data.decode())['id']
+        program_id = json.loads(program_res.data.decode())['id']
         response = self.client().put(
             '/api/organizations/{}/programs/{}'.format(org_id, program_id),
             data=updated_program)
+        print (json.loads(response.data.decode()))
         self.assertEqual(response.status_code, 200)
         self.assertIn("Updated Program", str(response.data))
 
@@ -169,8 +167,7 @@ class ProgramViewTestCase(BaseTestCase):
         """Test that the view can handle DELETE request to remove a
         program."""
         res = self.client().post('/api/organizations/', data=self.org_data)
-        results = json.loads(res.data.decode())
-        org_id = results['organization_id']
+        org_id = json.loads(res.data.decode())['id']
 
         self.program_data['organization_id'] = org_id
         # create the program
@@ -183,7 +180,7 @@ class ProgramViewTestCase(BaseTestCase):
         response = self.client().delete(
             '/api/organizations/{}/programs/{}'.format(org_id, program_id))
         self.assertEqual(response.status_code, 202)
-        self.assertNotIn("Sample Program", res.data)
+        self.assertNotIn("Sample Program", str(res.data))
 
 
 if __name__ == '__main__':
