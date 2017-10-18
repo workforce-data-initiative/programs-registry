@@ -28,7 +28,8 @@ class ProgramView(MethodView):
                 program.save()
 
                 response = {
-                    'organization_id': organization_id,
+                    'id': program.id,
+                    'organization_id': program.organization_id,
                     'name': program.name,
                 }
                 if program.alternate_name:
@@ -74,6 +75,48 @@ class ProgramView(MethodView):
                 }
                 response.append(single_prog)
                 return make_response(jsonify(response)), 200
+
+    def put(self, organization_id, program_id):
+        """Update an existing program and return a json response."""
+
+        if program_id is not None:
+            try:
+                response = {}
+                program = Program.query.filter_by(id=program_id).first()
+                response['id'] = program.id
+
+                if 'name' in request.data:
+                    program.name = request.data.get('name')
+                if 'alternate_name' in request.data:
+                    program.alternate_name = request.data.get('alternate_name')
+                program.save()
+
+                response['organization_id'] = program.organization_id
+                response['name'] = program.name
+
+                return make_response(jsonify(response)), 200
+
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+        else:
+            abort(404)
+
+    def delete(self, organization_id, program_id):
+        """Delete a program given its id."""
+
+        if program_id is not None:
+            try:
+                prog = Program.query.filter_by(id=program_id).first()
+                prog.delete()
+
+                return make_response(jsonify({})), 202
+
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+
+
 
 program_view = ProgramView.as_view('program_view')
 program_blueprint.add_url_rule(
