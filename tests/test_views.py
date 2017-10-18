@@ -270,7 +270,7 @@ class ServiceViewTestCase(BaseTestCase):
             "url": "updatedurl.com"
         }
         res = self.client().put(
-            '/api/organizations/1/program/1/services/1',
+            '/api/organizations/1/programs/1/services/1',
             data=new_data)
         self.assertEqual(res.status_code, 200)
         self.assertIn("Updated Service", str(res.data))
