@@ -168,7 +168,6 @@ class ProgramViewTestCase(BaseTestCase):
         response = self.client().put(
             '/api/organizations/{}/programs/{}'.format(org_id, program_id),
             data=updated_program)
-        print (json.loads(response.data.decode()))
         self.assertEqual(response.status_code, 200)
         self.assertIn("Updated Program", str(response.data))
 

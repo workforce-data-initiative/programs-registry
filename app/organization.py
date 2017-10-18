@@ -19,19 +19,9 @@ class OrganizationView(MethodView):
             payload = request.data.to_dict()
             organization = Organization(**payload)
             organization.save()
-            response = {
-                'id': organization.id,
-                'name': organization.name,
-                'description': organization.description
-            }
-            if organization.email:
-                response['email'] = organization.email
-            if organization.url:
-                response['url'] = organization.url
-            if organization.year_incorporated:
-                response['year_incorporated'] = organization.year_incorporated
-
+            response = organization.serialize()
             return make_response(jsonify(response)), 201
+
         except Exception as e:
             response = {
                 "message": str(e)
@@ -49,12 +39,7 @@ class OrganizationView(MethodView):
             response = []
 
             for org in organizations:
-                single_org = {
-                    'id': org.id,
-                    'name': org.name,
-                    'description': org.description,
-                }
-                response.append(single_org)
+                response.append(org.serialize())
 
             return make_response(jsonify(response)), 200
 
@@ -62,11 +47,7 @@ class OrganizationView(MethodView):
             # Expose a single organization
             try:
                 organization = Organization.query.filter_by(id=organization_id).first()
-                response = {
-                    'id': organization.id,
-                    'name': organization.name,
-                    'description': organization.description,
-                }
+                response = organization.serialize()
 
             except Exception as e:
                 response = {
@@ -100,14 +81,7 @@ class OrganizationView(MethodView):
                     org.year_incorporated = request.form.get('year_incorporated')
                     response['year_incorporated'] = org.year_incorporated
                 org.save()
-
-                response = {
-                    "name": org.name,
-                    "description": org.description,
-                    "email": org.email,
-                    "url": org.url,
-                    "year_incorporated": org.year_incorporated,
-                }
+                response = org.serialize()
                 return make_response(jsonify(response)), 200
 
             except Exception as e:
