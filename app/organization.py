@@ -63,31 +63,19 @@ class OrganizationView(MethodView):
             try:
                 response = {}
                 org = Organization.query.filter_by(id=organization_id).first()
-                response['id'] = org.id
 
-                if  'name' in request.form:
-                    org.name = request.form.get('name')
-                    response['name'] = org.name
-                if 'email' in request.form:
-                    org.name = request.form.get('email')
-                    response['email'] = org.email
-                if 'description' in request.form:
-                    org.description = request.form.get('description')
-                    response['description'] = org.description
-                if 'url' in request.form:
-                    org.url = request.form.get('url')
-                    response['url'] = org.url
-                if 'year_incorporated' in request.form:
-                    org.year_incorporated = request.form.get('year_incorporated')
-                    response['year_incorporated'] = org.year_incorporated
+                for key in request.data.to_dict().keys():
+                    setattr(org, key, request.data.get(key))
                 org.save()
                 response = org.serialize()
+
                 return make_response(jsonify(response)), 200
 
             except Exception as e:
                 response = {
                     "message": str(e)
                 }
+                print(str(e))
                 return make_response(jsonify(response)), 400
 
     def delete(self, organization_id):
