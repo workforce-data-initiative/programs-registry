@@ -79,6 +79,20 @@ class LocationView(MethodView):
         else:
             abort(404)
 
+    def delete(self, organization_id, location_id):
+        """Delete a location given its id."""
+
+        if location_id is not None:
+            try:
+                location = Location.query.filter_by(id=location_id).first()
+                location.delete()
+                res = location.serialize()
+                return make_response(jsonify(res)), 202
+
+            except Exception as e:
+                res = { "message": str(e) }
+                return make_response(jsonify(res)), 400
+
 
 location_view = LocationView.as_view('location_view')
 location_blueprint.add_url_rule(
