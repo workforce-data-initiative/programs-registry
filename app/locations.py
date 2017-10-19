@@ -36,7 +36,43 @@ class LocationView(MethodView):
             return make_response(jsonify(response)), 400
 
 
+    def get(self, organization_id, location_id):
+        """
+        Get an existing locations(s) and return as json response.
+        """
+        if location_id is not None:
+            # handle get by id
+            try:
+                location = Location.query.filter_by(id=location_id).first()
+                response = location.serialize()
+                return make_response(jsonify(location)), 200
+
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+        else:
+            # handle get all
+            locations = Location.get_all()
+            response = []
+
+            for location in locations:
+                response.append(location.serialize())
+            return make_response(jsonify(response)), 200
 
 
+
+location_view = LocationView.as_view('location_view')
+location_blueprint.add_url_rule(
+    '/api/organizations/<int:organization_id>/locations/',
+    view_func=location_view,
+    methods=['POST'])
+location_blueprint.add_url_rule(
+    '/api/organizations/<int:organization_id>/locations/',
+    view_func=location_view, defaults={'location_id': None},
+    methods=['GET'])
+location_blueprint.add_url_rule(
+    '/api/organizations/<int:organization_id>/locations/<int:location_id>',
+    view_func=location_view,
+    methods=['GET', 'POST', 'DELETE'])
 
 
