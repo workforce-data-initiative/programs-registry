@@ -35,6 +35,8 @@ class Organization(db.Model, BaseMixin):
                            passive_deletes=True)
     location = relationship("Location", backref="organization",
                             passive_deletes=True)
+    service = relationship("Service", backref="organization",
+                           passive_deletes=True)
 
 
     def __init__(self, name, description, email=None, url=None,
@@ -107,8 +109,10 @@ class Service(db.Model, BaseMixin):
     __tablename__ = 'service'
 
     id = db.Column(db.Integer, primary_key=True)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id))
-    program_id = db.Column(db.Integer, db.ForeignKey(Program.id),
+    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
+                                                          ondelete='CASCADE'))
+    program_id = db.Column(db.Integer,
+                           db.ForeignKey(Program.id, ondelete='CASCADE'),
                            nullable=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200), nullable=True)
@@ -116,6 +120,7 @@ class Service(db.Model, BaseMixin):
     url = db.Column(db.String(100), nullable=True)
     status = db.Column(db.String(10), nullable=True)
     fees = db.Column(db.String(10), nullable=True)
+
 
     def __init__(self, name, organization_id, program_id=None, status=None,
                  fees=None, email=None, url=None):
