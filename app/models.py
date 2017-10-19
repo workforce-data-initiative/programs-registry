@@ -178,6 +178,11 @@ class Location(db.Model, BaseMixin):
         """Return all the locations for a given organization."""
         return Location.query.filter_by(organization_id=organization_id)
 
+    def delete(self):
+        """Delete a location."""
+        db.session.delete(self)
+        db.session.commit()
+
     def __repr__(self):
         """Return a representation of the model instance."""
         return "{}: {}".format(self.id, self.name)
