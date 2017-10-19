@@ -384,6 +384,110 @@ class LocationViewTestCase(BaseTestCase):
         response = self.client().get('/api/organizations/1/locations/1')
         self.assertEqual(response.status_code, 404)
 
+
+class PhysicalAddressViewTestCase(BaseTestCase):
+    """This class represents the tests for the location method view."""
+
+    address_data = {
+        "location_id": 1,
+        "address": "",
+        "city": "Chicago",
+        "state": "IL",
+        "postal_code": "60601",
+        "country": "US"
+    }
+
+    def create_org(self):
+        """Reusable utility to create an organization."""
+        self.org_data = {
+            "name": "BHive",
+            "description": "A bee hive of data for social good"
+        }
+
+        return self.client().post('/api/organizations/',
+                                  data=self.org_data)
+
+    def create_location(self):
+        """Reusable utility to create location."""
+        return self.client().post('/api/organizations/1/locations/',
+                                  data=self.location_data)
+
+    def test_view_can_create_address(self):
+        """Test view handles a POST request to create a physical address entry."""
+
+        self.create_org()
+        self.create_location()
+        # create the physical address
+        res = self.client().post('/api/organizations/1/locations/1/addresses/',
+                           data=self.address_data)
+        self.assertEqual(res.status_code, 201)
+        self.assertIn("Chicago", str(res.data))
+
+    def test_view_can_get_an_address(self):
+        """Test view handles a GET (one) request for a physical address correctly."""
+
+        self.create_org()
+        self.create_location()
+
+        #create the address
+        res = self.client().post('/api/organizations/1/locations/1/addresses/',
+                                 data=self.address_data)
+
+        # get the address using its id
+        res = self.client().get('/api/organizations/1/locations/1/addresses/1')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("Chicago", str(res.data))
+
+    def test_view_can_get_all_addresses(self):
+        """Test view handles a GET(all) physical address request for a given location."""
+
+        self.create_org()
+        self.create_location()
+
+        # create physical address
+        self.client().post('/api/organizations/1/locations/1/addresses/',
+                           data=self.address_data)
+        res = self.client().get('/api/organizations/1/locations/1/addresses/')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("Chicago", str(res.data))
+
+    def test_view_can_update_a_physical_address(self):
+        """Test view handles a PUT request to update a location's address."""
+
+        self.create_org()
+        self.create_location()
+
+        new_data = {
+            "postal_code": "60603"
+        }
+        # create address
+        self.client().post('/api/organizations/1/locations/1/addresses/',
+                           data=self.address_data)
+        # update the address
+        res = self.client().put('/api/organizations/1/locations/1/addresses/1',
+                                data=new_data)
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("60603", str(res.data))
+
+    def test_view_can_delete_a_physical_address(self):
+        """Test view handles a DELETE request to delete an address."""
+
+        self.create_org()
+        self.create_location()
+        # create an address
+        self.client().post('/api/organizations/1/locations/1/addresses/',
+                           data=self.address_data)
+        # delete the address
+        res = self.client().delete('/api/organizations/1/locations/1/addresses/1')
+        self.assertEqual(res.status_code, 202)
+        self.assertNotIn("Chicago", str(res.data))
+        self.assertEqual({}, json.loads(res.data.decode()))
+        # check to see if it's deleted
+        response = self.client().get(
+            '/api/organizations/1/locations/1/addresses/1')
+        self.assertEqual(response.status_code, 404)
+
+
 if __name__ == '__main__':
     # make the tests conveniently executable
     unittest.main()
