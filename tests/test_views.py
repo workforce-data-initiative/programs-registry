@@ -27,6 +27,16 @@ class BaseTestCase(unittest.TestCase):
             "fees": "1000",
             "status": "On"
         }
+
+        self.location_data = {
+            "name": "Chicago",
+            "organization_id": 1,
+            "description": "The windy city",
+            "transportation": "Train, Uber",
+            "longitude": "N41.8781",
+            "latitude": "W87.6298"
+        }
+
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client
@@ -287,6 +297,84 @@ class ServiceViewTestCase(BaseTestCase):
             '/api/organizations/1/programs/1/services/1')
         self.assertEqual(res.status_code, 202)
         self.assertNotIn("Service", str(res.data))
+
+
+class LocationViewTestCase(BaseTestCase):
+    """This class represents the tests for the location method view."""
+
+    def create_org(self):
+        self.org_data = {
+            "name": "BHive",
+            "description": "A bee hive of data for social good"
+        }
+
+        return self.client().post('/api/organizations/',
+                                  data=self.org_data)
+
+    def test_view_can_create_location(self):
+        """Test view handles a POST request to create a location entry."""
+
+        self.create_org()
+
+        res = self.client().post('/api/organizations/1/locations/',
+                           data=self.location_data)
+        self.assertEqual(res.status_code, 201)
+        self.assertIn("Chicago", str(res.data))
+
+    def test_view_can_get_a_location(self):
+        """Test view handles a GET (one) request correctly."""
+
+        self.create_org()
+
+        #create the location
+        self.client().post('/api/organizations/1/locations/',
+                           data=self.location_data)
+        # get the location using its id
+        res = self.client().get('/api/organizations/1/locations/1')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("Chicago", str(res.data))
+
+    def test_view_can_get_all_locations(self):
+        """Test view handles a GET(all) request for a given org."""
+
+        self.create_org()
+
+        # create locations
+        self.client().post('/api/organizations/1/locations/',
+                           data=self.location_data)
+        res = self.client().get('/api/organizations/1/locations/')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("Chicago", str(res.data))
+
+    def test_view_can_update_a_location(self):
+        """Test view handles a PUT request to update a location."""
+        self.create_org()
+
+        new_data = {
+            "name": "Chicago Loop"
+        }
+        # create location
+        self.client().post('/api/organizations/1/locations/1',
+                           data=self.location_data)
+        # update the location
+        res = self.client().put('/api/organizations/1/locations/1',
+                                data=new_data)
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("Chicago Loop", str(res.data))
+
+    def test_view_can_delete_location(self):
+        """Test view handles a DELETE request to delete a location."""
+
+        self.create_org()
+        # create a location
+        self.client().post('/api/organizations/1/locations/',
+                           data=self.location_data)
+        # delete a location
+        res = self.client().delete('/api/organizations/1/locations/1')
+        self.assertEqual(res.status_code, 202)
+        self.assertNotIn("Chicago", str(res.data))
+        self.assertIsNone(json.loads(res.data.decode()))
+
 
 
 if __name__ == '__main__':
