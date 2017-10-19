@@ -1,6 +1,6 @@
 from app import db
 from flask import current_app
-from sqlalchemy.orm import class_mapper, ColumnProperty
+from sqlalchemy.orm import relationship, class_mapper, ColumnProperty
 import jwt
 from datetime import datetime, timedelta
 
@@ -30,6 +30,12 @@ class Organization(db.Model, BaseMixin):
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
     year_incorporated = db.Column(db.DateTime, nullable=True)
+
+    program = relationship("Program", backref="organization",
+                           passive_deletes=True)
+    location = relationship("Location", backref="organization",
+                            passive_deletes=True)
+
 
     def __init__(self, name, description, email=None, url=None,
                  year_incorporated=None):
@@ -64,7 +70,8 @@ class Program(db.Model, BaseMixin):
     __tablename__ = 'program'
 
     id = db.Column(db.Integer, primary_key=True)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id))
+    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
+                                                          ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
     alternate_name = db.Column(db.String(100), nullable=True)
 
@@ -148,7 +155,8 @@ class Location(db.Model, BaseMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id))
+    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
+                                                          ondelete='CASCADE'))
     alternate_name = db.Column(db.String(100), nullable=True)
     description = db.Column(db.String(100), nullable = True)
     transportation = db.Column(db.String(256), nullable=True)

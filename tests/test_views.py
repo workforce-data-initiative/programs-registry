@@ -198,7 +198,9 @@ class ProgramViewTestCase(BaseTestCase):
         response = self.client().delete(
             '/api/organizations/{}/programs/{}'.format(org_id, program_id))
         self.assertEqual(response.status_code, 202)
-        self.assertNotIn("Sample Program", str(res.data))
+        # test to see if its been deleted
+        rv = self.client().get('/api/organizations/1/programs/1')
+        self.assertEqual(rv.status_code, 404)
 
 
 class ServiceViewTestCase(BaseTestCase):
@@ -297,6 +299,10 @@ class ServiceViewTestCase(BaseTestCase):
             '/api/organizations/1/programs/1/services/1')
         self.assertEqual(res.status_code, 202)
         self.assertNotIn("Service", str(res.data))
+         # check to see if it's deleted
+        response = self.client().get('/api/organizations/1/programs/1/services/1')
+        self.assertEqual(response.status_code, 404)
+
 
 
 class LocationViewTestCase(BaseTestCase):
@@ -354,7 +360,7 @@ class LocationViewTestCase(BaseTestCase):
             "name": "Chicago Loop"
         }
         # create location
-        self.client().post('/api/organizations/1/locations/1',
+        self.client().post('/api/organizations/1/locations/',
                            data=self.location_data)
         # update the location
         res = self.client().put('/api/organizations/1/locations/1',
@@ -373,8 +379,10 @@ class LocationViewTestCase(BaseTestCase):
         res = self.client().delete('/api/organizations/1/locations/1')
         self.assertEqual(res.status_code, 202)
         self.assertNotIn("Chicago", str(res.data))
-        self.assertIsNone(json.loads(res.data.decode()))
-
+        self.assertEqual({}, json.loads(res.data.decode()))
+        # check to see if it's deleted
+        response = self.client().get('/api/organizations/1/locations/1')
+        self.assertEqual(response.status_code, 404)
 
 if __name__ == '__main__':
     # make the tests conveniently executable

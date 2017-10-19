@@ -42,14 +42,17 @@ class LocationView(MethodView):
         """
         if location_id is not None:
             # handle get by id
-            try:
-                location = Location.query.filter_by(id=location_id).first()
-                response = location.serialize()
-                return make_response(jsonify(response)), 200
+            location = Location.query.filter_by(id=location_id).first()
+            if not location:
+                abort(404)
+            else:
+                try:
+                    response = location.serialize()
+                    return make_response(jsonify(response)), 200
 
-            except Exception as e:
-                response = { "message": str(e) }
-                return make_response(jsonify(response)), 400
+                except Exception as e:
+                    response = { "message": str(e) }
+                    return make_response(jsonify(response)), 400
         else:
             # handle get all
             locations = Location.get_all(organization_id)
@@ -83,15 +86,19 @@ class LocationView(MethodView):
         """Delete a location given its id."""
 
         if location_id is not None:
-            try:
-                location = Location.query.filter_by(id=location_id).first()
-                location.delete()
-                res = location.serialize()
-                return make_response(jsonify(res)), 202
+            location = Location.query.filter_by(id=location_id).first()
+            if not location:
+                abort(404)
+            else:
+                try:
+                    location.delete()
+                    return make_response(jsonify({})), 202
 
-            except Exception as e:
-                res = { "message": str(e) }
-                return make_response(jsonify(res)), 400
+                except Exception as e:
+                    res = { "message": str(e) }
+                    return make_response(jsonify(res)), 400
+        else:
+            abort(404)
 
 
 location_view = LocationView.as_view('location_view')
@@ -106,6 +113,6 @@ location_blueprint.add_url_rule(
 location_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/locations/<int:location_id>',
     view_func=location_view,
-    methods=['GET', 'POST', 'DELETE'])
+    methods=['GET', 'PUT', 'DELETE'])
 
 

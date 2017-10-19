@@ -42,14 +42,17 @@ class ServiceView(MethodView):
 
         if service_id is not None:
             # handle the get by id
-            try:
-                service = Service.query.filter_by(id=service_id).first()
-                response = service.serialize()
-                return make_response(jsonify(response)), 200
+            service = Service.query.filter_by(id=service_id).first()
+            if not service:
+                abort(404)
+            else:
+                try:
+                    response = service.serialize()
+                    return make_response(jsonify(response)), 200
 
-            except Exception as e:
-                response = { "message": str(e) }
-                return make_response(jsonify(response)), 400
+                except Exception as e:
+                    response = { "message": str(e) }
+                    return make_response(jsonify(response)), 400
         else:
             # handle get all
             try:

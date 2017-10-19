@@ -41,15 +41,18 @@ class ProgramView(MethodView):
         Get an existing program(s) and return as a json response
         """
         if program_id is not None:
-                # handle the get by id
-            try:
-                program = Program.query.filter_by(id=program_id).first()
-                response = program.serialize()
-                return make_response(jsonify(response)), 200
+            # handle the get by id
+            program = Program.query.filter_by(id=program_id).first()
+            if not program:
+                abort(404)
+            else:
+                try:
+                    response = program.serialize()
+                    return make_response(jsonify(response)), 200
 
-            except Exception as e:
-                response = { "message": str(e) }
-                return make_response(jsonify(response)), 400
+                except Exception as e:
+                    response = { "message": str(e) }
+                    return make_response(jsonify(response)), 400
         else:
             # handle get all
             programs = Program.get_all()
@@ -75,6 +78,8 @@ class ProgramView(MethodView):
                 return make_response(jsonify(response)), 200
 
             except Exception as e:
+                if not program:
+                    abort(404)
                 response = { "message": str(e) }
                 return make_response(jsonify(response)), 400
         else:
@@ -84,15 +89,17 @@ class ProgramView(MethodView):
         """Delete a program given its id."""
 
         if program_id is not None:
-            try:
-                prog = Program.query.filter_by(id=program_id).first()
-                prog.delete()
+            prog = Program.query.filter_by(id=program_id).first()
+            if not prog:
+                abort(404)
+            else:
+                try:
+                    prog.delete()
+                    return make_response(jsonify({})), 202
 
-                return make_response(jsonify({})), 202
-
-            except Exception as e:
-                response = { "message": str(e) }
-                return make_response(jsonify(response)), 400
+                except Exception as e:
+                    response = { "message": str(e) }
+                    return make_response(jsonify(response)), 400
 
 
 

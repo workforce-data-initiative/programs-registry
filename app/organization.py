@@ -45,17 +45,19 @@ class OrganizationView(MethodView):
 
         else:
             # Expose a single organization
-            try:
-                organization = Organization.query.filter_by(id=organization_id).first()
-                response = organization.serialize()
+            organization = Organization.query.filter_by(id=organization_id).first()
+            if not organization:
+                abort(404)
+            else:
+                try:
+                    response = organization.serialize()
+                    return make_response(jsonify(response)), 200
+                except Exception as e:
+                    response = {
+                        "message": str(e)
+                    }
+                    return make_response(jsonify(response)), 400
 
-            except Exception as e:
-                response = {
-                    "message": str(e)
-                }
-                return make_response(jsonify(response)), 400
-
-            return make_response(jsonify(response)), 200
 
     def put(self, organization_id):
         """Update an organization given its id."""
