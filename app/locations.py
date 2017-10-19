@@ -59,6 +59,25 @@ class LocationView(MethodView):
                 response.append(location.serialize())
             return make_response(jsonify(response)), 200
 
+    def put(self, organization_id, location_id):
+        """
+        Update an existing location and return a json response of it."""
+
+        if location_id is not None:
+            try:
+                location = Location.query.filter_by(id=location_id).first()
+
+                for key in request.data.to_dict().keys():
+                    setattr(location, key, request.data.get(key))
+                location.save()
+                response = location.serialize()
+                return make_response(jsonify(response)), 200
+
+            except Exception as e:
+                response = {"message": str(e) }
+                return make_response(jsonify(response)), 400
+        else:
+            abort(404)
 
 
 location_view = LocationView.as_view('location_view')
