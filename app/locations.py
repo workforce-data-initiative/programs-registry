@@ -45,14 +45,14 @@ class LocationView(MethodView):
             try:
                 location = Location.query.filter_by(id=location_id).first()
                 response = location.serialize()
-                return make_response(jsonify(location)), 200
+                return make_response(jsonify(response)), 200
 
             except Exception as e:
                 response = { "message": str(e) }
                 return make_response(jsonify(response)), 400
         else:
             # handle get all
-            locations = Location.get_all()
+            locations = Location.get_all(organization_id)
             response = []
 
             for location in locations:
