@@ -376,7 +376,6 @@ class LocationViewTestCase(BaseTestCase):
         self.assertIsNone(json.loads(res.data.decode()))
 
 
-
 if __name__ == '__main__':
     # make the tests conveniently executable
     unittest.main()
