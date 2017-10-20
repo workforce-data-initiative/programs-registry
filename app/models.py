@@ -168,6 +168,9 @@ class Location(db.Model, BaseMixin):
     latitude = db.Column(db.Integer, nullable=True)
     longitude = db.Column(db.Integer, nullable=True)
 
+    address = relationship("PhysicalAddress", backref="location",
+                            passive_deletes=True)
+
     def __init__(self, name, organization_id, alternate_name=None,
                  description=None, transportation=None, latitude=None,
                  longitude=None):
@@ -233,7 +236,8 @@ class PhysicalAddress(db.Model, BaseMixin):
     __tablename__ = "physical_address"
 
     id = db.Column(db.Integer, primary_key=True)
-    location_id = db.Column(db.Integer, db.ForeignKey(Location.id))
+    location_id = db.Column(db.Integer, db.ForeignKey(Location.id,
+                                                      ondelete='CASCADE'))
     address = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(100), nullable=False)
     state = db.Column(db.String(20), nullable=False)
@@ -249,6 +253,11 @@ class PhysicalAddress(db.Model, BaseMixin):
     def get_all(location_id):
         """Get the physical address given the location."""
         return PhysicalAddress.query.filter_by(location_id=location_id)
+
+    def delete(self):
+        """Delete a physical address."""
+        db.session.delete(self)
+        db.session.commit()
 
     def __repr__(self):
         """Return a representation of the model instance."""
