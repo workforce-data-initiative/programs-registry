@@ -56,10 +56,10 @@ class ProgramView(MethodView):
         else:
             # handle get all
             programs = Program.get_all()
-            response = []
+            response = [prog.serialize() for prog in programs]
 
-            for prog in programs:
-                response.append(prog.serialize())
+            #for prog in programs:
+            #    response.append(prog.serialize())
             return make_response(jsonify(response)), 200
 
     def put(self, organization_id, program_id):
