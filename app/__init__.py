@@ -26,10 +26,11 @@ def create_app(config_name):
     from .programs import program_blueprint
     from .services import service_blueprint
     from .locations import location_blueprint
+    from .physical_address import address_blueprint
 
     app.register_blueprint(org_blueprint)
     app.register_blueprint(program_blueprint)
     app.register_blueprint(service_blueprint)
     app.register_blueprint(location_blueprint)
-
+    app.register_blueprint(address_blueprint)
     return app
