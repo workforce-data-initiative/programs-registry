@@ -1,7 +1,7 @@
 from flask import Blueprint, make_response, request, jsonify, abort
 from flask.views import MethodView
 
-from app.models import Service
+from app.models import Service, Organization, Program
 
 
 service_blueprint = Blueprint('service', __name__)
@@ -14,6 +14,7 @@ class ServiceView(MethodView):
     Accepted endpoints include:
     /api/organizations/<org_id>/programs/<program_id>/services/ - GET
     /api/organizations/<org_id>/programs/<program_id>/services/ - POST
+    /api/organizations/<org_id>/services/ - POST
     /api/organizations/<org_id>/programs/<program_id>/services/<id> - PUT
     /api/organizations/<org_id>/programs/<program_id>/services/<id> - DELETE
     """
@@ -22,20 +23,48 @@ class ServiceView(MethodView):
         """
         Create a service and return a json response containing it.
         """
-        try:
+
+        # First, check to see whether the service comes under a given program
+        if program_id is not None:
+            try:
+                payload = request.data.to_dict()
+                # check whether the program exists
+                prog = Program.query.filter_by(id=program_id).first()
+                abort(404) if prog is None else prog
+                if organization_id is not None:
+                    # check to see whether the org exists
+                    org = Organization.query.filter_by(
+                        id=organization_id).first()
+                    if org is not None:
+                        payload['organization_id'] = organization_id
+                        service = Service(**payload)
+                        service.save()
+                        response = service.serialize()
+                        return make_response(jsonify(response)), 201
+                    else:
+                        # the org is none-existent - return 404 not found
+                        abort(404)
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+        else:
+            # Create the service without the program ID (the service is on its
+            # own
             payload = request.data.to_dict()
             if organization_id is not None:
-                payload['organization_id'] = organization_id
-                service = Service(**payload)
-                service.save()
-                response = service.serialize()
-                return make_response(jsonify(response)), 201
+                org = Organization.query.filter_by(
+                    id=organization_id).first()
+                if org is not None:
+                    payload['organization_id'] = organization_id
+                    service = Service(**payload)
+                    service.save()
+                    response = service.serialize()
+                    return make_response(jsonify(response)), 201
+                else:
+                    # the org doe not exist
+                    abort(404)
             else:
                 abort(404)
-
-        except Exception as e:
-            response = { "message": str(e) }
-            return make_response(jsonify(response)), 400
 
     def get(self, organization_id, program_id, service_id):
         """Get a service and return it as json."""
@@ -104,6 +133,9 @@ class ServiceView(MethodView):
 
 
 service_view = ServiceView.as_view('service_view')
+service_blueprint.add_url_rule(
+    '/api/organizations/<int:organization_id>/services/',
+    view_func=service_view, defaults={'program_id': None}, methods=['POST'])
 service_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
     view_func=service_view, methods=['POST'])
