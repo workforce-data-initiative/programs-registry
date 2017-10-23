@@ -231,6 +231,26 @@ class ServiceViewTestCase(BaseTestCase):
             '/api/organizations/1/programs/1/services/',
             data=self.service_data)
         self.assertEqual(service_res.status_code, 201)
+        self.assertIn("service.com", str(service_res.data))
+
+    def test_view_allows_service_creation_without_program_id(self):
+        """Test that the view can handle POST request for a service without a
+        program id
+        """
+        self.create_org()
+        service_with_no_prog_id = {
+            "name": "Service",
+            "organization_id": 1,
+            "email": "service@mail.com",
+            "url": "service.com",
+            "fees": "1000",
+            "status": "On"
+        }
+        service = self.client().post(
+            '/api/organizations/1/services/',
+            data=service_with_no_prog_id)
+        self.assertEqual(service.status_code, 201)
+
 
     def test_view_can_get_a_service(self):
         """Test that the view can handle GET request for  existing
