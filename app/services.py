@@ -99,8 +99,15 @@ class ServiceView(MethodView):
         """Update a service and return it as json."""
 
         if service_id is not None:
+            # test that the org exists
+            org = Organization.query.filter_by(id=organization_id).first()
+            service = Service.query.filter_by(id=service_id).first()
+            if org is None:
+                abort(404)
+            if service is None:
+                abort(404)
+
             try:
-                service = Service.query.filter_by(id=service_id).first()
                 for key in request.data.to_dict().keys():
                     setattr(service, key, request.data.get(key))
 

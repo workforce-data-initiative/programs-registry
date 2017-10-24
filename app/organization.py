@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, request, jsonify
+from flask import Blueprint, make_response, request, jsonify, abort
 from flask.views import MethodView
 
 from app.models import Organization
@@ -65,6 +65,8 @@ class OrganizationView(MethodView):
             try:
                 response = {}
                 org = Organization.query.filter_by(id=organization_id).first()
+                # return a 404 if org does not exist
+                abort(404) if org is None else org
 
                 for key in request.data.to_dict().keys():
                     setattr(org, key, request.data.get(key))
@@ -86,6 +88,9 @@ class OrganizationView(MethodView):
             # fetch org to delete
             try:
                 org = Organization.query.filter_by(id=organization_id).first()
+                # return 404 if org does not exist
+                abort(404) if org is None else org
+
                 org.delete()
                 response = {
                     "message": "Organization successfully deleted."""
