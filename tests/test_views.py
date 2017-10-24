@@ -96,6 +96,20 @@ class OrganizationViewTestCase(BaseTestCase):
         response = self.client().delete('/api/organizations/{}'.format(results['id']))
         self.assertEqual(response.status_code, 202)
 
+    def test_view_returns_404_for_nonexistent_orgs(self):
+        """Test that the view returns a 404 if the org does not exist."""
+        # test for a GET request
+        res = self.client().get('/api/organizations/100')
+        self.assertEqual(res.status_code, 404)
+        # test for a PUT request
+        put_response = self.client().put('/api/organizations/100/',
+                                data={"name":"Changed"})
+        self.assertEqual(put_response.status_code, 404)
+
+        # test for DELETE request
+        del_response = self.client().delete('/api/organizations/100/')
+        self.assertEqual(del_response.status_code, 404)
+
 
 class ProgramViewTestCase(BaseTestCase):
     """This class represents the tests for the method view for the
@@ -201,6 +215,21 @@ class ProgramViewTestCase(BaseTestCase):
         # test to see if its been deleted
         rv = self.client().get('/api/organizations/1/programs/1')
         self.assertEqual(rv.status_code, 404)
+
+    def test_view_returns_404_for_nonexistent_orgs(self):
+        """Test that the view returns a 404 if the program does not exist."""
+        # test for a GET request
+        res = self.client().get('/api/organizations/100/programs/100')
+        self.assertEqual(res.status_code, 404)
+        # test for a PUT request
+        put_response = self.client().put('/api/organizations/100/programs/100/',
+                                data={"name":"Changed"})
+        self.assertEqual(put_response.status_code, 404)
+
+        # test for DELETE request
+        del_response = self.client().delete(
+            '/api/organizations/100/programs/100')
+        self.assertEqual(del_response.status_code, 404)
 
 
 class ServiceViewTestCase(BaseTestCase):
@@ -323,6 +352,22 @@ class ServiceViewTestCase(BaseTestCase):
         response = self.client().get('/api/organizations/1/programs/1/services/1')
         self.assertEqual(response.status_code, 404)
 
+
+    def test_view_returns_404_for_nonexistent_orgs(self):
+        """Test that the view returns a 404 if the program does not exist."""
+        # test for a GET request
+        res = self.client().get('/api/organizations/100/programs/100/services/7')
+        self.assertEqual(res.status_code, 404)
+        # test for a PUT request
+        put_response = self.client().put(
+            '/api/organizations/100/programs/100/services/7/',
+            data={"name": "Changed"})
+        self.assertEqual(put_response.status_code, 404)
+
+        # test for DELETE request
+        del_response = self.client().delete(
+            '/api/organizations/100/programs/100/services/7/')
+        self.assertEqual(del_response.status_code, 404)
 
 
 class LocationViewTestCase(BaseTestCase):
