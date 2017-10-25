@@ -146,6 +146,10 @@ class ProgramViewTestCase(BaseTestCase):
     """This class represents the tests for the method view for the
     programs."""
 
+    def create_org(self):
+        """Reusable utility used to create an org."""
+        return self.client().post('/api/organizations/', data=self.org_data)
+
     def test_view_can_create_program(self):
         """Test that the view can handle a POST request to create a program."""
         # first create the org to own the program
@@ -185,6 +189,37 @@ class ProgramViewTestCase(BaseTestCase):
         self.assertEqual(res.status_code, 200)
         # self.assertIn("Another Program", str(res.data))
         self.assertIn("Sample Program", str(res.data))
+
+    def test_view_can_search_for_a_program_by_name(self):
+        """Tests users can search for an existing program by name"""
+        self.create_org()
+
+        prog0 = {
+            "name": "Computer Engineering",
+            "organization_id": 1
+        }
+        prog1 = {
+            "name": "Computer Science",
+            "organization_id": 1
+        }
+        prog2 = {
+            "name": "Economics",
+            "organization_id": 1
+        }
+        programs = [prog0, prog1, prog2]
+        for program in programs:
+            self.client().post(
+                '/api/organizations/1/programs/',
+                data=program)
+        # search for a service starting with "Programming"
+        rv = self.client().get(
+            '/api/organizations/1/programs/?name=Computer')
+        self.assertEqual(rv.status_code, 200)
+        results_data = json.loads(rv.data)
+        results_length = len(results_data)
+        self.assertEqual(results_length, 2)
+        self.assertIn("Computer", str(rv.data))
+
 
     def test_view_can_get_program_by_id(self):
         """Test that the view can handle a GET(single) program by id."""

@@ -1,7 +1,7 @@
 from flask import Blueprint, make_response, request, jsonify, abort
 from flask.views import MethodView
 
-from app.models import Program
+from app.models import db, Program
 
 
 program_blueprint = Blueprint('program', __name__)
@@ -56,10 +56,15 @@ class ProgramView(MethodView):
         else:
             # handle get all
             programs = Program.get_all()
+
+            if request.args.get('name'):
+                # Search by name
+                search_query = request.args.get('name')
+                search_results = db.session.query(Program).filter(
+                    Program.name.ilike('%{0}%'.format(search_query)))
+                programs = search_results
             response = [prog.serialize() for prog in programs]
 
-            #for prog in programs:
-            #    response.append(prog.serialize())
             return make_response(jsonify(response)), 200
 
     def put(self, organization_id, program_id):
