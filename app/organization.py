@@ -1,7 +1,7 @@
 from flask import Blueprint, make_response, request, jsonify, abort
 from flask.views import MethodView
 
-from app.models import Organization
+from app.models import Organization, db
 
 
 org_blueprint = Blueprint('organization', __name__)
@@ -36,8 +36,16 @@ class OrganizationView(MethodView):
         if organization_id is None:
             # Expose a list of organizations
             organizations = Organization.get_all()
-            response = []
+            if organizations is None:
+                abort(404)
+            if request.args.get('name'):
+                # search by name
+                org_name = request.args.get('name')
+                results = db.session.query(Organization).filter(
+                    Organization.name.ilike('%{0}%'.format(org_name)))
+                organizations = results
 
+            response = []
             for org in organizations:
                 response.append(org.serialize())
 

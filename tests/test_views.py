@@ -74,6 +74,37 @@ class OrganizationViewTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("Andela", str(response.data))
 
+    def test_view_can_search_for_org_by_name(self):
+        """Tests users can search for an existing org by name"""
+
+        org0 = {
+            "name": "BHive",
+            "description": "A bee hive of data for social good"
+
+        }
+        org1 = {
+            "name": "Udacity",
+            "description": "A place to learn online, fast!"
+        }
+        org2 = {
+            "name": "Andela",
+            "description": "This is Andela (TIA)"
+        }
+        orgs = [org0, org1, org2]
+        for org in orgs:
+            self.client().post(
+                '/api/organizations/',
+                data=org)
+        # search for a service starting with "Programming"
+        rv = self.client().get(
+            '/api/organizations/?name=Bhive')
+        self.assertEqual(rv.status_code, 200)
+        results_data = json.loads(rv.data)
+        results_length = len(results_data)
+        self.assertEqual(results_length, 1)
+        self.assertIn("BHive", str(rv.data))
+
+
     def test_view_can_update_organization(self):
         """Test that view handle a PUT request to make a change on the org."""
         res = self.client().post('/api/organizations/', data=self.org_data)
