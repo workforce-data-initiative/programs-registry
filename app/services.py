@@ -78,7 +78,6 @@ class ServiceView(MethodView):
                 try:
                     response = service.serialize()
                     return make_response(jsonify(response)), 200
-
                 except Exception as e:
                     response = { "message": str(e) }
                     return make_response(jsonify(response)), 400
@@ -87,6 +86,14 @@ class ServiceView(MethodView):
             try:
                 services = Service.get_all(organization_id)
                 response = []
+
+                if request.args.get('name'):
+                    name = request.args.get('name')
+                    search = services.filter(
+                        Service.name.ilike('%{0}%'.format(name)))
+                    if search is None:
+                        abort(404)
+                    services = search
 
                 for service in services:
                     response.append(service.serialize())

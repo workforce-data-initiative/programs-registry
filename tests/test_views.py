@@ -298,6 +298,36 @@ class ServiceViewTestCase(BaseTestCase):
         self.assertEqual(res.status_code, 200)
         self.assertIn("Service", str(res.data))
 
+    def test_view_can_search_for_a_service(self):
+        """Tests users can search for an existing service by name"""
+        self.create_org()
+        self.create_program()
+
+        service1 = {
+            "name": "Programming 101",
+            "organization_id": 1,
+            "email": "data@gmail.com"
+        }
+        service2 = {
+            "name": "Programming in Python",
+            "organization_id": 1,
+            "email": "adp@gmail.com"
+        }
+        services = [service1, service2]
+        for service in services:
+            self.client().post(
+                '/api/organizations/1/programs/1/services/',
+                data=service)
+        # search for a service starting with "Programming"
+        rv = self.client().get(
+            '/api/organizations/1/programs/1/services/?name=Programming')
+        self.assertEqual(rv.status_code, 200)
+        results_data = json.loads(rv.data)
+        results_length = len(results_data)
+        self.assertEqual(results_length, 2)
+        self.assertIn("Programming", str(rv.data))
+
+
     def test_view_can_get_all_services(self):
         """Test that the view can handle GET request for all existing
         services.
