@@ -1,7 +1,7 @@
 from flask import Blueprint, make_response, request, jsonify, abort
 from flask.views import MethodView
 
-from app.models import PhysicalAddress
+from app.models import PhysicalAddress, Organization, Location
 
 address_blueprint = Blueprint('address', __name__)
 
@@ -21,21 +21,32 @@ class PhysicalAddressView(MethodView):
 
         try:
             payload = request.data.to_dict()
-            if location_id is not None:
-                payload['location_id'] = location_id
-                address = PhysicalAddress(**payload)
-                address.save()
-                response = address.serialize()
-                return make_response(jsonify(response)), 201
-            else:
-                abort(404)
+            if organization_id is not None:
+                org = Organization.query.filter_by(id=organization_id).first()
+                if not org:
+                    abort(404)
+                else:
+                    if location_id is not None:
+                        payload['location_id'] = location_id
+                        address = PhysicalAddress(**payload)
+                        address.save()
+                        response = address.serialize()
+                        return make_response(jsonify(response)), 201
+                    else:
+                        abort(404)
         except Exception as e:
             response = { "message": str(e) }
             return make_response(jsonify(response)), 400
 
     def get(self, organization_id, location_id, address_id):
         """Retrieve an address, returning it as json."""
-
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
+        else:
+            loc = Location.query.filter_by(id=location_id).first()
+            if not loc:
+                abort(404)
         if address_id is not None:
             # get the address by id
             address = PhysicalAddress.query.filter_by(id=address_id).first()
@@ -57,6 +68,13 @@ class PhysicalAddressView(MethodView):
 
     def put(self, organization_id, location_id, address_id):
         """Update an address and return it as json."""
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
+        else:
+            loc = Location.query.filter_by(id=location_id).first()
+            if not loc:
+                abort(404)
 
         if address_id is not None:
             try:
@@ -76,6 +94,13 @@ class PhysicalAddressView(MethodView):
 
     def delete(self, organization_id, location_id, address_id):
         """Delete an address given its id."""
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
+        else:
+            loc = Location.query.filter_by(id=location_id).first()
+            if not loc:
+                abort(404)
 
         if address_id is not None:
             address = PhysicalAddress.query.filter_by(id=address_id).first()
