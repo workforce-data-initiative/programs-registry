@@ -1,7 +1,7 @@
 from flask import Blueprint, make_response, request, jsonify, abort
 from flask.views import MethodView
 
-from app.models import db, Program
+from app.models import db, Program, Organization
 
 
 program_blueprint = Blueprint('program', __name__)
@@ -20,26 +20,32 @@ class ProgramView(MethodView):
         """
         Create a program and return a json response containing it.
         """
-        try:
-            payload = request.data.to_dict()
-            if organization_id is not None:
+
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
+        else:
+            try:
+                payload = request.data.to_dict()
                 payload['organization_id'] = organization_id
                 program = Program(**payload)
                 program.save()
                 response = program.serialize()
                 return make_response(jsonify(response)), 201
-            else:
-                abort(404)
-
-        except Exception as e:
-            response = { "message": str(e) }
-            return make_response(jsonify(response)), 400
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
 
 
     def get(self, organization_id, program_id):
         """
         Get an existing program(s) and return as a json response
         """
+
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
+
         if program_id is not None:
             # handle the get by id
             program = Program.query.filter_by(id=program_id).first()
@@ -70,6 +76,10 @@ class ProgramView(MethodView):
     def put(self, organization_id, program_id):
         """Update an existing program and return a json response."""
 
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
+
         if program_id is not None:
             try:
                 response = {}
@@ -92,6 +102,10 @@ class ProgramView(MethodView):
 
     def delete(self, organization_id, program_id):
         """Delete a program given its id."""
+
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
 
         if program_id is not None:
             prog = Program.query.filter_by(id=program_id).first()

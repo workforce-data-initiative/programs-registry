@@ -40,6 +40,7 @@ class PhysicalAddressView(MethodView):
 
     def get(self, organization_id, location_id, address_id):
         """Retrieve an address, returning it as json."""
+
         org = Organization.query.filter_by(id=organization_id).first()
         if not org:
             abort(404)
@@ -68,6 +69,7 @@ class PhysicalAddressView(MethodView):
 
     def put(self, organization_id, location_id, address_id):
         """Update an address and return it as json."""
+
         org = Organization.query.filter_by(id=organization_id).first()
         if not org:
             abort(404)
@@ -94,6 +96,7 @@ class PhysicalAddressView(MethodView):
 
     def delete(self, organization_id, location_id, address_id):
         """Delete an address given its id."""
+
         org = Organization.query.filter_by(id=organization_id).first()
         if not org:
             abort(404)
