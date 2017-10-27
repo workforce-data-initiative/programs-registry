@@ -23,6 +23,10 @@ class ServiceView(MethodView):
         """
         Create a service and return a json response containing it.
         """
+        # validation check for org
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
 
         # First, check to see whether the service comes under a given program
         if program_id is not None:
@@ -69,18 +73,37 @@ class ServiceView(MethodView):
     def get(self, organization_id, program_id, service_id):
         """Get a service and return it as json."""
 
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
+
+        service = Service.query.filter_by(id=service_id).first()
         if service_id is not None:
-            # handle the get by id
-            service = Service.query.filter_by(id=service_id).first()
-            if not service:
-                abort(404)
-            else:
-                try:
+            if program_id is None:
+                # the service has no association to any program
+                if not service:
+                    abort(404)
+                else:
                     response = service.serialize()
                     return make_response(jsonify(response)), 200
-                except Exception as e:
-                    response = { "message": str(e) }
-                    return make_response(jsonify(response)), 400
+
+            else:
+                # handle the get by id for service under a program
+                program = Program.query.filter_by(id=program_id).first()
+                if not program:
+                    abort(404)
+                else:
+                    if not service:
+                        abort(404)
+                    if service.program_id != program_id:
+                        abort(404)
+                    else:
+                        try:
+                            response = service.serialize()
+                            return make_response(jsonify(response)), 200
+                        except Exception as e:
+                            response = { "message": str(e) }
+                            return make_response(jsonify(response)), 400
         else:
             # handle get all
             try:
@@ -131,6 +154,20 @@ class ServiceView(MethodView):
     def delete(self, organization_id, program_id, service_id):
         """Delete a program given its id."""
 
+        org = Organization.query.filter_by(id=organization_id).first()
+        if not org:
+            abort(404)
+
+        if program_id is None and service_id is not None:
+            # the service has no program associated to it
+            try:
+                service = Service.query.filter_by(id=service_id).first()
+                service.delete()
+                return make_response(jsonify({})), 202
+            except Exception as e:
+                response = { "message": str(e) }
+                return make_response(jsonify(response)), 400
+
         if service_id is not None:
             try:
                 service = Service.query.filter_by(id=service_id).first()
@@ -150,6 +187,9 @@ service_view = ServiceView.as_view('service_view')
 service_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/services/',
     view_func=service_view, defaults={'program_id': None}, methods=['POST'])
+service_blueprint.add_url_rule(
+    '/api/organizations/<int:organization_id>/services/<int:service_id>',
+    view_func=service_view, defaults={'program_id': None}, methods=['PUT'])
 service_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
     view_func=service_view, methods=['POST'])
