@@ -367,6 +367,28 @@ class ServiceViewTestCase(BaseTestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn("Service", str(rv.data))
 
+    def test_view_allows_updating_service_thats_not_in_a_program(self):
+        """Test that the view can handle a PUT request for a service that is
+        not placed under a program."""
+        self.create_org()
+        service_with_no_prog_id = {
+             "name": "Service",
+            "organization_id": 1,
+            "email": "service@mail.com",
+            "url": "service.com",
+            "fees": "1000",
+            "status": "On"
+        }
+        service = self.client().post(
+            '/api/organizations/1/services/',
+            data=service_with_no_prog_id)
+        self.assertEqual(service.status_code, 201)
+        # update the service
+        rv = self.client().put('/api/organizations/1/services/1',
+                               data={ "name": "Updated Service"})
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn("Updated Service", str(rv.data))
+
     def test_view_can_delete_a_service_that_is_not_under_program(self):
         """Test that the view can handle a DELETE request for a service that is
         not placed under a program."""
