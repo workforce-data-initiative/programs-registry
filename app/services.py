@@ -80,7 +80,7 @@ class ServiceView(MethodView):
         service = Service.query.filter_by(id=service_id).first()
         if service_id is not None:
             if program_id is None:
-                # the service has no association to any program
+                # handle get by id for a service that is not under any program
                 if not service:
                     abort(404)
                 else:
@@ -189,7 +189,8 @@ service_blueprint.add_url_rule(
     view_func=service_view, defaults={'program_id': None}, methods=['POST'])
 service_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/services/<int:service_id>',
-    view_func=service_view, defaults={'program_id': None}, methods=['PUT'])
+    view_func=service_view, defaults={'program_id': None},
+    methods=['GET', 'PUT', 'DELETE'])
 service_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
     view_func=service_view, methods=['POST'])

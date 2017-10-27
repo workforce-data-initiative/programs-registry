@@ -346,6 +346,26 @@ class ServiceViewTestCase(BaseTestCase):
             data=service_with_no_prog_id)
         self.assertEqual(service.status_code, 201)
 
+    def test_view_allows_getting_a_service_that_is_not_under_program(self):
+        """Test that the view can handle a GET request for a service that is
+        not placed under a program."""
+        self.create_org()
+        service_with_no_prog_id = {
+            "name": "Service",
+            "organization_id": 1,
+            "email": "service@mail.com",
+            "url": "service.com",
+            "fees": "1000",
+            "status": "On"
+        }
+        service = self.client().post(
+            '/api/organizations/1/services/',
+            data=service_with_no_prog_id)
+        self.assertEqual(service.status_code, 201)
+        # get the service
+        rv = self.client().get('/api/organizations/1/services/1')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn("Service", str(rv.data))
 
     def test_view_can_get_a_service(self):
         """Test that the view can handle GET request for  existing
