@@ -367,6 +367,29 @@ class ServiceViewTestCase(BaseTestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn("Service", str(rv.data))
 
+    def test_view_can_delete_a_service_that_is_not_under_program(self):
+        """Test that the view can handle a DELETE request for a service that is
+        not placed under a program."""
+        self.create_org()
+        service_with_no_prog_id = {
+            "name": "Service",
+            "organization_id": 1,
+            "email": "service@mail.com",
+            "url": "service.com",
+            "fees": "1000",
+            "status": "On"
+        }
+        self.client().post(
+            '/api/organizations/1/services/',
+            data=service_with_no_prog_id)
+        # delete the service
+        service = self.client().delete('/api/organizations/1/services/1')
+        self.assertEqual(service.status_code, 202)
+        self.assertNotIn("Service", str(service.data))
+        # make a request to test if it does not exist after deletion
+        rv = self.client().get('/api/organizations/1/services/1')
+        self.assertEqual(rv.status_code, 404)
+
     def test_view_can_get_a_service(self):
         """Test that the view can handle GET request for  existing
         service using its ID.
