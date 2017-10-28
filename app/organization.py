@@ -16,7 +16,12 @@ class OrganizationView(MethodView):
         """
         try:
             # Create the organization
-            payload = request.data.to_dict()
+            if request.headers['Content-Type'] == "application/json":
+                payload = request.data
+            elif request.form:
+                payload = request.data.to_dict()
+            else:
+                payload = request.get_json(force=True)
             organization = Organization(**payload)
             organization.save()
             response = organization.serialize()
@@ -71,13 +76,19 @@ class OrganizationView(MethodView):
         """Update an organization given its id."""
         if organization_id is not None:
             try:
-                response = {}
                 org = Organization.query.filter_by(id=organization_id).first()
                 # return a 404 if org does not exist
                 abort(404) if org is None else org
 
-                for key in request.data.to_dict().keys():
-                    setattr(org, key, request.data.get(key))
+                if request.headers['Content-Type'] == "application/json":
+                    payload = request.data
+                elif request.form:
+                    payload = request.data.to_dict()
+                else:
+                    payload = request.get_json(force=True)
+
+                for key in payload.keys():
+                    setattr(org, key, payload.get(key))
                 org.save()
                 response = org.serialize()
 

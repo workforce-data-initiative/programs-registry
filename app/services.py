@@ -23,6 +23,13 @@ class ServiceView(MethodView):
         """
         Create a service and return a json response containing it.
         """
+        if request.headers['Content-Type'] == "application/json":
+            payload = request.data
+        elif request.form:
+            payload = request.data.to_dict()
+        else:
+            payload = request.get_json(force=True)
+
         # validation check for org
         org = Organization.query.filter_by(id=organization_id).first()
         if not org:
@@ -31,10 +38,10 @@ class ServiceView(MethodView):
         # First, check to see whether the service comes under a given program
         if program_id is not None:
             try:
-                payload = request.data.to_dict()
                 # check whether the program exists
                 prog = Program.query.filter_by(id=program_id).first()
                 abort(404) if prog is None else prog
+
                 if organization_id is not None:
                     # check to see whether the org exists
                     org = Organization.query.filter_by(
@@ -54,7 +61,6 @@ class ServiceView(MethodView):
         else:
             # Create the service without the program ID (the service is on its
             # own
-            payload = request.data.to_dict()
             if organization_id is not None:
                 org = Organization.query.filter_by(
                     id=organization_id).first()
@@ -138,8 +144,15 @@ class ServiceView(MethodView):
                 abort(404)
 
             try:
-                for key in request.data.to_dict().keys():
-                    setattr(service, key, request.data.get(key))
+                if request.headers['Content-Type'] == "application/json":
+                    payload = request.data
+                elif request.form:
+                    payload = request.data.to_dict()
+                else:
+                    payload = request.get_json(force=True)
+
+                for key in payload.keys():
+                    setattr(service, key, payload.get(key))
 
                 service.save()
                 response = service.serialize()

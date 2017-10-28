@@ -21,7 +21,13 @@ class LocationView(MethodView):
         Create a location and return it as json.
         """
         try:
-            payload = request.data.to_dict()
+            if request.headers['Content-Type'] == "application/json":
+                payload = request.data
+            elif request.form:
+                payload = request.data.to_dict()
+            else:
+                payload = request.get_json(force=True)
+
             if organization_id is not None:
                 payload['organization_id'] = organization_id
                 location = Location(**payload)
@@ -65,12 +71,18 @@ class LocationView(MethodView):
     def put(self, organization_id, location_id):
         """
         Update an existing location and return a json response of it."""
+        if request.headers['Content-Type'] == "application/json":
+            payload = request.data
+        elif request.form:
+            payload = request.data.to_dict()
+        else:
+            payload = request.get_json(force=True)
 
         if location_id is not None:
             try:
                 location = Location.query.filter_by(id=location_id).first()
 
-                for key in request.data.to_dict().keys():
+                for key in payload.keys():
                     setattr(location, key, request.data.get(key))
                 location.save()
                 response = location.serialize()

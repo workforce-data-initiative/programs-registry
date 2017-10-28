@@ -26,7 +26,13 @@ class ProgramView(MethodView):
             abort(404)
         else:
             try:
-                payload = request.data.to_dict()
+                if request.headers['Content-Type'] == "application/json":
+                    payload = request.data
+                elif request.form:
+                    payload = request.data.to_dict()
+                else:
+                    payload = request.get_json(force=True)
+
                 payload['organization_id'] = organization_id
                 program = Program(**payload)
                 program.save()
@@ -85,8 +91,15 @@ class ProgramView(MethodView):
                 response = {}
                 program = Program.query.filter_by(id=program_id).first()
 
-                for key in request.data.to_dict().keys():
-                    setattr(program, key, request.data.get(key))
+                if request.headers['Content-Type'] == "application/json":
+                    payload = request.data
+                elif request.form:
+                    payload = request.data.to_dict()
+                else:
+                    payload = request.get_json(force=True)
+
+                for key in payload.keys():
+                    setattr(program, key, payload.get(key))
 
                 program.save()
                 response = program.serialize()

@@ -20,7 +20,13 @@ class PhysicalAddressView(MethodView):
         """Create an address and return a json response of it."""
 
         try:
-            payload = request.data.to_dict()
+            if request.headers['Content-Type'] == "application/json":
+                payload = request.data
+            elif request.form:
+                payload = request.data.to_dict()
+            else:
+                payload = request.get_json(force=True)
+
             if organization_id is not None:
                 org = Organization.query.filter_by(id=organization_id).first()
                 if not org:
@@ -70,6 +76,13 @@ class PhysicalAddressView(MethodView):
     def put(self, organization_id, location_id, address_id):
         """Update an address and return it as json."""
 
+        if request.headers['Content-Type'] == "application/json":
+            payload = request.data
+        elif request.form:
+            payload = request.data.to_dict()
+        else:
+            payload = request.get_json(force=True)
+
         org = Organization.query.filter_by(id=organization_id).first()
         if not org:
             abort(404)
@@ -83,7 +96,7 @@ class PhysicalAddressView(MethodView):
                 address = PhysicalAddress.query.filter_by(
                     id=address_id).first()
 
-                for key in request.data.to_dict().keys():
+                for key in payload.keys():
                     setattr(address, key, request.data.get(key))
                 address.save()
                 res = address.serialize()
