@@ -1,20 +1,43 @@
 from app import db
 from flask import current_app
+from sqlalchemy.orm import relationship, class_mapper, ColumnProperty
 import jwt
 from datetime import datetime, timedelta
 
 
-class Organization(db.Model):
+class BaseMixin(object):
+    """
+    This mixin defines a serializer to map a queryset object into a dict.
+
+    Returns: an iterable list of column names with their corresponding values.
+    """
+    def serialize(self):
+        result = {}
+        for prop in class_mapper(self.__class__).iterate_properties:
+            if isinstance(prop, ColumnProperty):
+                result[prop.key] = getattr(self, prop.key)
+        return result
+
+
+class Organization(db.Model, BaseMixin):
     """This class defines an organization table."""
 
     __tablename__ = 'organization'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(256), nullable=False)
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
     year_incorporated = db.Column(db.DateTime, nullable=True)
+
+    program = relationship("Program", backref="organization",
+                           passive_deletes=True)
+    location = relationship("Location", backref="organization",
+                            passive_deletes=True)
+    service = relationship("Service", backref="organization",
+                           passive_deletes=True)
+
 
     def __init__(self, name, description, email=None, url=None,
                  year_incorporated=None):
@@ -33,18 +56,24 @@ class Organization(db.Model):
         """Return all the organizations."""
         return Organization.query.all()
 
+    def delete(self):
+        """Delete an org."""
+        db.session.delete(self)
+        db.session.commit()
+
     def __repr__(self):
         """Return a representation of the model instance."""
         return "{}: {}".format(self.id, self.name)
 
 
-class Program(db.Model):
+class Program(db.Model, BaseMixin):
     """This class defines the program table."""
 
     __tablename__ = 'program'
 
     id = db.Column(db.Integer, primary_key=True)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id))
+    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
+                                                          ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
     alternate_name = db.Column(db.String(100), nullable=True)
 
@@ -74,14 +103,17 @@ class Program(db.Model):
         return "<Program: {} - {}>".format(self.id, self.name)
 
 
-class Service(db.Model):
+class Service(db.Model, BaseMixin):
     """This class represents a service table."""
 
     __tablename__ = 'service'
 
     id = db.Column(db.Integer, primary_key=True)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id))
-    program_id = db.Column(db.Integer, db.ForeignKey(Program.id))
+    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
+                                                          ondelete='CASCADE'))
+    program_id = db.Column(db.Integer,
+                           db.ForeignKey(Program.id, ondelete='CASCADE'),
+                           nullable=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200), nullable=True)
     email = db.Column(db.String(100), nullable=True)
@@ -89,14 +121,17 @@ class Service(db.Model):
     status = db.Column(db.String(10), nullable=True)
     fees = db.Column(db.String(10), nullable=True)
 
+
     def __init__(self, name, organization_id, program_id=None, status=None,
-                 fees=None):
+                 fees=None, email=None, url=None):
         """Initialize the service with its fields."""
         self.name = name
         self.organization_id = organization_id
         self.program_id = program_id
+        self.email = email
         self.status = status
         self.fees = fees
+        self.url = url
 
     @staticmethod
     def get_all(organization_id):
@@ -118,19 +153,23 @@ class Service(db.Model):
         return "<Service: {} - {}>".format(self.id, self.name)
 
 
-class Location(db.Model):
+class Location(db.Model, BaseMixin):
     """This class defines a location model."""
 
     __tablename__ = "location"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id))
+    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
+                                                          ondelete='CASCADE'))
     alternate_name = db.Column(db.String(100), nullable=True)
     description = db.Column(db.String(100), nullable = True)
     transportation = db.Column(db.String(256), nullable=True)
     latitude = db.Column(db.Integer, nullable=True)
     longitude = db.Column(db.Integer, nullable=True)
+
+    address = relationship("PhysicalAddress", backref="location",
+                            passive_deletes=True)
 
     def __init__(self, name, organization_id, alternate_name=None,
                  description=None, transportation=None, latitude=None,
@@ -155,12 +194,17 @@ class Location(db.Model):
         """Return all the locations for a given organization."""
         return Location.query.filter_by(organization_id=organization_id)
 
+    def delete(self):
+        """Delete a location."""
+        db.session.delete(self)
+        db.session.commit()
+
     def __repr__(self):
         """Return a representation of the model instance."""
         return "{}: {}".format(self.id, self.name)
 
 
-class ServiceLocation(db.Model):
+class ServiceLocation(db.Model, BaseMixin):
     """This class defines a representation of the service at location table."""
 
     __tablename__ = "service_location"
@@ -186,13 +230,14 @@ class ServiceLocation(db.Model):
 
 
 
-class PhysicalAddress(db.Model):
+class PhysicalAddress(db.Model, BaseMixin):
     """This class defines a representation of the physical address model."""
 
     __tablename__ = "physical_address"
 
     id = db.Column(db.Integer, primary_key=True)
-    location_id = db.Column(db.Integer, db.ForeignKey(Location.id))
+    location_id = db.Column(db.Integer, db.ForeignKey(Location.id,
+                                                      ondelete='CASCADE'))
     address = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(100), nullable=False)
     state = db.Column(db.String(20), nullable=False)
@@ -208,6 +253,11 @@ class PhysicalAddress(db.Model):
     def get_all(location_id):
         """Get the physical address given the location."""
         return PhysicalAddress.query.filter_by(location_id=location_id)
+
+    def delete(self):
+        """Delete a physical address."""
+        db.session.delete(self)
+        db.session.commit()
 
     def __repr__(self):
         """Return a representation of the model instance."""

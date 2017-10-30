@@ -11,19 +11,18 @@ from instance import config
 class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
-        registry_app = create_app(config_name="testing")
-        self.app = registry_app
-
+        self.app = create_app(config_name="testing")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         self.client = self.app.test_client
-        # bind the app to the application context
-        with self.app.app_context():
-            db.create_all()
+        db.create_all()
 
     def tearDown(self):
-        with self.app.app_context():
+        with self.app_context:
             db.session.remove()
             db.drop_all()
-            # os.ulink(self.app.config.get('DATABASE_URL'))
+            self.app_context.pop()
+            os.unlink(self.app.config.get('DATABASE'))
 
 
 class OrganizationTestCase(BaseTestCase):
@@ -47,9 +46,17 @@ class ProgramTestCase(BaseTestCase):
 
     def test_program_instance_creation(self):
         """Test that a program can be created."""
+
+        # first, create the org
+        org_data = {
+            "name": "BHive",
+            "description": "A bee hive of data analysis"
+        }
+        organization = Organization(**org_data)
+        organization.save()
         program_data = {
             "name": "Test program",
-            "organization_id": 1,
+            "organization_id": organization.id,
         }
         old_count = Program.query.count()
         program = Program(**program_data)
@@ -64,7 +71,7 @@ class ServiceModelTestCase(BaseTestCase):
     def test_service_instance_creation(self):
         """Test that a given service under an org can be created."""
         org_data= {
-            "name": "A good org",
+            "name": "ABC",
             "description": "A big org"
         }
         program_data = {
@@ -98,7 +105,7 @@ class LocationModelTestCase(BaseTestCase):
 
         # first, create the organization
         org_data = {
-            "name": "An org",
+            "name": "XYZ",
             "description": "A really big org"
         }
         organization = Organization(**org_data)
@@ -125,8 +132,8 @@ class PhysicalAddressModelTestCase(BaseTestCase):
 
         # first, create the organization
         org_data = {
-            "name": "An org",
-            "description": "A really big org"
+            "name": "BH",
+            "description": "A really good org"
         }
         organization = Organization(**org_data)
         organization.save()
@@ -156,4 +163,8 @@ class PhysicalAddressModelTestCase(BaseTestCase):
         address.save()
         new_count = PhysicalAddress.query.count()
         self.assertNotEqual(new_count, old_count)
+
+
+if __name__ == "__main__":
+    unittest.main()
 
