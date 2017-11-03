@@ -1,1 +1,10 @@
 listening_port=8080
+database_uri="postgresql://localhost:5432/registry"
+app_settings="production"
+
+python_env = "production"
+
+[db]
+user = "postgres"
+host = "postgresql://localhost:5432/registry"
+

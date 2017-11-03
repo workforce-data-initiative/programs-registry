@@ -40,10 +40,8 @@ do_build() {
 do_install() {
   cd $pkg_prefix
   build_line "Creating virtual environment venv..."
-  python3 -m venv venv
+  virtualenv "venv" -p python3
   . venv/bin/activate
-  build_line "Installing psycopg2 without binaries ..."
-  pip install --no-binary :all: psycopg2
   build_line "Install gunicorn ..."
   pip install gunicorn
   build_line "Installing requirements from requirements.txt ..."

@@ -3,8 +3,14 @@
 # Allows to see errors as they occur
 exec 2>&1
 
+echo "Executing runtime hook ..."
 cd {{pkg.svc_var_path}}
+
+echo "Activating virtual env ..."
 source venv/bin/activate
 
+
+export APP_SETTINGS="production"
+
 # start the server using gunicorn
-gunicorn wsgi --bind 0.0.0.0:8080
+exec gunicorn wsgi --bind 0.0.0.0:8080
