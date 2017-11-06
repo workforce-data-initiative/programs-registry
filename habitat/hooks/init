@@ -1,12 +1,36 @@
-#!/bin/bash -xe
+#!{{pkgPathFor "core/bash"}}/bin/bash
 
 # Allows to see errors as they occur
 exec 2>&1
 
 echo "Executing init hook"
 
+echo "Create the database"
+hab pkg exec core/postgresql psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'registry'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE registry"
+
+# create a database for the application if one doesn't exist
+hab pkg exec core/postgresql psql -U postgres -d postgres -t -c
+"select datname from pg_database where datname = 'registry';" | egrep .
+
+if [ $? -gt 0 ]; then
+  hab pkg exec core/postgresql createdb registry
+fi
+
+# migrate the database
+hab pkg exec core/postgresql psql -U postgres -d registry -t -c "select name from organization;" | egrep .
+
+if [ $? -gt 0 ]; then
+  python manage.py db init
+  python manage.py db migrate
+  python manage.py db upgrade
+else
+  python manage.py db migrate
+  python manage.py db upgrade
+fi
+
 ln -fs {{pkg.path}}/habitat {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/app {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/instance {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/venv {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/*.py {{pkg.svc_var_path}}
+
