@@ -5,6 +5,11 @@ pkg_maintainer="jee@brighthive.io, stanley@brighthive.io, aretha@brighthive.io"
 pkg_filename=${pkg_name}-${pkg_version}.tar.gz
 pkg_upstream_url="https://github.com/brighthive/program-registry.git"
 pkg_exports=([port]=listening_port)
+
+pkg_lib_dirs=(lib)
+pkg_include_dirs=(include)
+pkg_bin_dirs=(bin)
+
 pkg_exposes=(port)
 pkg_build_deps=(core/virtualenv core/postgresql core/gcc core/openssl)
 pkg_deps=(core/python)
