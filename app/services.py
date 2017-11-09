@@ -56,7 +56,7 @@ class ServiceView(MethodView):
                         # the org is none-existent - return 404 not found
                         abort(404)
             except Exception as e:
-                response = { "message": str(e) }
+                response = {"message": str(e)}
                 return make_response(jsonify(response)), 400
         else:
             # Create the service without the program ID (the service is on its
@@ -108,7 +108,7 @@ class ServiceView(MethodView):
                             response = service.serialize()
                             return make_response(jsonify(response)), 200
                         except Exception as e:
-                            response = { "message": str(e) }
+                            response = {"message": str(e)}
                             return make_response(jsonify(response)), 400
         else:
             # handle get all
@@ -159,7 +159,7 @@ class ServiceView(MethodView):
                 return make_response(jsonify(response)), 200
 
             except Exception as e:
-                response = { "message": str(e) }
+                response = {"message": str(e)}
                 return make_response(jsonify(response)), 400
         else:
             abort(404)
@@ -178,7 +178,7 @@ class ServiceView(MethodView):
                 service.delete()
                 return make_response(jsonify({})), 202
             except Exception as e:
-                response = { "message": str(e) }
+                response = {"message": str(e)}
                 return make_response(jsonify(response)), 400
 
         if service_id is not None:
@@ -189,11 +189,10 @@ class ServiceView(MethodView):
                 return make_response(jsonify({})), 202
 
             except Exception as e:
-                response = { "message": str(e) }
+                response = {"message": str(e)}
                 return make_response(jsonify(response)), 400
         else:
             abort(404)
-
 
 
 service_view = ServiceView.as_view('service_view')
@@ -205,12 +204,14 @@ service_blueprint.add_url_rule(
     view_func=service_view, defaults={'program_id': None},
     methods=['GET', 'PUT', 'DELETE'])
 service_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
+    '/api/organizations/<int:organization_id>/programs/' +
+    '<int:program_id>/services/',
     view_func=service_view, methods=['POST'])
 service_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/',
+    '/api/organizations/<int:organization_id>/programs/' +
+    '<int:program_id>/services/',
     view_func=service_view, defaults={'service_id': None}, methods=['GET'])
 service_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/programs/<int:program_id>/services/<int:service_id>',
+    '/api/organizations/<int:organization_id>/programs/' +
+    '<int:program_id>/services/<int:service_id>',
     view_func=service_view, methods=['GET', 'PUT', 'DELETE'])
-
