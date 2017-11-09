@@ -58,7 +58,8 @@ class OrganizationView(MethodView):
 
         else:
             # Expose a single organization
-            organization = Organization.query.filter_by(id=organization_id).first()
+            organization = Organization.query.filter_by(
+                id=organization_id).first()
             if not organization:
                 abort(404)
             else:
@@ -70,7 +71,6 @@ class OrganizationView(MethodView):
                         "message": str(e)
                     }
                     return make_response(jsonify(response)), 400
-
 
     def put(self, organization_id):
         """Update an organization given its id."""
@@ -136,7 +136,4 @@ org_blueprint.add_url_rule(
 
 org_blueprint.add_url_rule(
     '/api/organizations/', view_func=organization_view,
-    methods=['POST',])
-
-
-
+    methods=['POST', ])

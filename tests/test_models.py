@@ -70,7 +70,7 @@ class ServiceModelTestCase(BaseTestCase):
 
     def test_service_instance_creation(self):
         """Test that a given service under an org can be created."""
-        org_data= {
+        org_data = {
             "name": "ABC",
             "description": "A big org"
         }
@@ -167,4 +167,3 @@ class PhysicalAddressModelTestCase(BaseTestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

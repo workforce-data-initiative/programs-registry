@@ -20,7 +20,6 @@ def create_app(config_name):
 
     db.init_app(app)
 
-
     # import the organization blueprint and register it on the app
     from .organization import org_blueprint
     from .programs import program_blueprint

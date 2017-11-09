@@ -39,9 +39,8 @@ class ProgramView(MethodView):
                 response = program.serialize()
                 return make_response(jsonify(response)), 201
             except Exception as e:
-                response = { "message": str(e) }
+                response = {"message": str(e)}
                 return make_response(jsonify(response)), 400
-
 
     def get(self, organization_id, program_id):
         """
@@ -63,7 +62,7 @@ class ProgramView(MethodView):
                     return make_response(jsonify(response)), 200
 
                 except Exception as e:
-                    response = { "message": str(e) }
+                    response = {"message": str(e)}
                     return make_response(jsonify(response)), 400
         else:
             # handle get all
@@ -108,7 +107,7 @@ class ProgramView(MethodView):
             except Exception as e:
                 if not program:
                     abort(404)
-                response = { "message": str(e) }
+                response = {"message": str(e)}
                 return make_response(jsonify(response)), 400
         else:
             abort(404)
@@ -130,9 +129,8 @@ class ProgramView(MethodView):
                     return make_response(jsonify({})), 202
 
                 except Exception as e:
-                    response = { "message": str(e) }
+                    response = {"message": str(e)}
                     return make_response(jsonify(response)), 400
-
 
 
 program_view = ProgramView.as_view('program_view')
