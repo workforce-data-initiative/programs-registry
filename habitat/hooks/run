@@ -4,13 +4,11 @@
 exec 2>&1
 
 echo "Executing runtime hook ..."
-cd {{pkg.svc_var_path}}
 
-echo "Activating virtual env ..."
-source venv/bin/activate
-
+cd {{pkg.path}}
 
 export APP_SETTINGS="production"
+export DATABASE_URL=postgresql://localhost:5432/registry
 
 # start the server using gunicorn
 exec gunicorn wsgi --bind 0.0.0.0:8080
