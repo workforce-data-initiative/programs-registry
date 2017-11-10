@@ -4,18 +4,18 @@ pkg_version=0.0.1
 pkg_maintainer="jee@brighthive.io, stanley@brighthive.io, aretha@brighthive.io"
 pkg_filename=${pkg_name}-${pkg_version}.tar.gz
 pkg_upstream_url="https://github.com/brighthive/program-registry.git"
-pkg_exports=([port]=listening_port)
+pkg_exports=(
+    [port]=listening_port
+    [db-port]=db.port
+)
 
-pkg_exposes=(port)
+pkg_exposes=(port db-port)
 pkg_build_deps=(
-    core/bash
-    core/coreutils
-    core/virtualenv
-    core/postgresql
+    core/openssl
     core/gcc
     core/libffi
-    core/openssl)
-pkg_deps=(core/python)
+)
+pkg_deps=(core/python core/postgresql core/shadow)
 pkg_interpreters=(bin/python3 bin/bash)
 
 pkg_lib_dirs=(lib)
@@ -48,6 +48,7 @@ do_unpack() {
 do_prepare() {
   export LD_LIBRARY_PATH="$(hab pkg path core/gcc)/lib"
   export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(hab pkg path core/libffi)/lib"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(hab pkg path core/postgresql)/lib"
   build_line "Updating pip and create virtual env..."
   pip install --upgrade pip virtualenv
   virtualenv "${pkg_prefix}" -p python3
@@ -63,7 +64,7 @@ do_install() {
 
   build_line "Install gunicorn ..."
   pip install gunicorn
-  pip install --no-binary :all: $(grep psycopg2 requirements.txt)
+  pip install --no-binary :all: $(grep psycopg2 /src/requirements.txt)
   build_line "Installing requirements from requirements.txt ..."
-  pip install -r requirements.txt
+  pip install -r /src/requirements.txt
 }
