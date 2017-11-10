@@ -1,10 +1,14 @@
-listening_port=8080
-database_uri="postgresql://localhost:5432/registry"
-app_settings="production"
-
-python_env = "production"
+listening_port = 8080
+database_uri = "postgresql://localhost:5432/registry"
+app_settings = "production"
 
 [db]
-user = "postgres"
-host = "postgresql://localhost:5432/registry"
+host = 'localhost'
+port = 5432
+name = 'registry'
+datapath = '/var/local/pgsql/data/'
 
+[superuser]
+name = 'regdb'
+group = 'regdb'
+password = ''
