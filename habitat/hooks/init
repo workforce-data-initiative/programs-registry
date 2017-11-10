@@ -11,11 +11,30 @@ ln -fs {{pkg.path}}/instance {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/wsgi.py {{pkg.svc_var_path}}i
 ln -fs {{pkg.path}}/manage.py {{pkg.svc_var_path}}
 
-echo "Create the database"
-hab pkg exec core/postgresql psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'registry'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE registry"
+echo "Creating database superuser"
+source {{pkg.svc_config_path}}/helpers.sh
+# create db superuser
+create_db_superuser
+# set up data directory for pgsql service
+if [ ! -d "{{cfg.db.datapath}}" ]; then
+    setup_db_datapath
+else
+    echo "Data dir already exists"
+fi
+
+echo "Init the postgres database cluster"
+exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} pg_ctl -D {{cfg.db.datapath}} initdb
+
+echo "Start the postgres service"
+exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} pg_ctl start -D {{cfg.db.datapath}} -l serverlog
+
+echo "Creating the database"
+hab pkg exec core/postgresql psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'registry'" \
+    | grep -q 1 || hab pkg exec core/postgresql psql -U postgres -c "CREATE DATABASE registry"
 
 # create a database for the application if one doesn't exist
-hab pkg exec core/postgresql psql -U postgres -d postgres -t -c "select datname from pg_database where datname = 'registry';" | egrep .
+hab pkg exec core/postgresql psql -U postgres -d postgres -t -c \
+    "select datname from pg_database where datname = 'registry';" | egrep .
 
 if [ $? -gt 0 ]; then
   hab pkg exec core/postgresql createdb registry
