@@ -39,6 +39,7 @@ do_unpack() {
   build_line "Copying project data from $PROJECT_ROOT to $pkg_prefix ..."
   mkdir -p $pkg_prefix
   cp -vr $PROJECT_ROOT/app $pkg_prefix/
+  cp -vr $PROJECT_ROOT/habitat/config/helpers.sh $pkg_prefix/
   cp -vr $PROJECT_ROOT/instance $pkg_prefix/
   cp -vr $PROJECT_ROOT/tests $pkg_prefix/
   cp -vr $PROJECT_ROOT/*.py $pkg_prefix/
@@ -67,4 +68,12 @@ do_install() {
   pip install --no-binary :all: $(grep psycopg2 /src/requirements.txt)
   build_line "Installing requirements from requirements.txt ..."
   pip install -r /src/requirements.txt
+
+  source $pkg_prefix/helpers.sh
+  mkdir -p $pkg_svc_var_path
+  mkdir -p $pkg_svc_config_path
+  mkdir -p $pkg_svc_data_path
+
+  create_db_superuser_on_install
+  set_dir_permissions_on_install
 }
