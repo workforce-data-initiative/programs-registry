@@ -27,23 +27,16 @@ exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} psql -d postgres 
 echo "Checking database migrations"
 DIRECTORY="migrations"
 if [ ! -d "$DIRECTORY" ]; then
-    exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} python manage.py db init
-fi
-
-# migrate the database
-exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} psql -d registry \
-    -t -c "select name from organization;" | egrep .
-
-if [ $? -gt 0 ]; then
-  echo "Creating fresh migrations..."
-  exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} python manage.py db init
-  python manage.py db migrate
-  python manage.py db upgrade
+    echo "Creating new migrations..."
+    exec python manage.py db init
+    exec python manage.py db migrate
+    exec python manage.py db upgrade
 else
-  echo "Updating migrations..."
-  python manage.py db migrate
-  python manage.py db upgrade
+    echo "Updating existing migrations..."
+    exec python manage.py db migrate
+    exec python manage.py db update
 fi
 
 # start the server using gunicorn
+echo "Starting registry service ..."
 exec gunicorn wsgi --bind 0.0.0.0:8080
