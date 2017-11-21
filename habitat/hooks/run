@@ -28,14 +28,12 @@ echo "Checking database migrations"
 DIRECTORY="migrations"
 if [ ! -d "$DIRECTORY" ]; then
     echo "Creating new migrations..."
-    exec python manage.py db init
-    exec python manage.py db migrate
-    exec python manage.py db upgrade
-else
-    echo "Updating existing migrations..."
-    exec python manage.py db migrate
-    exec python manage.py db update
+    python manage.py db init
 fi
+
+echo "Migrating and updating migrations..."
+exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} python manage.py db migrate
+exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} python manage.py db update
 
 # start the server using gunicorn
 echo "Starting registry service ..."
