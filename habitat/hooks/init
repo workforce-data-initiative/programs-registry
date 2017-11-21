@@ -4,7 +4,6 @@
 exec 2>&1
 
 echo "Executing init hook"
-echo "{{pkg.path}}"
 
 ln -fs {{pkg.path}}/app {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/instance {{pkg.svc_var_path}}
@@ -22,47 +21,11 @@ else
     echo "Data dir already exists"
 fi
 
-echo "Init the postgres database cluster"
-exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} pg_ctl -D {{cfg.db.datapath}} initdb
+# set var, data dir permissions for superuser
+# set_dir_permissions
 
-echo "Start the postgres service"
-exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} pg_ctl start -D {{cfg.db.datapath}} -l serverlog
+# initialize db cluster
+init_db_cluster
 
-echo "Creating the database"
-hab pkg exec core/postgresql psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'registry'" \
-    | grep -q 1 || hab pkg exec core/postgresql psql -U postgres -c "CREATE DATABASE registry"
-
-# create a database for the application if one doesn't exist
-hab pkg exec core/postgresql psql -U postgres -d postgres -t -c \
-    "select datname from pg_database where datname = 'registry';" | egrep .
-
-if [ $? -gt 0 ]; then
-  hab pkg exec core/postgresql createdb registry
-fi
-
-
-cd {{pkg.path}}
-
-export APP_SETTINGS="production"
-
-# check to see if migrations folder is created
-DIRECTORY="migrations"
-if [ ! -d "$DIRECTORY" ]; then
-    exec chpst -U root -u root python manage.py db init
-fi
-
-# migrate the database
-hab pkg exec core/postgresql psql -U postgres -d registry -t -c "select name from organization;" | egrep .
-
-if [ $? -gt 0 ]; then
-  echo "Creating fresh migrations..."
-  exec chpst -U root -u root python manage.py db init
-  python manage.py db migrate
-  python manage.py db upgrade
-else
-  echo "Updating migrations..."
-  python manage.py db migrate
-  python manage.py db upgrade
-fi
 
 
