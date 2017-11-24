@@ -1,0 +1,52 @@
+#!/bin/bash -xe
+
+# Allows to see errors as they occur
+exec 2>&1
+
+echo "Executing runtime hook ..."
+
+export APP_SETTINGS="production"
+export DATABASE_URL=postgresql://localhost:5432/registry
+
+cd {{pkg.path}}
+
+source {{pkg.svc_config_path}}/helpers.sh
+start_db_server
+
+echo "Creating the database"
+# create a database for the application if one doesn't exist
+exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} psql -d postgres -tc \
+    "SELECT 1 FROM pg_database WHERE datname = 'registry';" | grep -q 1 \
+    || psql -U {{cfg.superuser.name}} -d postgres -c "CREATE database registry;"
+
+# check to see if migrations folder is created
+echo "Checking database migrations"
+DIRECTORY="migrations"
+if [ ! -d "$DIRECTORY" ]; then
+    echo "Creating new migrations..."
+    python manage.py db init
+    echo "Changing migrations dir to be owned by db user"
+    chown -LRv {{cfg.superuser.name}}:{{cfg.superuser.name}} {{pkg.path}}/migrations
+fi
+
+if test "$(ls -A "migrations/versions")"; then
+    echo "Checking if we already have existing tables after migrations"
+    exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} psql -d registry -tc \
+        "SELECT 1 FROM pg_tables WHERE tablename='program';" \
+        | grep -q 1 || exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} \
+        python manage.py db upgrade
+
+    # start the server if all table migrations have been migrated to the database
+    echo "Checking database for completed table migrations..."
+    exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} psql -d registry -tc \
+        "SELECT 1 FROM pg_tables WHERE tablename='program';" \
+        | grep -q 0 || exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} \
+        gunicorn wsgi --bind 0.0.0.0:8080
+else
+    echo "Making initial table migrations..."
+    exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} python manage.py db migrate
+fi
+
+# start the server using gunicorn
+echo "Starting registry service ..."
+exec gunicorn wsgi --bind 0.0.0.0:8080

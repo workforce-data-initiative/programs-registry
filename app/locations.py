@@ -64,6 +64,13 @@ class LocationView(MethodView):
             locations = Location.get_all(organization_id)
             response = []
 
+            if request.args.get('name'):
+                # search by name
+                location_name = request.args.get('name')
+                results = db.session.query(Location).filter(
+                    Location.name.ilike('%{0}%'.format(location_name)))
+                locations = results
+
             for location in locations:
                 response.append(location.serialize())
             return make_response(jsonify(response)), 200
