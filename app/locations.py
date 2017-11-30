@@ -6,6 +6,7 @@ from app.models import Location
 
 location_blueprint = Blueprint('location', __name__)
 
+
 class LocationView(MethodView):
     """
     This class handles API requests for the location resource.
@@ -38,9 +39,8 @@ class LocationView(MethodView):
                 abort(404)
 
         except Exception as e:
-            response = { "message": str(e) }
+            response = {"message": str(e)}
             return make_response(jsonify(response)), 400
-
 
     def get(self, organization_id, location_id):
         """
@@ -57,7 +57,7 @@ class LocationView(MethodView):
                     return make_response(jsonify(response)), 200
 
                 except Exception as e:
-                    response = { "message": str(e) }
+                    response = {"message": str(e)}
                     return make_response(jsonify(response)), 400
         else:
             # handle get all
@@ -96,7 +96,7 @@ class LocationView(MethodView):
                 return make_response(jsonify(response)), 200
 
             except Exception as e:
-                response = {"message": str(e) }
+                response = {"message": str(e)}
                 return make_response(jsonify(response)), 400
         else:
             abort(404)
@@ -114,7 +114,7 @@ class LocationView(MethodView):
                     return make_response(jsonify({})), 202
 
                 except Exception as e:
-                    res = { "message": str(e) }
+                    res = {"message": str(e)}
                     return make_response(jsonify(res)), 400
         else:
             abort(404)
@@ -133,5 +133,3 @@ location_blueprint.add_url_rule(
     '/api/organizations/<int:organization_id>/locations/<int:location_id>',
     view_func=location_view,
     methods=['GET', 'PUT', 'DELETE'])
-
-

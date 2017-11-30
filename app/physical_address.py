@@ -41,7 +41,7 @@ class PhysicalAddressView(MethodView):
                     else:
                         abort(404)
         except Exception as e:
-            response = { "message": str(e) }
+            response = {"message": str(e)}
             return make_response(jsonify(response)), 400
 
     def get(self, organization_id, location_id, address_id):
@@ -64,14 +64,13 @@ class PhysicalAddressView(MethodView):
                     res = address.serialize()
                     return make_response(jsonify(res)), 200
                 except Exception as e:
-                    res = { "message": str(e) }
+                    res = {"message": str(e)}
                     return make_response(jsonify(res)), 400
         else:
             # get all addresses
             addresses = PhysicalAddress.get_all(location_id)
             res = [address.serialize() for address in addresses]
             return make_response(jsonify(res)), 200
-
 
     def put(self, organization_id, location_id, address_id):
         """Update an address and return it as json."""
@@ -102,7 +101,7 @@ class PhysicalAddressView(MethodView):
                 res = address.serialize()
                 return make_response(jsonify(res)), 200
             except Exception as e:
-                res = { "message": str(e) }
+                res = {"message": str(e)}
                 return make_response(jsonify(res)), 400
         else:
             abort(404)
@@ -127,7 +126,7 @@ class PhysicalAddressView(MethodView):
                     address.delete()
                     return make_response(jsonify({})), 202
                 except Exception as e:
-                    res = { "message": str(e) }
+                    res = {"message": str(e)}
                     return make_response(jsonify(res)), 500
         else:
             abort(404)
@@ -135,15 +134,16 @@ class PhysicalAddressView(MethodView):
 
 address_view = PhysicalAddressView.as_view('address_view')
 address_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/locations/<int:location_id>/addresses/',
+    '/api/organizations/<int:organization_id>/locations/' +
+    '<int:location_id>/addresses/',
     view_func=address_view, methods=['POST'])
 address_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/locations/<int:location_id>/addresses/',
+    '/api/organizations/<int:organization_id>/locations/' +
+    '<int:location_id>/addresses/',
     view_func=address_view, defaults={'address_id': None},
     methods=['GET'])
 address_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/locations/<int:location_id>/addresses/<int:address_id>',
+    '/api/organizations/<int:organization_id>/locations/' +
+    '<int:location_id>/addresses/<int:address_id>',
     view_func=address_view,
     methods=['GET', 'PUT', 'DELETE'])
-
-

@@ -50,7 +50,6 @@ class BaseTestCase(unittest.TestCase):
             os.unlink(self.app.config.get('DATABASE'))
 
 
-
 class OrganizationViewTestCase(BaseTestCase):
     """This class represents the Organization view test case."""
 
@@ -104,7 +103,6 @@ class OrganizationViewTestCase(BaseTestCase):
         self.assertEqual(results_length, 1)
         self.assertIn("BHive", str(rv.data))
 
-
     def test_view_can_update_organization(self):
         """Test that view handle a PUT request to make a change on the org."""
         res = self.client().post('/api/organizations/', data=self.org_data)
@@ -114,8 +112,8 @@ class OrganizationViewTestCase(BaseTestCase):
         new_data = {
             "name": "BrightHive"
         }
-        response = self.client().put('/api/organizations/{}'.format(results['id']),
-                                     data=new_data)
+        response = self.client().put(
+            '/api/organizations/{}'.format(results['id']), data=new_data)
         self.assertEqual(response.status_code, 200)
         self.assertIn("BrightHive", str(response.data))
 
@@ -124,7 +122,8 @@ class OrganizationViewTestCase(BaseTestCase):
         res = self.client().post('/api/organizations/', data=self.org_data)
         self.assertEqual(res.status_code, 201)
         results = json.loads(res.data.decode())
-        response = self.client().delete('/api/organizations/{}'.format(results['id']))
+        response = self.client().delete(
+            '/api/organizations/{}'.format(results['id']))
         self.assertEqual(response.status_code, 202)
 
     def test_view_returns_404_for_nonexistent_orgs(self):
@@ -134,7 +133,7 @@ class OrganizationViewTestCase(BaseTestCase):
         self.assertEqual(res.status_code, 404)
         # test for a PUT request
         put_response = self.client().put('/api/organizations/100/',
-                                data={"name":"Changed"})
+                                         data={"name": "Changed"})
         self.assertEqual(put_response.status_code, 404)
 
         # test for DELETE request
@@ -157,8 +156,9 @@ class ProgramViewTestCase(BaseTestCase):
         org_id = json.loads(org_res.data.decode())['id']
         # then, create the program under the org
         self.program_data['organization_id'] = org_id
-        res = self.client().post('/api/organizations/{}/programs/'.format(org_id),
-                           data=self.program_data)
+        res = self.client().post(
+            '/api/organizations/{}/programs/'.format(org_id),
+            data=self.program_data)
         self.assertEqual(res.status_code, 201)
         self.assertIn("Sample Program", str(res.data))
 
@@ -185,7 +185,8 @@ class ProgramViewTestCase(BaseTestCase):
         self.assertEqual(prog_res1.status_code, 201)
 
         # finally, get all
-        res = self.client().get('/api/organizations/{}/programs/'.format(org_id))
+        res = self.client().get(
+            '/api/organizations/{}/programs/'.format(org_id))
         self.assertEqual(res.status_code, 200)
         # self.assertIn("Another Program", str(res.data))
         self.assertIn("Sample Program", str(res.data))
@@ -219,7 +220,6 @@ class ProgramViewTestCase(BaseTestCase):
         results_length = len(results_data)
         self.assertEqual(results_length, 2)
         self.assertIn("Computer", str(rv.data))
-
 
     def test_view_can_get_program_by_id(self):
         """Test that the view can handle a GET(single) program by id."""
@@ -288,8 +288,9 @@ class ProgramViewTestCase(BaseTestCase):
         res = self.client().get('/api/organizations/100/programs/100')
         self.assertEqual(res.status_code, 404)
         # test for a PUT request
-        put_response = self.client().put('/api/organizations/100/programs/100/',
-                                data={"name":"Changed"})
+        put_response = self.client().put(
+            '/api/organizations/100/programs/100/',
+            data={"name": "Changed"})
         self.assertEqual(put_response.status_code, 404)
 
         # test for DELETE request
@@ -309,8 +310,8 @@ class ServiceViewTestCase(BaseTestCase):
 
     def create_program(self):
         self.program_data = {
-        "name": "Program",
-        "organization_id": 1
+            "name": "Program",
+            "organization_id": 1
         }
         return self.client().post('/api/organizations/1/programs/',
                                   data=self.program_data)
@@ -372,7 +373,7 @@ class ServiceViewTestCase(BaseTestCase):
         not placed under a program."""
         self.create_org()
         service_with_no_prog_id = {
-             "name": "Service",
+            "name": "Service",
             "organization_id": 1,
             "email": "service@mail.com",
             "url": "service.com",
@@ -385,7 +386,7 @@ class ServiceViewTestCase(BaseTestCase):
         self.assertEqual(service.status_code, 201)
         # update the service
         rv = self.client().put('/api/organizations/1/services/1',
-                               data={ "name": "Updated Service"})
+                               data={"name": "Updated Service"})
         self.assertEqual(rv.status_code, 200)
         self.assertIn("Updated Service", str(rv.data))
 
@@ -458,7 +459,6 @@ class ServiceViewTestCase(BaseTestCase):
         self.assertEqual(results_length, 2)
         self.assertIn("Programming", str(rv.data))
 
-
     def test_view_can_get_all_services(self):
         """Test that the view can handle GET request for all existing
         services.
@@ -509,15 +509,16 @@ class ServiceViewTestCase(BaseTestCase):
             '/api/organizations/1/programs/1/services/1')
         self.assertEqual(res.status_code, 202)
         self.assertNotIn("Service", str(res.data))
-         # check to see if it's deleted
-        response = self.client().get('/api/organizations/1/programs/1/services/1')
+        # check to see if it's deleted
+        response = self.client().get(
+            '/api/organizations/1/programs/1/services/1')
         self.assertEqual(response.status_code, 404)
-
 
     def test_view_returns_404_for_nonexistent_orgs(self):
         """Test that the view returns a 404 if the program does not exist."""
         # test for a GET request
-        res = self.client().get('/api/organizations/100/programs/100/services/7')
+        res = self.client().get(
+            '/api/organizations/100/programs/100/services/7')
         self.assertEqual(res.status_code, 404)
         # test for a PUT request
         put_response = self.client().put(
@@ -549,7 +550,7 @@ class LocationViewTestCase(BaseTestCase):
         self.create_org()
 
         res = self.client().post('/api/organizations/1/locations/',
-                           data=self.location_data)
+                                 data=self.location_data)
         self.assertEqual(res.status_code, 201)
         self.assertIn("Chicago", str(res.data))
 
@@ -558,7 +559,7 @@ class LocationViewTestCase(BaseTestCase):
 
         self.create_org()
 
-        #create the location
+        # create the location
         self.client().post('/api/organizations/1/locations/',
                            data=self.location_data)
         # get the location using its id
@@ -639,23 +640,26 @@ class PhysicalAddressViewTestCase(BaseTestCase):
                                   data=self.location_data)
 
     def test_view_can_create_address(self):
-        """Test view handles a POST request to create a physical address entry."""
+        """
+        Test view handles a POST request to create a physical address entry."""
 
         self.create_org()
         self.create_location()
         # create the physical address
         res = self.client().post('/api/organizations/1/locations/1/addresses/',
-                           data=self.address_data)
+                                 data=self.address_data)
         self.assertEqual(res.status_code, 201)
         self.assertIn("Chicago", str(res.data))
 
     def test_view_can_get_an_address(self):
-        """Test view handles a GET (one) request for a physical address correctly."""
+        """
+        Test view handles a GET (one) request for a physical address correctly.
+        """
 
         self.create_org()
         self.create_location()
 
-        #create the address
+        # create the address
         res = self.client().post('/api/organizations/1/locations/1/addresses/',
                                  data=self.address_data)
 
@@ -665,7 +669,9 @@ class PhysicalAddressViewTestCase(BaseTestCase):
         self.assertIn("Chicago", str(res.data))
 
     def test_view_can_get_all_addresses(self):
-        """Test view handles a GET(all) physical address request for a given location."""
+        """
+        Test view handles a GET(all) physical address request
+        for a given location."""
 
         self.create_org()
         self.create_location()
@@ -704,7 +710,8 @@ class PhysicalAddressViewTestCase(BaseTestCase):
         self.client().post('/api/organizations/1/locations/1/addresses/',
                            data=self.address_data)
         # delete the address
-        res = self.client().delete('/api/organizations/1/locations/1/addresses/1')
+        res = self.client().delete(
+            '/api/organizations/1/locations/1/addresses/1')
         self.assertEqual(res.status_code, 202)
         self.assertNotIn("Chicago", str(res.data))
         self.assertEqual({}, json.loads(res.data.decode()))

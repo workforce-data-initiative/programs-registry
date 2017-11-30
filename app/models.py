@@ -38,7 +38,6 @@ class Organization(db.Model, BaseMixin):
     service = relationship("Service", backref="organization",
                            passive_deletes=True)
 
-
     def __init__(self, name, description, email=None, url=None,
                  year_incorporated=None):
         self.name = name
@@ -121,7 +120,6 @@ class Service(db.Model, BaseMixin):
     status = db.Column(db.String(10), nullable=True)
     fees = db.Column(db.String(10), nullable=True)
 
-
     def __init__(self, name, organization_id, program_id=None, status=None,
                  fees=None, email=None, url=None):
         """Initialize the service with its fields."""
@@ -163,13 +161,13 @@ class Location(db.Model, BaseMixin):
     organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
                                                           ondelete='CASCADE'))
     alternate_name = db.Column(db.String(100), nullable=True)
-    description = db.Column(db.String(100), nullable = True)
+    description = db.Column(db.String(100), nullable=True)
     transportation = db.Column(db.String(256), nullable=True)
     latitude = db.Column(db.Integer, nullable=True)
     longitude = db.Column(db.Integer, nullable=True)
 
     address = relationship("PhysicalAddress", backref="location",
-                            passive_deletes=True)
+                           passive_deletes=True)
 
     def __init__(self, name, organization_id, alternate_name=None,
                  description=None, transportation=None, latitude=None,
@@ -187,7 +185,6 @@ class Location(db.Model, BaseMixin):
         """Save a location when creating a new one."""
         db.session.add(self)
         db.session.commit()
-
 
     @staticmethod
     def get_all(organization_id):
@@ -229,7 +226,6 @@ class ServiceLocation(db.Model, BaseMixin):
         return "{}".format(self.id)
 
 
-
 class PhysicalAddress(db.Model, BaseMixin):
     """This class defines a representation of the physical address model."""
 
@@ -242,7 +238,7 @@ class PhysicalAddress(db.Model, BaseMixin):
     city = db.Column(db.String(100), nullable=False)
     state = db.Column(db.String(20), nullable=False)
     postal_code = db.Column(db.String(20), nullable=False)
-    country = db.Column(db.String(2), nullable=False) # Two-letter country code
+    country = db.Column(db.String(2), nullable=False)  # 2-letter country code
 
     def save(self):
         """Save the instance of the physical address."""
@@ -263,7 +259,3 @@ class PhysicalAddress(db.Model, BaseMixin):
         """Return a representation of the model instance."""
         return "{}: {}, {} {}".format(self.id, self.address, self.city,
                                       self.postal_code)
-
-
-
-

@@ -4,6 +4,14 @@ jobs:
     working_directory: ~/app
     docker:
       - image: python:3.6.0
+        environment:
+        - PG_HOST=localhost
+        - PG_USER=postgres
+      # For the database service
+      - image: postgres:9.5
+        environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_DB=registry
     steps:
       - checkout
       - setup_remote_docker:
@@ -31,6 +39,24 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
+      - run:
+          name: Pycodestyle (formerly pep8) check
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            # Exclude check on venv files that include pip-installed packages
+            pycodestyle --exclude='venv/**' .
+      - run:
+          name: Test App
+          command: |
+            export DATABASE_URL="postgres://postgres@localhost:5432/registry"
+            python3 -m venv venv
+            . venv/bin/activate
+            export APP_SETTINGS="development"
+            python3 manage.py db init
+            python3 manage.py db migrate
+            python3 manage.py db upgrade
+            python3 manage.py test
 
       - run:
           name: Install Heroku CLI
