@@ -4,6 +4,12 @@ import connexion
 from instance.config import app_config
 from flask_sqlalchemy import SQLAlchemy
 
+from app.organization import org_blueprint
+from app.programs import program_blueprint
+from app.services import service_blueprint
+from app.locations import location_blueprint
+from app.physical_address import address_blueprint
+
 # initialize db
 db = SQLAlchemy()
 
@@ -18,13 +24,7 @@ flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(flask_app)
 
-# import the blueprints and register it on the app
-from app.organization import org_blueprint
-from app.programs import program_blueprint
-from app.services import service_blueprint
-from app.locations import location_blueprint
-from app.physical_address import address_blueprint
-
+# register blueprints on the application context
 flask_app.register_blueprint(org_blueprint)
 flask_app.register_blueprint(program_blueprint)
 flask_app.register_blueprint(service_blueprint)
