@@ -11,7 +11,7 @@ info:
 host: "registry.swagger.io"
 basePath: "/api"
 schemes:
-- "http"
+- "https"
 paths:
   /organizations:
     post:
@@ -19,7 +19,7 @@ paths:
       - "organization"
       summary: "Add a new organization to the registry"
       description: ""
-      operationId: "addOrg"
+      operationId: app.organization.OrganizationView.post
       consumes:
       - "application/json"
       - "multipart/form-data"
@@ -44,7 +44,7 @@ paths:
       - "organization"
       summary: "Find all organizations"
       description: "Return a list of all organizations"
-      operationId: "findAllOrgs"
+      operationId: app.organization.OrganizationView
       produces:
       - "application/json"
       parameters:
@@ -65,12 +65,12 @@ paths:
       - "organization"
       summary: "Find organization by ID"
       description: "Returns a single organization"
-      operationId: "getOrgById"
+      operationId: app.organization.OrganizationView.get
       produces:
       - "application/json"
       parameters:
-      - name: "organizationId"
-        in: "path"
+      - name: organizationId
+        in: path
         description: "ID of organization to return"
         required: true
         type: "integer"
@@ -91,14 +91,14 @@ paths:
       - "organization"
       summary: "Update an existing organization"
       description: "Makes a PUT request to the resource to update an existing org"
-      operationId: "updateOrganization"
+      operationId: app.organization.OrganizationView.put
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "organizationId"
-        in: "path"
+      - name: organizationId
+        in: path
         description: "Numeric ID of organization to update"
         required: true
         type: "integer"
@@ -121,16 +121,12 @@ paths:
       - "organization"
       summary: "Deletes an organization"
       description: ""
-      operationId: "deleteOrg"
+      operationId: app.organization.OrganizationView.delete
       produces:
       - "application/json"
       parameters:
-      - name: "api_key"
-        in: "header"
-        required: false
-        type: "string"
-      - name: "organizationId"
-        in: "path"
+      - name: organizationId
+        in: path
         description: "Numeric ID of organization to delete"
         required: true
         type: "integer"
@@ -146,15 +142,15 @@ paths:
       - "program"
       summary: "Add a new program to the registry"
       description: ""
-      operationId: "addProg"
+      operationId: app.programs.ProgramView.post
       consumes:
       - "application/json"
       - "multipart/form-data"
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         required: true
         type: "integer"
         format: "int64"
@@ -176,10 +172,15 @@ paths:
       - "organization"
       summary: "Find all programs"
       description: "Return a list of all the existing programs"
-      operationId: "findAllProgs"
+      operationId: app.programs.ProgramView
       produces:
       - "application/json"
       parameters:
+      - name: organizationId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
       - in: "query"
         name: "name"
         description: "The name of the program to search"
@@ -197,17 +198,17 @@ paths:
       - "program"
       summary: "Get a program by ID"
       description: ""
-      operationId: "getProgById"
+      operationId: app.programs.ProgramView.get
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         required: true
         type: "integer"
         format: "int64"
       - in: "path"
-        name: "programId"
+        name: programId
         description: "Numeric ID of program to update"
         required: true
         type: "integer"
@@ -224,21 +225,21 @@ paths:
       - "program"
       summary: "Update an existing program"
       description: "Makes a PUT request to the resource to update an existing program"
-      operationId: "updateProg"
+      operationId: app.programs.ProgramView.put
       consumes:
       - "application/json"
       - "multipart/form-data"
       produces:
       - "application/json"
       parameters:
-      - name: "organizationId"
-        in: "path"
+      - name: organizationId
+        in: path
         description: "Numeric ID of organization that owns the program"
         required: true
         type: "integer"
         format: "int64"
-      - name: "programId"
-        in: "path"
+      - in: "path"
+        name: programId
         description: "Numeric ID of program to update"
         required: true
         type: "integer"
@@ -261,7 +262,7 @@ paths:
       - "program"
       summary: "Deletes a program"
       description: "Delete a program given its ID"
-      operationId: "deleteProg"
+      operationId: app.programs.ProgramView.delete
       produces:
       - "application/json"
       parameters:
@@ -269,13 +270,13 @@ paths:
         in: "header"
         required: false
         type: "string"
-      - name: "organizationId"
-        in: "path"
+      - name: organizationId
+        in: path
         description: "Numeric ID of organization that owns the program"
         required: true
         type: "integer"
         format: "int64"
-      - name: "programId"
+      - name: programId
         in: "path"
         description: "Numeric ID of program to delete"
         required: true
@@ -294,20 +295,20 @@ paths:
       - "service"
       summary: "Add a new service to the registry"
       description: ""
-      operationId: "addService"
+      operationId: app.services.ServiceView.post
       consumes:
       - "application/json"
       - "multipart/form-data"
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         required: true
         type: "integer"
         format: "int64"
       - in: "path"
-        name: "programId"
+        name: programId
         description: "ID of program to which the service belongs"
         required: true
         type: "integer"
@@ -330,17 +331,17 @@ paths:
       - "service"
       summary: "Returns all services"
       description: "Returns an list of existing services under a given org"
-      operationId: "getAllServices"
+      operationId:  app.services.ServiceView
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         required: true
         type: "integer"
         format: "int64"
       - in: "path"
-        name: "programId"
+        name: programId
         description: "ID of program for the service"
         required: true
         type: "integer"
@@ -362,24 +363,24 @@ paths:
       - "service"
       summary: "Get a specific service by ID"
       description: ""
-      operationId: "getServiceById"
+      operationId:  app.services.ServiceView.get
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         description: "Numeric ID of organization"
         required: true
         type: "integer"
         format: "int64"
       - in: "path"
-        name: "programId"
+        name: programId
         description: "Numeric ID of program to which the service belongs"
         required: true
         type: "integer"
         format: "int64"
       - in: "path"
-        name: "serviceId"
+        name: serviceId
         description: "Numeric ID of the service to get"
         required: true
         type: "integer"
@@ -396,27 +397,27 @@ paths:
       - "service"
       summary: "Update an existing service"
       description: "Makes a PUT request to the resource to update an existing service"
-      operationId: "updateServ"
+      operationId:  app.services.ServiceView.put
       consumes:
       - "application/json"
       - "multipart/form-data"
       produces:
       - "application/json"
       parameters:
-      - name: "organizationId"
+      - name: organizationId
         in: "path"
         description: "Numeric ID of organization that owns the service"
         required: true
         type: "integer"
         format: "int64"
-      - name: "programId"
+      - name: programId
         in: "path"
         description: "Numeric ID of program to which the service belongs"
         required: true
         type: "integer"
         format: "int64"
       - in: "path"
-        name: "serviceId"
+        name: serviceId
         description: "Numeric ID of the service to update"
         required: true
         type: "integer"
@@ -439,7 +440,7 @@ paths:
       - "service"
       summary: "Deletes a service"
       description: "Delete a service given its ID"
-      operationId: "deleteServ"
+      operationId:  app.services.ServiceView.delete
       produces:
       - "application/json"
       parameters:
@@ -447,20 +448,20 @@ paths:
         in: "header"
         required: false
         type: "string"
-      - name: "organizationId"
+      - name: organizationId
         in: "path"
         description: "Numeric ID of organization that owns the service"
         required: true
         type: "integer"
         format: "int64"
-      - name: "programId"
+      - name: programId
         in: "path"
         description: "Numeric ID of program to which the service belongs"
         required: true
         type: "integer"
         format: "int64"
       - in: "path"
-        name: "serviceId"
+        name: serviceId
         description: "Numeric ID of the service to delete"
         required: true
         type: "integer"
@@ -479,15 +480,15 @@ paths:
       - "location"
       summary: "Add a new locaton to the registry"
       description: ""
-      operationId: "addLoc"
+      operationId:  app.locations.LocationView.post
       consumes:
       - "application/json"
       - "multipart/form-data"
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         required: true
         type: "integer"
         format: "int64"
@@ -511,12 +512,12 @@ paths:
       - "service"
       summary: "Returns all locations for an organization"
       description: "Returns an list of existing locations under a given org"
-      operationId: "getAllLocations"
+      operationId: app.locations.LocationView
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         description: "Numeric ID of organization that has locations"
         required: true
         type: "integer"
@@ -532,22 +533,23 @@ paths:
             $ref: "#/definitions/Location"
       security:
       - api_key: []
+
   /organizations/{organizationId}/locations/{locationId}:
     get:
       tags:
       - "location"
       summary: "Find location by ID"
       description: "Return a location object given it's ID"
-      operationId: "getLocationById"
+      operationId: app.locations.LocationView.get
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         required: true
         type: "integer"
         format: "int64"
-      - name: "locationId"
+      - name: locationId
         in: "path"
         description: "Numeric ID of location to get"
         required: true
@@ -569,21 +571,21 @@ paths:
       - "location"
       summary: "Update an existing location for an organization by ID"
       description: "Makes a PUT request to the resource to update an existing organization location"
-      operationId: "updateLoc"
+      operationId: app.locations.LocationView.put
       consumes:
       - "application/json"
       - "multipart/form-data"
       produces:
       - "application/json"
       parameters:
-      - name: "organizationId"
+      - name: organizationId
         in: "path"
         description: "Numeric ID of organization that has a location"
         required: true
         type: "integer"
         format: "int64"
       - in: "path"
-        name: "locationId"
+        name: locationId
         description: "Numeric ID of the location to update"
         required: true
         type: "integer"
@@ -606,17 +608,17 @@ paths:
       - "location"
       summary: "Delete an existing location for an organization by ID"
       description: "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors"
-      operationId: "deleteLocation"
+      operationId: app.locations.LocationView.delete
       produces:
       - "application/json"
       parameters:
-      - in: "path"
-        name: "organizationId"
+      - name: organizationId
+        in: path
         description: "Numeric ID of organization that has locations"
         required: true
         type: "integer"
         format: "int64"
-      - name: "locationId"
+      - name: locationId
         in: "path"
         description: "Numeric ID of the location to delete"
         required: true
