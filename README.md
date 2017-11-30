@@ -1,8 +1,6 @@
 # program-registry
 A comprehensive directory of youth programs and services – openly available and machine readable.
 
-[![CircleCI](https://circleci.com/gh/brighthive/chi-program-registry.svg?style=svg)](https://circleci.com/gh/brighthive/chi-program-registry)
-
 # Development Setup
 ## Steps
 ### Prerequisites
