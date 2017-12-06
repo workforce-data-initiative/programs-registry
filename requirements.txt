@@ -6,3 +6,4 @@ jwt==0.5.2
 psycopg2==2.7.3.1
 Flask-Script==2.0.6
 pycodestyle
+connexion

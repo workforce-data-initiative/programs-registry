@@ -26,6 +26,14 @@ export DATABASE_URL=postgresql://localhost:5432/registry
 python3 app.py
 ```
 
+The API is now accessible from: `0.0.0.0:8080/api` and the API spec at: `0.0.0.0:8080/api/ui/`
+
+> Endpoints
+
+So the urls are:
+`/api` - as the main API endpoint
+`/api/ui/` - as the API SPEC url endpoint
+
 # Testing
 Run `python3 manage.py test` after following the Development Setup above.
 
