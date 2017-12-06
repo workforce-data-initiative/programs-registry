@@ -41,7 +41,7 @@ if test "$(ls -A "migrations/versions")"; then
     exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} psql -d registry -tc \
         "SELECT 1 FROM pg_tables WHERE tablename='program';" \
         | grep -q 0 || exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} \
-        gunicorn wsgi --bind 0.0.0.0:8080
+        gunicorn wsgi --bind 0.0.0.0:5000
 else
     echo "Making initial table migrations..."
     exec chpst -U {{cfg.superuser.name}} -u {{cfg.superuser.name}} python manage.py db migrate
@@ -49,4 +49,4 @@ fi
 
 # start the server using gunicorn
 echo "Starting registry service ..."
-exec gunicorn wsgi --bind 0.0.0.0:8080
+exec gunicorn wsgi --bind 0.0.0.0:5000

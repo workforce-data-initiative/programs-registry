@@ -32,4 +32,5 @@ flask_app.register_blueprint(location_blueprint)
 flask_app.register_blueprint(address_blueprint)
 
 if __name__ == "__main__":
-    flask_app.run(port=8080)
+    port = int(os.getenv('PORT', '5000'))
+    flask_app.run(host="0.0.0.0", port=port)

@@ -1,12 +1,9 @@
-
 FROM python:3.6
 WORKDIR /app
 # For psycopg2 to work
 RUN apt-get install libcurl4-openssl-dev
 ADD requirements.txt .
 RUN pip install -r requirements.txt
+ENV APP_SETTINGS="production"
 ADD . .
-ENV APP_SETTINGS="development"
-EXPOSE 8080
-ENV DATABASE_URL="postgresql://postgres:postgres@database:5432/postgres"
 CMD ./init.sh

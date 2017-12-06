@@ -26,7 +26,7 @@ export DATABASE_URL=postgresql://localhost:5432/registry
 python3 app.py
 ```
 
-The API is now accessible from: `0.0.0.0:8080/api` and the API spec at: `0.0.0.0:8080/api/ui/`
+The API is now accessible from: `0.0.0.0:5000/api` and the API spec at: `0.0.0.0:5000/api/ui/`
 
 > Endpoints
 
