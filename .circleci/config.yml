@@ -1,0 +1,70 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/app
+    docker:
+      - image: python:3.6.0
+        environment:
+        - PG_HOST=localhost
+        - PG_USER=postgres
+      # For the database service
+      - image: postgres:9.5
+        environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_DB=registry
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.06.1-ce  # Latest verion
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run:
+          name: Install Python deps
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+      - run:
+          name: Pycodestyle (formerly pep8) check
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            # Exclude check on venv files that include pip-installed packages
+            pycodestyle --exclude='venv/**' .
+      - run:
+          name: Test App
+          command: |
+            export DATABASE_URL="postgres://postgres@localhost:5432/registry"
+            python3 -m venv venv
+            . venv/bin/activate
+            export APP_SETTINGS="development"
+            python3 manage.py db init
+            python3 manage.py db migrate
+            python3 manage.py db upgrade
+            python3 manage.py test
+
+      - run:
+          name: Install Docker client
+          command: |
+            if [ $CIRCLE_BRANCH = 'master' ] || [ $CIRCLE_BRANCH = 'develop' ]; then
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin; fi
+      - run:
+          name: Install Heroku CLI
+          command: |
+            if [ $CIRCLE_BRANCH = 'master' ] || [ $CIRCLE_BRANCH = 'develop' ]; then wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh; fi
+      - run:
+          name: Deploy to Heroku
+          command: |
+            . venv/bin/activate
+            if [ $CIRCLE_BRANCH = 'master' ] || [ $CIRCLE_BRANCH = 'develop' ]; then sh heroku.sh; fi

@@ -55,7 +55,7 @@ coverage.xml
 local_settings.py
 
 # Flask stuff:
-instance/
+# instance/
 .webassets-cache
 
 # Scrapy stuff:
@@ -99,3 +99,12 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# VSCode
+.vscode
+
+# Migrations
+migrations/
+
+# Habitat results
+results/
