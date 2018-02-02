@@ -164,32 +164,40 @@ class ProgramViewTestCase(BaseTestCase):
 
     def test_view_can_get_all_programs(self):
         """Test that the view can handle a GET(all) programs request."""
-        # first, create the org that owns the program
-        res = self.client().post('/api/organizations/', data=self.org_data)
-        results = json.loads(res.data.decode())
-        org_id = results['id']
-        # first create the programs
-        self.program_data['organization_id'] = org_id
-        another_prog = {
-            "organization_id": org_id,
-            "name": "Another Program"
+        # first, create the org that owns the program and one that does not
+        another_org = {
+            "name": "Udacity",
+            "description": "A place to learn online, fast!"
         }
-        # then, create the programs under the org
+        res0 = self.client().post('/api/organizations/', data=self.org_data)
+        res1 = self.client().post('/api/organizations/', data=another_org)
+        results0 = json.loads(res0.data.decode())
+        results1 = json.loads(res1.data.decode())
+        org_id0 = results0['id']
+        org_id1 = results1['id']
+        # then create the two programs, one for each organization
+        self.program_data['organization_id'] = org_id0
+        program_data1 = {
+            "organization_id": org_id1,
+            "name": "Another Program for a different org"
+        }
         prog_res0 = self.client().post(
-            '/api/organizations/{}/programs/'.format(org_id),
+            '/api/organizations/{}/programs/'.format(org_id0),
             data=self.program_data)
         self.assertEqual(prog_res0.status_code, 201)
+
         prog_res1 = self.client().post(
-            '/api/organizations/{}/programs/'.format(org_id),
-            data=another_prog)
+            '/api/organizations/{}/programs/'.format(org_id1),
+            data=program_data1)
         self.assertEqual(prog_res1.status_code, 201)
 
-        # finally, get all
+        # finally, get all programs belonging to a given org
         res = self.client().get(
-            '/api/organizations/{}/programs/'.format(org_id))
+            '/api/organizations/{}/programs/'.format(org_id0))
         self.assertEqual(res.status_code, 200)
         # self.assertIn("Another Program", str(res.data))
         self.assertIn("Sample Program", str(res.data))
+        self.assertNotIn("Another Program for a different org", str(res.data))
 
     def test_view_can_search_for_a_program_by_name(self):
         """Tests users can search for an existing program by name"""
