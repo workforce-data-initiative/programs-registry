@@ -48,3 +48,12 @@ Run `python3 manage.py test` after following the Development Setup above.
 ```bash
 docker-compose up
 ```
+
+# Deployment
+This project is using `Heroku Container Registry` for automatic deployments of master and develop branches. It is part of the CI/CD pipeline as detailed in [heroku.sh](/heroku.sh).
+
+> Please note
+
+The Postgres Add-on does not have automatic reset for each deployment so the developers will need to reset the DB whenever we have changes to the models.
+
+To do this click on either [this link](https://dashboard.heroku.com/apps/programs-registry-dev/resources) for `develop` branch or [this other link](https://dashboard.heroku.com/apps/programs-registry/resources) for `master` branch; then click on `Heroku Postgres :: Database` which redirects you to the Datastore. Click on `Settings` then select `Reset Database`. Finally get back to the heroku app, click on `More` and select `Restart all dynos`.
