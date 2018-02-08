@@ -27,7 +27,7 @@ class ProgramView(MethodView):
         else:
             try:
                 if request.headers['Content-Type'] == "application/json":
-                    payload = request.data
+                    payload = request.get_json(silent=True)
                 elif request.form:
                     payload = request.data.to_dict()
                 else:
@@ -66,7 +66,7 @@ class ProgramView(MethodView):
                     return make_response(jsonify(response)), 400
         else:
             # handle get all
-            programs = Program.get_all()
+            programs = Program.query.filter_by(organization_id=organization_id)
 
             if request.args.get('name'):
                 # Search by name
