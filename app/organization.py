@@ -17,7 +17,7 @@ class OrganizationView(MethodView):
         try:
             # Create the organization
             if request.headers['Content-Type'] == "application/json":
-                payload = request.data
+                payload = request.get_json(silent=True)
             elif request.form:
                 payload = request.data.to_dict()
             else:
@@ -58,19 +58,22 @@ class OrganizationView(MethodView):
 
         else:
             # Expose a single organization
-            organization = Organization.query.filter_by(
-                id=organization_id).first()
-            if not organization:
+            try:
+                organization = Organization.query.filter_by(
+                    id=organization_id).first()
+                if not organization:
+                    abort(404)
+                else:
+                    try:
+                        response = organization.serialize()
+                        return make_response(jsonify(response)), 200
+                    except Exception as e:
+                        response = {
+                            "message": str(e)
+                        }
+                        return make_response(jsonify(response)), 400
+            except Exception as e:
                 abort(404)
-            else:
-                try:
-                    response = organization.serialize()
-                    return make_response(jsonify(response)), 200
-                except Exception as e:
-                    response = {
-                        "message": str(e)
-                    }
-                    return make_response(jsonify(response)), 400
 
     def put(self, organization_id):
         """Update an organization given its id."""
