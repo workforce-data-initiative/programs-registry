@@ -176,8 +176,8 @@ class Location(db.Model, BaseMixin):
     alternate_name = db.Column(db.String(100), nullable=True)
     description = db.Column(db.String(100), nullable=True)
     transportation = db.Column(db.String(256), nullable=True)
-    latitude = db.Column(db.Integer, nullable=True)
-    longitude = db.Column(db.Integer, nullable=True)
+    latitude = db.Column(db.Decimal, nullable=True)
+    longitude = db.Column(db.Decimal, nullable=True)
 
     address = relationship("PhysicalAddress", backref="location",
                            passive_deletes=True)
