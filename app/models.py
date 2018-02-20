@@ -12,6 +12,7 @@ class BaseMixin(object):
 
     Returns: an iterable list of column names with their corresponding values.
     """
+    
     def serialize(self):
         result = {}
         for prop in class_mapper(self.__class__).iterate_properties:
@@ -77,9 +78,11 @@ class Program(db.Model, BaseMixin):
                                                           ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
     alternate_name = db.Column(db.String(100), nullable=True)
+    on_etpl = db.Column(db.Boolean, nullable=False, default=False)
 
     def __init__(self, name, organization_id, alternate_name=None):
         """Initialize the program with its fields."""
+        
         self.organization_id = organization_id
         self.name = name
         self.alternate_name = alternate_name
@@ -87,20 +90,24 @@ class Program(db.Model, BaseMixin):
     @staticmethod
     def get_all():
         """This method gets all the programs in the registry."""
+        
         return Program.query.all()
 
     def save(self):
         """Save a program when creating or updating one."""
+        
         db.session.add(self)
         db.session.commit()
 
     def delete(self):
         """Delete a given program."""
+        
         db.session.delete(self)
         db.session.commit()
 
     def __repr__(self):
         """Return a representation of the program model instance."""
+        
         return "<Program: {} - {}>".format(self.id, self.name)
 
 
@@ -136,20 +143,24 @@ class Service(db.Model, BaseMixin):
     @staticmethod
     def get_all(organization_id):
         """This method gets all the services for a given organization."""
+        
         return Service.query.filter_by(organization_id=organization_id)
 
     def save(self):
         """Save a program when creating or updating one."""
+        
         db.session.add(self)
         db.session.commit()
 
     def delete(self):
         """Delete a given program."""
+        
         db.session.delete(self)
         db.session.commit()
 
     def __repr__(self):
         """Return a representation of the service model instance."""
+        
         return "<Service: {} - {}>".format(self.id, self.name)
 
 
@@ -175,6 +186,7 @@ class Location(db.Model, BaseMixin):
                  description=None, transportation=None, latitude=None,
                  longitude=None):
         """Initialize location object with its fields."""
+        
         self.name = name
         self.organization_id = organization_id
         self.alternate_name = alternate_name
@@ -185,21 +197,25 @@ class Location(db.Model, BaseMixin):
 
     def save(self):
         """Save a location when creating a new one."""
+        
         db.session.add(self)
         db.session.commit()
 
     @staticmethod
     def get_all(organization_id):
         """Return all the locations for a given organization."""
+        
         return Location.query.filter_by(organization_id=organization_id)
 
     def delete(self):
         """Delete a location."""
+        
         db.session.delete(self)
         db.session.commit()
 
     def __repr__(self):
         """Return a representation of the model instance."""
+        
         return "{}: {}".format(self.id, self.name)
 
 
@@ -215,16 +231,19 @@ class ServiceLocation(db.Model, BaseMixin):
 
     def __init__(self, service_id, location_id, description=None):
         """Initialize location object with its fields."""
+        
         self.service_id = service_id
         self.location_id = location_id
 
     @staticmethod
     def get_all(service_id):
         """Get all the location ids for a given service."""
+        
         return ServiceLocation.query.filter_by(service_id=service_id)
 
     def __repr__(self):
         """Return a representation of the model instance."""
+        
         return "{}".format(self.id)
 
 
@@ -244,20 +263,24 @@ class PhysicalAddress(db.Model, BaseMixin):
 
     def save(self):
         """Save the instance of the physical address."""
+        
         db.session.add(self)
         db.session.commit()
 
     @staticmethod
     def get_all(location_id):
         """Get the physical address given the location."""
+        
         return PhysicalAddress.query.filter_by(location_id=location_id)
 
     def delete(self):
         """Delete a physical address."""
+        
         db.session.delete(self)
         db.session.commit()
 
     def __repr__(self):
         """Return a representation of the model instance."""
+        
         return "{}: {}, {} {}".format(self.id, self.address, self.city,
                                       self.postal_code)
