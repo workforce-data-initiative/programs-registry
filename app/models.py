@@ -3,6 +3,7 @@ from flask import current_app
 from sqlalchemy.orm import relationship, class_mapper, ColumnProperty
 import jwt
 from datetime import datetime, timedelta
+from email.policy import default
 
 
 class BaseMixin(object):
@@ -71,6 +72,7 @@ class Program(db.Model, BaseMixin):
     __tablename__ = 'program'
 
     id = db.Column(db.Integer, primary_key=True)
+    cip = db.Column(db.Number, nullable=False)
     organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
                                                           ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
