@@ -103,8 +103,13 @@ ENV/
 # VSCode
 .vscode
 
+# Eclipse
+.project
+.pydevproject
+
 # Migrations
 migrations/
 
 # Habitat results
 results/
+
