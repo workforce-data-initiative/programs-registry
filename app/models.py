@@ -73,19 +73,23 @@ class Program(db.Model, BaseMixin):
     __tablename__ = 'program'
 
     id = db.Column(db.Integer, primary_key=True)
-    cip = db.Column(db.Number, nullable=False)
+    cip = db.Column(db.Integer, nullable=False)
     organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
                                                           ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
     alternate_name = db.Column(db.String(100), nullable=True)
-    on_etpl = db.Column(db.Boolean, nullable=False, default=False)
+    
+    # integer representation of boolean true/false - valid input is 0 or 1
+    on_etpl = db.Column(db.Integer, default=0, nullable=False)
 
-    def __init__(self, name, organization_id, alternate_name=None):
+    def __init__(self, cip, name, organization_id, alternate_name=None, on_etpl=0):
         """Initialize the program with its fields."""
         
+        self.cip = cip
         self.organization_id = organization_id
         self.name = name
         self.alternate_name = alternate_name
+        self.on_etpl = on_etpl
 
     @staticmethod
     def get_all():
@@ -176,8 +180,8 @@ class Location(db.Model, BaseMixin):
     alternate_name = db.Column(db.String(100), nullable=True)
     description = db.Column(db.String(100), nullable=True)
     transportation = db.Column(db.String(256), nullable=True)
-    latitude = db.Column(db.Decimal, nullable=True)
-    longitude = db.Column(db.Decimal, nullable=True)
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)
 
     address = relationship("PhysicalAddress", backref="location",
                            passive_deletes=True)

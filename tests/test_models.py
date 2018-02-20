@@ -30,6 +30,7 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_organization_instance_creation(self):
         """Test that the organization model can be created."""
+        
         org_data = {
             "name": "Test-Org",
             "description": "Test Description"
@@ -54,7 +55,9 @@ class ProgramTestCase(BaseTestCase):
         }
         organization = Organization(**org_data)
         organization.save()
+        
         program_data = {
+            "cip" : 873219,
             "name": "Test program",
             "organization_id": organization.id,
         }
@@ -70,11 +73,13 @@ class ServiceModelTestCase(BaseTestCase):
 
     def test_service_instance_creation(self):
         """Test that a given service under an org can be created."""
+        
         org_data = {
             "name": "ABC",
             "description": "A big org"
         }
         program_data = {
+            "cip" : 873219,
             "name": "Test program",
             "organization_id": 1,
         }

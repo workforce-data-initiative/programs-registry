@@ -16,8 +16,12 @@ class BaseTestCase(unittest.TestCase):
             "description": "A bee hive of data for social good"
         }
         self.program_data = {
+            "cip" : 873219,
             "name": "Sample Program",
+            "alternate_name": "Other Program Name",
+            "on_etpl": 1
         }
+            
         self.service_data = {
             "name": "Service",
             "organization_id": 1,
@@ -33,8 +37,8 @@ class BaseTestCase(unittest.TestCase):
             "organization_id": 1,
             "description": "The windy city",
             "transportation": "Train, Uber",
-            "longitude": "N41.8781",
-            "latitude": "W87.6298"
+            "longitude": 6.535628,
+            "latitude": 48.0515029
         }
 
         self.app_context = self.app.app_context()
@@ -147,13 +151,16 @@ class ProgramViewTestCase(BaseTestCase):
 
     def create_org(self):
         """Reusable utility used to create an org."""
+        
         return self.client().post('/api/organizations/', data=self.org_data)
 
     def test_view_can_create_program(self):
         """Test that the view can handle a POST request to create a program."""
+        
         # first create the org to own the program
         org_res = self.client().post('/api/organizations/', data=self.org_data)
         org_id = json.loads(org_res.data.decode())['id']
+        
         # then, create the program under the org
         self.program_data['organization_id'] = org_id
         res = self.client().post(
@@ -178,6 +185,7 @@ class ProgramViewTestCase(BaseTestCase):
         # then create the two programs, one for each organization
         self.program_data['organization_id'] = org_id0
         program_data1 = {
+            "cip" : 873217,
             "organization_id": org_id1,
             "name": "Another Program for a different org"
         }
@@ -204,14 +212,17 @@ class ProgramViewTestCase(BaseTestCase):
         self.create_org()
 
         prog0 = {
+            "cip" : 873219,
             "name": "Computer Engineering",
             "organization_id": 1
         }
         prog1 = {
+            "cip" : 873219,
             "name": "Computer Science",
             "organization_id": 1
         }
         prog2 = {
+            "cip" : 873217,
             "name": "Economics",
             "organization_id": 1
         }
@@ -272,10 +283,12 @@ class ProgramViewTestCase(BaseTestCase):
     def test_view_can_delete_program(self):
         """Test that the view can handle DELETE request to remove a
         program."""
+        
         res = self.client().post('/api/organizations/', data=self.org_data)
         org_id = json.loads(res.data.decode())['id']
 
         self.program_data['organization_id'] = org_id
+        
         # create the program
         program_res = self.client().post(
             '/api/organizations/{}/programs/'.format(org_id),
@@ -318,6 +331,7 @@ class ServiceViewTestCase(BaseTestCase):
 
     def create_program(self):
         self.program_data = {
+            "cip" : 873219,
             "name": "Program",
             "organization_id": 1
         }
