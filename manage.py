@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import os
 import unittest
-
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from app import db, create_app
+
+from app.app import db, create_app
 
 
 app = create_app(config_name=os.getenv('APP_SETTINGS'))
@@ -22,7 +24,7 @@ def test():
     """Run the unit tests without test coverage."""
     # First, find and discover all tests modules from the directory
     tests = unittest.TestLoader().discover('./tests', pattern='test*.py')
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    result = unittest.TextTestRunner().run(tests)
     if result.wasSuccessful():
         return 0
     return 1
