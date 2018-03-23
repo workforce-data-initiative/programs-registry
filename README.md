@@ -29,7 +29,7 @@ python3 manage.py db upgrade
 To seed-in data run:
 
 ```bash
-cd seed_data && unzip -d data/ data.zip && python seed_data.py && rm -rf data && cd ..
+python3 manage.py seed_data
 ```
 
 Now start the server:

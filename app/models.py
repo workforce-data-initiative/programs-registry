@@ -78,7 +78,8 @@ class Program(db.Model, BaseMixin):
     alternate_name = db.Column(db.String(100), nullable=True)
     on_etpl = db.Column(db.String(100), nullable=True)
 
-    def __init__(self, name, cip, organization_id, alternate_name=None, on_etpl=None):
+    def __init__(self, name, cip, organization_id, alternate_name=None,
+                 on_etpl=None):
         """Initialize the program with its fields."""
         self.cip = cip
         self.organization_id = organization_id

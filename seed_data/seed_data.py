@@ -26,7 +26,8 @@ connection = psycopg2.connect(
 logger.info('Database connected')
 logger.debug('Database {} is on host {}'.format(database, hostname))
 
-tables = ['organization', 'location', 'physical_address', 'program', 'service', 'service_location']
+tables = ['organization', 'location', 'physical_address', 'program', 'service',
+          'service_location']
 
 for table in tables:
     cur = connection.cursor()
