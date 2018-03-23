@@ -1,4 +1,9 @@
+# -*- coding: utf-8 -*-
+
 from flask import jsonify, make_response
+
+from api.v1 import schemas
+
 
 def create_response(data, schema, status, custom_headers=None):
     """Create a custom JSON response. 
@@ -12,7 +17,7 @@ def create_response(data, schema, status, custom_headers=None):
     Returns:
         Custom JSON response.
     """
-        
+    
     response = make_response(schema.jsonify(data), status)
     response.headers['Content-Type'] = "application/json"
     response.headers['Access-Control-Allow-Headers'] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
