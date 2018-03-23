@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from sqlalchemy import literal
+from marshmallow.utils import missing
+from marshmallow.compat import iteritems
+
+from common import utils
 from app.app import db
 
 
-class QueryObject(object):
+class BaseMixin(object):    
     def save(self):
         """Save program registry table object."""
         
@@ -14,10 +19,34 @@ class QueryObject(object):
         """Delete program registry table object."""
         
         db.session.delete(self)
-        db.session.commit()
+        db.session.commit()   
+    
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+    
+    @classmethod
+    def get_by(cls, args):
+        """Run query based on filter criteria, using equality for 
+        numeric fields and ILIKE for string fields
+        """
+
+        _query = db.session.query(cls)
+        # TODO: handle invalid arguments passed
+        for key, value in iteritems(args):
+            if value:
+                _model_attr = getattr(cls, key)
+                if isinstance(value, int):
+                    _query = _query.filter(_model_attr == value)
+                elif isinstance(value, str):
+                    _query = _query.filter(_model_attr.ilike("%{}%".format(value))) 
+                else:
+                    raise ValueError("Query value '{}' not supported".format(key))   
+                
+        return _query.all()
 
 
-class Organization(db.Model, QueryObject):
+class Organization(db.Model, BaseMixin):
     """This class defines an organization table."""
 
     __tablename__ = 'organization'
@@ -50,7 +79,7 @@ class Organization(db.Model, QueryObject):
         return "<Organization: {}, {}>".format(self.id, self.name)
 
 
-class Program(db.Model, QueryObject):
+class Program(db.Model, BaseMixin):
     """This class defines the program table."""
 
     __tablename__ = 'program'
@@ -61,12 +90,12 @@ class Program(db.Model, QueryObject):
                                                           ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
     alternate_name = db.Column(db.String(100), nullable=True)
-    on_etpl = db.Column(db.String(10), default='N/A', nullable=False)
+    on_etpl = db.Column(db.String(20), default='N/A', nullable=False)
     
     services = db.relationship("Service", backref="program", 
                                lazy=True, passive_deletes=True)
 
-    def __init__(self, cip, name, organization_id, alternate_name=None, on_etpl=0):
+    def __init__(self, cip, name, organization_id, alternate_name=None, on_etpl=None):
         """Initialize the program with its fields."""
         
         self.cip = cip
@@ -86,27 +115,31 @@ service_location = db.Table('service_location',
                             db.Column('location_id', db.Integer, db.ForeignKey('location.id')) )
 
 
-class Service(db.Model, QueryObject):
-    """This class represents a service table."""
+class Service(db.Model, BaseMixin):
+    """This class represents a service table
+    
+    NOTE: Service should belong to an organization or a program, not both
+    """
 
     __tablename__ = 'service'
 
     id = db.Column(db.Integer, primary_key=True)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
+    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id, 
                                                           ondelete='CASCADE'))
-    program_id = db.Column(db.Integer,
-                           db.ForeignKey(Program.id, ondelete='CASCADE'),
-                           nullable=True)
+    program_id = db.Column(db.Integer, db.ForeignKey(Program.id, 
+                                                     ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200), nullable=True)
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
-    status = db.Column(db.String(10), nullable=True)
+    status = db.Column(db.String(30), nullable=False)
     fees = db.Column(db.String(10), nullable=True)
     
-    def __init__(self, name, organization_id, program_id=None, status=None,
+    def __init__(self, name, organization_id=None, program_id=None, status=None,
                  fees=None, email=None, url=None):
         """Initialize the service with its fields."""
+        #TODO: set validation, organization_id and program_id are mutually exclusive
+
         self.name = name
         self.organization_id = organization_id
         self.program_id = program_id
@@ -114,21 +147,21 @@ class Service(db.Model, QueryObject):
         self.status = status
         self.fees = fees
         self.url = url
-
+        
     def __repr__(self):
         """Return a representation of the service model instance."""
         
         return "<Service: {}, {}>".format(self.id, self.name)
 
 
-class Location(db.Model, QueryObject):
+class Location(db.Model, BaseMixin):
     """This class defines a location model."""
 
     __tablename__ = "location"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
+    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id, 
                                                           ondelete="CASCADE"))
     alternate_name = db.Column(db.String(100), nullable=True)
     description = db.Column(db.String(100), nullable=True)
@@ -160,7 +193,7 @@ class Location(db.Model, QueryObject):
         return "<Location: {}, {}>".format(self.id, self.name)
 
 
-class PhysicalAddress(db.Model, QueryObject):
+class PhysicalAddress(db.Model, BaseMixin):
     """This class defines a representation of the physical address model."""
 
     __tablename__ = "physical_address"

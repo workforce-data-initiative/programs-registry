@@ -1,35 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from webargs.flaskparser import use_args
-from marshmallow import fields
 
-from .models import *
 from app.app import ma
-
-    
-class OrganizationSchema(ma.ModelSchema):
-    class Meta:
-        model = Organization
-
-
-class ServiceSchema(ma.ModelSchema):       
-    class Meta:
-        model = Service
-        exclude = ['locations']
-    
-
-class LocationSchema(ma.ModelSchema):
-    services = ma.Nested(ServiceSchema, many=True)
-    
-    class Meta:
-        model = Location
- 
-
-class ProgramSchema(ma.ModelSchema):
-    services = ma.Nested(ServiceSchema, many=True)
-    
-    class Meta:
-        model = Program
+from .models import *
 
 
 class PhysicalAddressSchema(ma.ModelSchema):
@@ -37,20 +11,35 @@ class PhysicalAddressSchema(ma.ModelSchema):
         model = PhysicalAddress
 
 
-def use_args_with(schema_cls, schema_kwargs=None, **kwargs):
-    """Reusable schema args decorator
-    
-    Credits: webargs docs
-    Usage: @use_args_with(MySchema)
-    """
-    
-    schema_kwargs = schema_kwargs or {}
-    def factory(request):
-        only = request.args.get('fields', default=None, type=None)
-        partial = request.method == 'PATCH'
-       
-        # strict set to False since Marshmallow generated schemas expect required fields in args
-        return schema_cls(only=only, partial=partial, strict=False,
-                          context={'request': request}, **schema_kwargs)
+class OrganizationSchema(ma.ModelSchema):
+    class Meta:
+        model = Organization
+        
+    locations = ma.Nested('LocationSchema', many=True, exclude=('organization',))
 
-    return use_args(factory, **kwargs)
+ 
+class LocationSchema(ma.ModelSchema):
+    class Meta:
+        model = Location
+    
+    organization = ma.Nested(OrganizationSchema, exclude=('locations',))
+    address = ma.Nested(PhysicalAddressSchema)
+    services = ma.Nested('ServiceSchema', many=True)
+
+
+class ServiceSchema(ma.ModelSchema): 
+    class Meta:
+        model = Service
+    
+    program = ma.Nested('ProgramSchema', exclude=('services', 'organization'))
+    organization = ma.Nested(OrganizationSchema, exclude=('programs', 'services', 'locations'))
+    locations = ma.Nested(LocationSchema, many=True, exclude=('services', 'organization'))
+    #TODO: fix so organization location(s) == service locations
+
+   
+class ProgramSchema(ma.ModelSchema):    
+    class Meta:
+        model = Program
+    
+    organization = ma.Nested(OrganizationSchema, exclude=('programs', 'services', 'locations'))  
+    services = ma.Nested(ServiceSchema, many=True, exclude=('program', 'organization'))
