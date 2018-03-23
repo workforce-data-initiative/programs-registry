@@ -11,8 +11,12 @@ reg_api = Api(api_blueprint)
 
 reg_api.add_resource(ProgramsResource, '/programs', 
                                     '/programs?id=<int:id>',
-                                    '/programs?cip=<int:cip>')
+                                    '/programs?cip=<int:cip>',
+                                    '/programs?name=<string:name>')
 reg_api.add_resource(ServicesResource, '/services', 
                                     '/services?id=<int:id>',
-                                    '/services?location_id=<int:location_id>',
-                                    '/services?location=<string:location>')
+                                    '/services?status=<string:status>',
+                                    '/services?name=<string:name>')
+reg_api.add_resource(OrganizationsResource, '/organizations',
+                                        '/organizations?id=<int:id>',
+                                        '/organizations?name=<string:name>')
