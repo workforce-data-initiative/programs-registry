@@ -71,14 +71,14 @@ class Program(db.Model, BaseMixin):
     __tablename__ = 'program'
 
     id = db.Column(db.Integer, primary_key=True)
-    cip = db.Column(db.Integer)
+    cip = db.Column(db.Integer, nullable=True)
     organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
                                                           ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
     alternate_name = db.Column(db.String(100), nullable=True)
     on_etpl = db.Column(db.String(100), nullable=True)
 
-    def __init__(self, name, cip, organization_id, alternate_name=None,
+    def __init__(self, name, organization_id, cip=None, alternate_name=None,
                  on_etpl=None):
         """Initialize the program with its fields."""
         self.cip = cip
