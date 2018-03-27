@@ -17,6 +17,6 @@ reg_api.add_resource(ServicesResource, '/services',
                                     '/services?id=<int:id>',
                                     '/services?status=<string:status>',
                                     '/services?name=<string:name>')
-reg_api.add_resource(OrganizationsResource, '/organizations',
-                                        '/organizations?id=<int:id>',
-                                        '/organizations?name=<string:name>')
+reg_api.add_resource(OrganizationsResource, '/providers',
+                                        '/providers?id=<int:id>',
+                                        '/providers?name=<string:name>')

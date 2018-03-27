@@ -4,6 +4,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+
 from instance.config import app_config
 
 
@@ -25,7 +26,7 @@ def create_app():
     app.config.from_object(app_config.get(config_name))
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    # note: initialize SQLAlchemy before Marshmallow
+    # IMPORTANT: initialize SQLAlchemy before Marshmallow
     db.init_app(app)
     ma.init_app(app)
     
