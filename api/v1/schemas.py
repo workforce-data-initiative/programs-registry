@@ -14,10 +14,13 @@ class PhysicalAddressSchema(ma.ModelSchema):
 class OrganizationSchema(ma.ModelSchema):
     class Meta:
         model = Organization
-        
-    locations = ma.Nested('LocationSchema', many=True, exclude=('organization',))
-
+        #strict = True
+    
+    locations = ma.Nested('LocationSchema', many=True, exclude=('organization', 'services'))
+    #programs =
+    #services =
  
+
 class LocationSchema(ma.ModelSchema):
     class Meta:
         model = Location
@@ -34,7 +37,7 @@ class ServiceSchema(ma.ModelSchema):
     program = ma.Nested('ProgramSchema', exclude=('services', 'organization'))
     organization = ma.Nested(OrganizationSchema, exclude=('programs', 'services', 'locations'))
     locations = ma.Nested(LocationSchema, many=True, exclude=('services', 'organization'))
-    #TODO: fix so organization location(s) == service locations
+    #TODO: fix so provider location(s) == service locations
 
    
 class ProgramSchema(ma.ModelSchema):    

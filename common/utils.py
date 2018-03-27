@@ -18,7 +18,11 @@ def create_response(data, schema, status, custom_headers=None):
         Custom JSON response.
     """
     
-    response = make_response(schema.jsonify(data), status)
+    if schema:
+        response = make_response(schema.jsonify(data), status)
+    else:
+        response = make_response(jsonify(data), status)
+    
     response.headers['Content-Type'] = "application/json"
     response.headers['Access-Control-Allow-Headers'] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
     response.headers['Access-Control-Allow-Methods'] = "*"
@@ -30,3 +34,16 @@ def create_response(data, schema, status, custom_headers=None):
             response.headers[header[0].strip()] = header[1].strip()
 
     return response
+
+def get_payload(request):
+    """Get request data from JSON or form
+    """
+        
+    if request.headers['Content-Type'] == "application/json":
+        payload = request.get_json(silent=True)
+    elif request.form:
+        payload = request.data.to_dict()
+    else:
+        payload = request.get_json(force=True)
+    
+    return payload

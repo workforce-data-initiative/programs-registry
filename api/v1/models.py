@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import literal
-from marshmallow.utils import missing
+from datetime import datetime
 from marshmallow.compat import iteritems
 
 from common import utils
@@ -27,8 +26,11 @@ class BaseMixin(object):
     
     @classmethod
     def get_by(cls, args):
-        """Run query based on filter criteria, using equality for 
-        numeric fields and ILIKE for string fields
+        """Run query based on filter criteria, using equality 
+        for numeric fields and ILIKE for string fields
+        
+        :params args: Args passed with request through query string, form, json
+        :return List of all objects matched by query
         """
 
         _query = db.session.query(cls)
@@ -44,7 +46,7 @@ class BaseMixin(object):
                     raise ValueError("Query value '{}' not supported".format(key))   
                 
         return _query.all()
-
+       
 
 class Organization(db.Model, BaseMixin):
     """This class defines an organization table."""
@@ -71,7 +73,7 @@ class Organization(db.Model, BaseMixin):
         self.description = description
         self.email = email
         self.url = url
-        self.year_incorporated = year_incorporated 
+        self.year_incorporated = datetime.strptime(year_incorporated, '%Y/%m/%d') 
 
     def __repr__(self):
         """Return a representation of the model instance."""

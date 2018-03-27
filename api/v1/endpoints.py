@@ -1,44 +1,91 @@
 # -*- coding: utf-8 -*-
 
-from flask_restful import Resource, abort 
+from http import HTTPStatus
+from flask_restful import Resource, abort, request 
 from webargs.flaskparser import use_args
 
-from common.utils import create_response
+from common.utils import create_response, get_payload
 from .models import *
 from .schemas import *
 
 
 class OrganizationsResource(Resource):
-    @use_args(OrganizationSchema(), locations=('query',))
+    """Providers endpoint
+    
+    GET/POST /providers
+    GET /providers?id=1
+    GET /providers?name=provider_name
+    PUT/DELETE /providers?id=1
+    """
+    
+    @use_args(OrganizationSchema())
     def get(self, args):
-        print(args)
         if not args:
             organizations = Organization.get_all()
         else:
             organizations = Organization.get_by(args)
         
         if organizations:
-            print(organizations)
-            return create_response(organizations, OrganizationSchema(many=True), 200)
+            return create_response(organizations, OrganizationSchema(many=True), HTTPStatus.OK)
 
-        abort(404, message="No matching organizations found")
+        abort(HTTPStatus.NOT_FOUND, message="None found: matching organization")
+
+    @use_args(OrganizationSchema())
+    def post(self, args):
+        try:
+            org = Organization(**get_payload(request))
+            org.save()
+            return create_response(org, OrganizationSchema(), HTTPStatus.CREATED)
+        
+        except Exception as e:
+            abort(HTTPStatus.BAD_REQUEST, message=str(e))
+    
+    @use_args(OrganizationSchema())     
+    def put(self, args):
+        org = Organization.get_by({'id': args.get('id')}).pop()
+        
+        if org:
+            try:
+                for key, value in get_payload(request).items():
+                    setattr(org, key, value)
+                    
+                org.save()
+                return create_response(org, OrganizationSchema(), HTTPStatus.ACCEPTED)
+            
+            except Exception as e:
+                abort(HTTPStatus.NOT_MODIFIED, message=str(e))
+        else:
+            abort(HTTPStatus.NOT_FOUND, message="None found: organization {}".format(args.get('id')))
+
+    @use_args(OrganizationSchema())
+    def delete(self, args):
+        org = Organization.get_by({'id': args.get('id')}).pop()
+                
+        if org:
+            try:
+                org.delete()
+                delete_notification = "Successfully deleted: organization {}".format(args.get('id'))
+                return create_response({"message": delete_notification}, schema=None, status=HTTPStatus.ACCEPTED)
+            except Exception as e:
+                abort(HTTPStatus.NOT_MODIFIED, message=str(e))
+        else:
+            abort(HTTPStatus.NOT_FOUND, message="None found: organization {}".format(args.get('id')))
 
 
 class ProgramsResource(Resource):
     """Programs endpoint
     
-    E.g:
     GET /programs
     GET /programs?id=1
     GET /programs?name=program_name
     GET /programs?cip=12345
     """
     
-    @use_args(ProgramSchema(), locations=('query',))
+    @use_args(ProgramSchema())
     def get(self, args): 
         """Get an existing program(s) and return as a json response
         """
-        import ipdb; ipdb.set_trace()
+
         if not args:
             programs = Program.get_all()
         else:
@@ -50,24 +97,6 @@ class ProgramsResource(Resource):
 
         abort(404, message="No matching programs found")
 
-#     @use_args(ProgramSchema(), locations=('json',))
-#     def post(self, args):
-#         print(args)
-#         
-#         if request.headers['Content-Type'] == "application/json":
-#             payload = request.get_json(silent=True)
-#         elif request.form:
-#             payload = request.data.to_dict()
-#         else:
-#             payload = request.get_json(force=True)
-#         
-#         if Organization.get_by({'organization_id': payload['organization_id']}):
-#             program = Program(**payload)
-#             program.save()
-#             return create_response(program, ProgramSchema(), 201)
-#         else:
-#             abort(404, message="No organization with id {} found".format(payload['organization_id']))
-
                
 class ServicesResource(Resource):
     """Services endpoint
@@ -76,10 +105,10 @@ class ServicesResource(Resource):
     GET /services
     GET /services?id=1
     GET /services?status=deferred
-    TOFIX: GET /services?name=service_name
+    GET /services?name=service_name
     """
     
-    @use_args(ServiceSchema(), locations=('query',))
+    @use_args(ServiceSchema())
     def get(self, args):
         if not args:
             services = Service.get_all()
