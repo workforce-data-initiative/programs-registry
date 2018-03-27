@@ -18,7 +18,7 @@ class OrganizationsResource(Resource):
     PUT/DELETE /providers?id=1
     """
     
-    @use_args(OrganizationSchema())
+    @use_args(OrganizationSchema(), locations=('query',))
     def get(self, args):
         if not args:
             organizations = Organization.get_all()
@@ -30,7 +30,7 @@ class OrganizationsResource(Resource):
 
         abort(HTTPStatus.NOT_FOUND, message="None found: matching organization")
 
-    @use_args(OrganizationSchema())
+    @use_args(OrganizationSchema(), locations=('json', 'form'))
     def post(self, args):
         try:
             org = Organization(**get_payload(request))
@@ -40,9 +40,9 @@ class OrganizationsResource(Resource):
         except Exception as e:
             abort(HTTPStatus.BAD_REQUEST, message=str(e))
     
-    @use_args(OrganizationSchema())     
+    @use_args(OrganizationSchema(), locations=('query',))     
     def put(self, args):
-        org = Organization.get_by({'id': args.get('id')}).pop()
+        org = Organization.get_by(args).pop()
         
         if org:
             try:
@@ -57,10 +57,10 @@ class OrganizationsResource(Resource):
         else:
             abort(HTTPStatus.NOT_FOUND, message="None found: organization {}".format(args.get('id')))
 
-    @use_args(OrganizationSchema())
+    @use_args(OrganizationSchema(), locations=('query',))
     def delete(self, args):
-        org = Organization.get_by({'id': args.get('id')}).pop()
-                
+        org = Organization.get_by(args).pop()  
+              
         if org:
             try:
                 org.delete()
