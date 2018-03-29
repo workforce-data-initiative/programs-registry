@@ -58,7 +58,7 @@ class Organization(db.Model, BaseMixin):
     description = db.Column(db.String(256), nullable=False)
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
-    year_incorporated = db.Column(db.DateTime, nullable=True)
+    year_incorporated = db.Column(db.Date, nullable=True)
 
     programs = db.relationship("Program", backref="organization", 
                                lazy=True, passive_deletes=True)
@@ -67,13 +67,12 @@ class Organization(db.Model, BaseMixin):
     services = db.relationship("Service", backref="organization", 
                                lazy=True, passive_deletes=True)
 
-    def __init__(self, name, description, email=None, url=None,
-                 year_incorporated=None):
+    def __init__(self, name, description, email=None, url=None, year_incorporated=None):
         self.name = name
         self.description = description
         self.email = email
         self.url = url
-        self.year_incorporated = datetime.strptime(year_incorporated, '%Y/%m/%d') 
+        self.year_incorporated = year_incorporated
 
     def __repr__(self):
         """Return a representation of the model instance."""
@@ -84,6 +83,9 @@ class Organization(db.Model, BaseMixin):
 class Program(db.Model, BaseMixin):
     """This class defines the program table."""
 
+    # TODO: add validation, cip & name should not be the same as existing record,
+    # possibly something that can handled by checkpoints
+    
     __tablename__ = 'program'
 
     id = db.Column(db.Integer, primary_key=True)

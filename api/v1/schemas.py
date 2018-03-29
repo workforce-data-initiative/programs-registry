@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime, date
 from webargs.flaskparser import use_args
+from marshmallow.decorators import pre_load, post_load
 
 from app.app import ma
 from .models import *
@@ -19,6 +21,13 @@ class OrganizationSchema(ma.ModelSchema):
     locations = ma.Nested('LocationSchema', many=True, exclude=('organization', 'services'))
     #programs =
     #services =
+   
+    @pre_load
+    def parse_date(self, args):
+        if 'year_incorporated' in args and isinstance(args.get('year_incorporated'), str):
+            date_arg = datetime.strptime(args.get('year_incorporated'), '%Y-%m-%d')
+            args['year_incorporated'] = date_arg.date()
+        return args
  
 
 class LocationSchema(ma.ModelSchema):
@@ -39,10 +48,18 @@ class ServiceSchema(ma.ModelSchema):
     locations = ma.Nested(LocationSchema, many=True, exclude=('services', 'organization'))
     #TODO: fix so provider location(s) == service locations
 
-   
-class ProgramSchema(ma.ModelSchema):    
+
+class ProgramSchema(ma.ModelSchema): 
+    """Detailed dump schema"""
+
     class Meta:
         model = Program
     
     organization = ma.Nested(OrganizationSchema, exclude=('programs', 'services', 'locations'))  
     services = ma.Nested(ServiceSchema, many=True, exclude=('program', 'organization'))
+
+
+class ProgramPostSchema(ma.ModelSchema):
+    class Meta:
+        model = Program
+        include_fk = True

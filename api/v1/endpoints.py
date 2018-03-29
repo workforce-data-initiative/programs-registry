@@ -9,13 +9,13 @@ from .models import *
 from .schemas import *
 
 
-class OrganizationsResource(Resource):
-    """Providers endpoint
+class ProvidersResource(Resource):
+    """Providers endpoint; this uses the Organization model
+    to align with HSDS nomenclature 
     
-    GET/POST /providers
-    GET /providers?id=1
+    GET,POST /providers
+    GET,PUT,DELETE /providers?id=1
     GET /providers?name=provider_name
-    PUT/DELETE /providers?id=1
     """
     
     @use_args(OrganizationSchema(), locations=('query',))
@@ -28,23 +28,24 @@ class OrganizationsResource(Resource):
         if organizations:
             return create_response(organizations, OrganizationSchema(many=True), HTTPStatus.OK)
 
-        abort(HTTPStatus.NOT_FOUND, message="None found: matching organization")
+        abort(HTTPStatus.NOT_FOUND, message="No matching provider found")
 
     @use_args(OrganizationSchema(), locations=('json', 'form'))
-    def post(self, args):
+    def post(self, provider_organization):
         try:
-            org = Organization(**get_payload(request))
-            org.save()
+            provider_organization.save()
             return create_response(org, OrganizationSchema(), HTTPStatus.CREATED)
         
         except Exception as e:
             abort(HTTPStatus.BAD_REQUEST, message=str(e))
     
-    @use_args(OrganizationSchema(), locations=('query',))     
+    @use_args(OrganizationSchema(), locations=('query', 'json', 'form'))     
     def put(self, args):
-        org = Organization.get_by(args).pop()
+        # TODO: test for case where you try a put on organization that doesn't exist
+        org_matches = Organization.get_by({'id': args.get('id')})
         
-        if org:
+        if org_matches:
+            org = org_matches.pop()
             try:
                 for key, value in get_payload(request).items():
                     setattr(org, key, value)
@@ -55,53 +56,65 @@ class OrganizationsResource(Resource):
             except Exception as e:
                 abort(HTTPStatus.NOT_MODIFIED, message=str(e))
         else:
-            abort(HTTPStatus.NOT_FOUND, message="None found: organization {}".format(args.get('id')))
-
+            abort(HTTPStatus.NOT_FOUND, message="None found: provider with id {}".format(args.get('id')))
+            
     @use_args(OrganizationSchema(), locations=('query',))
     def delete(self, args):
-        org = Organization.get_by(args).pop()  
-              
-        if org:
+        org_matches = Organization.get_by(args)
+        
+        if org_matches:
+            org = org_matches.pop()
             try:
                 org.delete()
                 delete_notification = "Successfully deleted: organization {}".format(args.get('id'))
                 return create_response({"message": delete_notification}, schema=None, status=HTTPStatus.ACCEPTED)
+            
             except Exception as e:
                 abort(HTTPStatus.NOT_MODIFIED, message=str(e))
         else:
-            abort(HTTPStatus.NOT_FOUND, message="None found: organization {}".format(args.get('id')))
+            abort(HTTPStatus.NOT_FOUND, message="None found: provider with id {}".format(args.get('id')))
 
 
 class ProgramsResource(Resource):
     """Programs endpoint
     
-    GET /programs
-    GET /programs?id=1
+    GET,POST /programs
+    GET,PUT,DELETE /programs?id=1
     GET /programs?name=program_name
     GET /programs?cip=12345
     """
     
-    @use_args(ProgramSchema())
+    @use_args(ProgramSchema(), locations=('query',))
     def get(self, args): 
-        """Get an existing program(s) and return as a json response
-        """
-
         if not args:
             programs = Program.get_all()
         else:
             programs = Program.get_by(args)
         
         if programs:
-            print(programs)
-            return create_response(programs, ProgramSchema(many=True), 200)
+            return create_response(programs, ProgramSchema(many=True), HTTPStatus.OK)
 
-        abort(404, message="No matching programs found")
+        abort(HTTPStatus.NOT_FOUND, message="No matching programs found")
 
-               
+    @use_args(ProgramPostSchema(), locations=('json', 'form'))
+    def post(self, program):
+        org_matches = Organization.get_by({'id': program.organization_id})
+        
+        if org_matches:
+            try:
+                program.save()
+                return create_response(program, ProgramSchema(), HTTPStatus.CREATED)
+         
+            except Exception as e:
+                abort(HTTPStatus.BAD_REQUEST, message=str(e))
+        else:
+            not_found = "None found: provider organization with id {}. Create this provider organization before adding programs".format(program.organization_id)
+            abort(HTTPStatus.NOT_FOUND, message=not_found)
+    
+     
 class ServicesResource(Resource):
     """Services endpoint
     
-    E.g:
     GET /services
     GET /services?id=1
     GET /services?status=deferred
@@ -126,6 +139,9 @@ class ServicesResource(Resource):
 
 
 class LocationsResource(Resource):
+    pass
+
+class PhysicalAddressResource(Resource):
     pass
                 
                 
