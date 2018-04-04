@@ -59,6 +59,7 @@ class Organization(db.Model, BaseMixin):
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
     year_incorporated = db.Column(db.Date, nullable=True)
+    entity_type = db.Column(db.Integer, nullable=True)
 
     programs = db.relationship("Program", backref="organization", 
                                lazy=True, passive_deletes=True)
@@ -67,12 +68,14 @@ class Organization(db.Model, BaseMixin):
     services = db.relationship("Service", backref="organization", 
                                lazy=True, passive_deletes=True)
 
-    def __init__(self, name, description, email=None, url=None, year_incorporated=None):
+    def __init__(self, name, description, email=None, url=None, 
+                 year_incorporated=None, entity_type=None):
         self.name = name
         self.description = description
         self.email = email
         self.url = url
         self.year_incorporated = year_incorporated
+        self.entity_type = entity_type
 
     def __repr__(self):
         """Return a representation of the model instance."""
@@ -132,19 +135,21 @@ class Service(db.Model, BaseMixin):
     program_id = db.Column(db.Integer, db.ForeignKey(Program.id, 
                                                      ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
+    potential_outcome = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(200), nullable=True)
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
     status = db.Column(db.String(30), nullable=False)
     fees = db.Column(db.String(10), nullable=True)
     
-    def __init__(self, name, status, description=None, organization_id=None, program_id=None,
+    def __init__(self, name, status, potential_outcome, description=None, organization_id=None, program_id=None,
                  fees=None, email=None, url=None):
         """Initialize the service with its fields."""
         #TODO: set validation, organization_id and program_id are mutually exclusive
 
         self.name = name
         self.status = status
+        self.potential_outcome = potential_outcome
         self.description = description
         self.organization_id = organization_id
         self.program_id = program_id
