@@ -34,16 +34,4 @@ def create_response(data, schema, status, custom_headers=None):
             response.headers[header[0].strip()] = header[1].strip()
 
     return response
-
-def get_payload(request):
-    """Get request data from JSON or form
-    """
-        
-    if request.headers['Content-Type'] == "application/json":
-        payload = request.get_json(silent=True)
-    elif request.form:
-        payload = request.data.to_dict()
-    else:
-        payload = request.get_json(force=True)
     
-    return payload

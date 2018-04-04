@@ -83,8 +83,7 @@ class Organization(db.Model, BaseMixin):
 class Program(db.Model, BaseMixin):
     """This class defines the program table."""
 
-    # TODO: add validation, cip & name should not be the same as existing record,
-    # possibly something that can handled by checkpoints
+    # TODO: add validation, cip & name should not be the same as existing record
     
     __tablename__ = 'program'
 
@@ -139,16 +138,17 @@ class Service(db.Model, BaseMixin):
     status = db.Column(db.String(30), nullable=False)
     fees = db.Column(db.String(10), nullable=True)
     
-    def __init__(self, name, organization_id=None, program_id=None, status=None,
+    def __init__(self, name, status, description=None, organization_id=None, program_id=None,
                  fees=None, email=None, url=None):
         """Initialize the service with its fields."""
         #TODO: set validation, organization_id and program_id are mutually exclusive
 
         self.name = name
+        self.status = status
+        self.description = description
         self.organization_id = organization_id
         self.program_id = program_id
         self.email = email
-        self.status = status
         self.fees = fees
         self.url = url
         

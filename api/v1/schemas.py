@@ -22,13 +22,19 @@ class OrganizationSchema(ma.ModelSchema):
     #programs =
     #services =
    
+
+class OrganizationPostSchema(ma.ModelSchema):
+    class Meta:
+        model = Organization
+    
+    #TODO: fix error with date parsing in POST/PUT
     @pre_load
     def parse_date(self, args):
         if 'year_incorporated' in args and isinstance(args.get('year_incorporated'), str):
             date_arg = datetime.strptime(args.get('year_incorporated'), '%Y-%m-%d')
             args['year_incorporated'] = date_arg.date()
         return args
- 
+
 
 class LocationSchema(ma.ModelSchema):
     class Meta:
@@ -47,6 +53,12 @@ class ServiceSchema(ma.ModelSchema):
     organization = ma.Nested(OrganizationSchema, exclude=('programs', 'services', 'locations'))
     locations = ma.Nested(LocationSchema, many=True, exclude=('services', 'organization'))
     #TODO: fix so provider location(s) == service locations
+
+
+class ServicePostSchema(ma.ModelSchema):
+    class Meta:
+        model = Service
+        include_fk = True
 
 
 class ProgramSchema(ma.ModelSchema): 
