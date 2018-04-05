@@ -4,41 +4,38 @@ import tempfile
 
 class Config(object):
     """Parent configuration class."""
-    DEBUG = False
+    
+    DEBUG = True
+    TESTING = False
     CSRF_ENABLED = True
     SECRET = os.getenv('SECRET')
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 
 class DevelopmentConfig(Config):
     """Configurations for Development."""
-    DEBUG = True
+    
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
-
+    
 
 class TestingConfig(Config):
     """Configurations for Testing."""
+    
     TESTING = True
-    DEBUG = True
-    DB_FD, DATABASE = tempfile.mkstemp()
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATABASE)
     SECRET = "Secret"
-
-
-class StagingConfig(Config):
-    """Configurations for Staging."""
-    DEBUG = True
+    DB_FILE_DESCRIPTOR, DATABASE = tempfile.mkstemp(suffix='.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATABASE)
 
 
 class ProductionConfig(Config):
     """Configurations for Production."""
+    
     DEBUG = False
-    TESTING = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 app_config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
-    'staging': StagingConfig,
-    'production': ProductionConfig,
+    'production': ProductionConfig
 }

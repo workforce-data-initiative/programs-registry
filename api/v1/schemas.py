@@ -3,10 +3,20 @@
 from datetime import datetime, date
 from webargs.flaskparser import use_args
 from marshmallow.decorators import pre_load, post_load
+from flask_marshmallow import Marshmallow
 
-from app.app import ma
-from .models import *
+from . models import *
 
+
+__all__ = ['PhysicalAddressSchema', 
+           'OrganizationSchema', 
+           'OrganizationPostSchema',
+           'LocationSchema', 
+           'ServiceSchema', 
+           'ServicePostSchema', 
+           'ProgramSchema',
+           'ProgramPostSchema']
+ma = Marshmallow() 
 
 class PhysicalAddressSchema(ma.ModelSchema):
     class Meta:

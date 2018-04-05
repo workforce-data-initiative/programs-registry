@@ -2,10 +2,15 @@
 
 from datetime import datetime
 from marshmallow.compat import iteritems
+from flask_sqlalchemy import SQLAlchemy
 
-from common import utils
-from app.app import db
 
+__all__ = ['Organization', 
+           'Program', 
+           'Service', 
+           'Location', 
+           'PhysicalAddress']
+db = SQLAlchemy()
 
 class BaseMixin(object):    
     def save(self):
