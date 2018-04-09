@@ -71,16 +71,21 @@ class Program(db.Model, BaseMixin):
     __tablename__ = 'program'
 
     id = db.Column(db.Integer, primary_key=True)
+    cip = db.Column(db.Integer, nullable=True)
     organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
                                                           ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
     alternate_name = db.Column(db.String(100), nullable=True)
+    on_etpl = db.Column(db.String(100), nullable=True)
 
-    def __init__(self, name, organization_id, alternate_name=None):
+    def __init__(self, name, organization_id, cip=None, alternate_name=None,
+                 on_etpl=None):
         """Initialize the program with its fields."""
+        self.cip = cip
         self.organization_id = organization_id
         self.name = name
         self.alternate_name = alternate_name
+        self.on_etpl = on_etpl
 
     @staticmethod
     def get_all():
@@ -117,8 +122,8 @@ class Service(db.Model, BaseMixin):
     description = db.Column(db.String(200), nullable=True)
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
-    status = db.Column(db.String(10), nullable=True)
-    fees = db.Column(db.String(10), nullable=True)
+    status = db.Column(db.String(25), nullable=True)
+    fees = db.Column(db.String(25), nullable=True)
 
     def __init__(self, name, organization_id, program_id=None, status=None,
                  fees=None, email=None, url=None):
@@ -163,8 +168,8 @@ class Location(db.Model, BaseMixin):
     alternate_name = db.Column(db.String(100), nullable=True)
     description = db.Column(db.String(100), nullable=True)
     transportation = db.Column(db.String(256), nullable=True)
-    latitude = db.Column(db.Integer, nullable=True)
-    longitude = db.Column(db.Integer, nullable=True)
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)
 
     address = relationship("PhysicalAddress", backref="location",
                            passive_deletes=True)
@@ -209,12 +214,13 @@ class ServiceLocation(db.Model, BaseMixin):
     id = db.Column(db.Integer, primary_key=True)
     service_id = db.Column(db.Integer, db.ForeignKey(Service.id))
     location_id = db.Column(db.Integer, db.ForeignKey(Location.id))
-    description = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(100), nullable=True)
 
     def __init__(self, service_id, location_id, description=None):
         """Initialize location object with its fields."""
         self.service_id = service_id
         self.location_id = location_id
+        self.description = description
 
     @staticmethod
     def get_all(service_id):

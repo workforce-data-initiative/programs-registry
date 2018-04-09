@@ -10,21 +10,33 @@ A comprehensive directory of youth programs and services – openly available an
 
 ### Run the following commands
 
-If it is your first time, create the database and run migrations by running:
-```bash
-python3 manage.py db init
-python3 manage.py db migrate
-python3 manage.py db upgrade
-```
-Then install required python packages and export environment variables by running:
+Install required python packages and export environment variables by running:
 
 ```bash
 pip install -r requirements.txt
 export FLASK_APP=app.py
 export APP_SETTINGS="development"
 export DATABASE_URL=postgresql://localhost:5432/registry
+```
+
+If it is your first time, create the database and run migrations by running:
+```bash
+python3 manage.py db init
+python3 manage.py db migrate
+python3 manage.py db upgrade
+```
+
+To seed-in data run:
+
+```bash
+python3 manage.py seed_data
+```
+
+Now start the server:
+```bash
 python3 app.py
 ```
+
 
 The API is now accessible from: `0.0.0.0:5000/api` and the API spec at: `0.0.0.0:5000/api/ui/`
 
