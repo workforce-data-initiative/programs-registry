@@ -5,6 +5,7 @@ exec 2>&1
 
 echo "Executing init hook"
 
+ln -fs {{pkg.path}}/api {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/app {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/instance {{pkg.svc_var_path}}
 ln -fs {{pkg.path}}/wsgi.py {{pkg.svc_var_path}}i

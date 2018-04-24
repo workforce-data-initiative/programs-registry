@@ -1,7 +1,7 @@
 pkg_origin=brighthive
 pkg_name=program-registry
 pkg_version=0.0.1
-pkg_maintainer="jee@brighthive.io, stanley@brighthive.io, aretha@brighthive.io"
+pkg_maintainer="engineering@brighthive.io"
 pkg_filename=${pkg_name}-${pkg_version}.tar.gz
 pkg_upstream_url="https://github.com/brighthive/program-registry.git"
 pkg_exports=(
@@ -38,6 +38,7 @@ do_unpack() {
 
   build_line "Copying project data from $PROJECT_ROOT to $pkg_prefix ..."
   mkdir -p $pkg_prefix
+  cp -vr $PROJECT_ROOT/api $pkg_prefix/
   cp -vr $PROJECT_ROOT/app $pkg_prefix/
   cp -vr $PROJECT_ROOT/habitat/config/helpers.sh $pkg_prefix/
   cp -vr $PROJECT_ROOT/instance $pkg_prefix/
