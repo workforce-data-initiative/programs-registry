@@ -34,9 +34,11 @@ class ProvidersResource(Resource):
     """
     
     @use_args(OrganizationSchema(), locations=('query',))
-    def get(self, args):
-        if not args:
+    def get(self, organization_id, args):
+        if not (organization_id and args):
             organizations = Organization.get_all()
+        elif organization_id:
+            organizations = Organization.get_by({'id': organization_id})
         else:
             organizations = Organization.get_by(args)
         
