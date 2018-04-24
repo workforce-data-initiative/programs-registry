@@ -5,10 +5,12 @@ import unittest
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from app.app import db, create_app
+from api.v1.models import db
+from app.app import create_app
 
 
-app = create_app(config_name=os.getenv('APP_SETTINGS'))
+config_name = os.environ.get('APP_SETTINGS', default='production')
+app = create_app(config_name)
 migrate = Migrate(app, db)
 
 # create an instance of the command handling class
