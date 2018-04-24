@@ -37,8 +37,8 @@ class BaseTestCase(unittest.TestCase):
             "organization_id": 1,
             "description": "The windy city",
             "transportation": "Train, Uber",
-            "longitude": 6.535628,
-            "latitude": 48.0515029
+            "longitude": 41.8781,
+            "latitude": -87.6298
         }
 
         self.app_context = self.app.app_context()

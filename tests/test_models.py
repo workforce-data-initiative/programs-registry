@@ -59,6 +59,7 @@ class ProgramTestCase(BaseTestCase):
         program_data = {
             "cip" : 873219,
             "name": "Test program",
+            "cip": 1,
             "organization_id": organization.id,
         }
         old_count = Program.query.count()
@@ -81,6 +82,7 @@ class ServiceModelTestCase(BaseTestCase):
         program_data = {
             "cip" : 873219,
             "name": "Test program",
+            "cip": 1,
             "organization_id": 1,
         }
         # Create the org and program

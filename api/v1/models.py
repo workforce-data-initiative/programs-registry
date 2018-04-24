@@ -190,9 +190,6 @@ class Service(db.Model, BaseMixin):
     tuition = db.Column(db.Float, nullable=True)
     materials_cost = db.Column(db.Float, nullable=True)
     
-    locations = db.relationship("Location", secondary='service_location', lazy='subquery',
-                               backref=db.backref("services", lazy=True))
-    
     def __init__(self, name, status, format, num_hrs, num_weeks, 
                  description=None, organization_id=None, program_id=None,
                  email=None, url=None, tuition=None, materials_cost=None):
@@ -241,7 +238,7 @@ class Location(db.Model, BaseMixin):
 
     address = db.relationship("PhysicalAddress", backref="location", lazy=True,
                               uselist=False, passive_deletes=True)
-    services = db.relationship("Service", secondary=service_location, lazy='subquery',
+    services = db.relationship("Service", secondary=service_location, lazy="subquery",
                                backref=db.backref("locations", lazy=True))
     
     def __init__(self, name, organization_id, alternate_name=None,

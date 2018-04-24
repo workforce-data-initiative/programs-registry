@@ -14,7 +14,7 @@ reg_api.add_resource(ProvidersResource, '/providers',
                                         '/providers/<int:organization_id>',
                                         '/providers/<int:organization_id>/programs',
                                         '/providers/<int:organization_id>/programs?cip=<int:cip>',
-                                        '/providers/<int:organization_id>/programs?name=<string:name>'
+                                        '/providers/<int:organization_id>/programs?name=<string:name>',
                                         '/providers/<int:organization_id>/programs/<int:program_id>',
                                         '/providers/<int:organization_id>/services',
                                         '/providers/<int:organization_id>/services?status=<string:status>',
