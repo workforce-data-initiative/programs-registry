@@ -12,6 +12,7 @@ __all__ = ['Organization',
            'PhysicalAddress']
 db = SQLAlchemy()
 
+
 class BaseMixin(object):    
     def save(self):
         """Save program registry table object."""
@@ -24,7 +25,7 @@ class BaseMixin(object):
         
         db.session.delete(self)
         db.session.commit()   
-    
+            
     @classmethod
     def get_all(cls):
         return cls.query.all()
@@ -51,7 +52,29 @@ class BaseMixin(object):
                     raise ValueError("Query value '{}' not supported".format(key))   
                 
         return _query.all()
-       
+
+
+# Lookup tables
+entity_type = db.Table('entity_type', 
+                       db.Column('id', db.Integer, primary_key=True), 
+                       db.Column('name', db.String(100)),
+                       comment='Entity type of training provider organization')
+
+potential_outcome = db.Table('potential_outcome',
+                             db.Column('id', db.Integer, primary_key=True), 
+                             db.Column('name', db.String(100)),
+                             comment='Potential outcome of program')
+
+prerequisite = db.Table('prerequisite',
+                        db.Column('id', db.Integer, primary_key=True),
+                        db.Column('name', db.String(100)),
+                        comment='Prerequisite credential for program entry')
+
+format = db.Table('format',
+                  db.Column('id', db.Integer, primary_key=True),
+                  db.Column('name', db.String(100)),
+                  comment='Format of program service instruction')
+
 
 class Organization(db.Model, BaseMixin):
     """This class defines an organization table."""
@@ -61,26 +84,27 @@ class Organization(db.Model, BaseMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(256), nullable=False)
+    type_id = db.Column(db.Integer, db.ForeignKey('entity_type.id'), nullable=True)
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
     year_incorporated = db.Column(db.Date, nullable=True)
-    entity_type = db.Column(db.Integer, nullable=True)
-
+    
     programs = db.relationship("Program", backref="organization", 
                                lazy=True, passive_deletes=True)
     locations = db.relationship("Location", backref="organization", 
                                 lazy=True,passive_deletes=True)
     services = db.relationship("Service", backref="organization", 
                                lazy=True, passive_deletes=True)
-
-    def __init__(self, name, description, email=None, url=None, 
-                 year_incorporated=None, entity_type=None):
+    
+        
+    def __init__(self, name, description, type_id=None, email=None, url=None, 
+                 year_incorporated=None):
         self.name = name
         self.description = description
         self.email = email
         self.url = url
         self.year_incorporated = year_incorporated
-        self.entity_type = entity_type
+        self.type_id = type_id
 
     def __repr__(self):
         """Return a representation of the model instance."""
@@ -97,21 +121,39 @@ class Program(db.Model, BaseMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     cip = db.Column(db.Integer, nullable=False)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id,
-                                                          ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
+    organization_id = db.Column(db.Integer, 
+                                db.ForeignKey(Organization.id, ondelete='CASCADE'))
+    potential_outcome_id = db.Column(db.Integer, 
+                                     db.ForeignKey('potential_outcome.id', ondelete='CASCADE'), 
+                                     nullable=False)
+    prerequisites = db.Column(db.Integer, 
+                              db.ForeignKey('prerequisite.id', ondelete='CASCADE'), 
+                              nullable=False)
+    soc_code_1 = db.Column(db.Integer, nullable=False)
+    soc_code_2 = db.Column(db.Integer, nullable=False)
+    soc_code_3 = db.Column(db.Integer, nullable=False)
+    credential_name = db.Column(db.String(100), nullable=True)
     alternate_name = db.Column(db.String(100), nullable=True)
     on_etpl = db.Column(db.String(20), default='N/A', nullable=False)
     
     services = db.relationship("Service", backref="program", 
                                lazy=True, passive_deletes=True)
 
-    def __init__(self, cip, name, organization_id, alternate_name=None, on_etpl=None):
+    def __init__(self, cip, name, organization_id, potential_outcome_id, 
+                 prerequisites, soc_code_1, soc_code_2, soc_code_3, 
+                 credential_name=None, alternate_name=None, on_etpl=None):
         """Initialize the program with its fields."""
         
         self.cip = cip
-        self.organization_id = organization_id
         self.name = name
+        self.organization_id = organization_id
+        self.potential_outcome_id = potential_outcome_id
+        self.prerequisites = prerequisites
+        self.soc_code_1 = soc_code_1
+        self.soc_code_2 = soc_code_2
+        self.soc_code_3 = soc_code_3
+        self.credential_name = credential_name
         self.alternate_name = alternate_name
         self.on_etpl = on_etpl 
 
@@ -121,13 +163,9 @@ class Program(db.Model, BaseMixin):
         return "<Program: {}, {}, {}>".format(self.id, self.cip, self.name)
 
 
-service_location = db.Table('service_location', 
-                            db.Column('service_id', db.Integer, db.ForeignKey('service.id')),
-                            db.Column('location_id', db.Integer, db.ForeignKey('location.id')) )
-
-
 class Service(db.Model, BaseMixin):
-    """This class represents a service table
+    """Service is a specification of a program referring to specific offering in a 
+    location, for a period of time, contributing to or resulting in the credential
     
     NOTE: Service should belong to an organization or a program, not both
     """
@@ -135,37 +173,55 @@ class Service(db.Model, BaseMixin):
     __tablename__ = 'service'
 
     id = db.Column(db.Integer, primary_key=True)
-    organization_id = db.Column(db.Integer, db.ForeignKey(Organization.id, 
-                                                          ondelete='CASCADE'))
-    program_id = db.Column(db.Integer, db.ForeignKey(Program.id, 
-                                                     ondelete='CASCADE'))
     name = db.Column(db.String(100), nullable=False)
-    potential_outcome = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.String(30), nullable=False)
+    format = db.Column(db.Integer, 
+                       db.ForeignKey('format.id', ondelete='CASCADE'),
+                       nullable=False)
+    num_hrs = db.Column(db.Integer, nullable=False)
+    num_weeks = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(200), nullable=True)
+    organization_id = db.Column(db.Integer, 
+                                db.ForeignKey(Organization.id, ondelete='CASCADE'))
+    program_id = db.Column(db.Integer, 
+                           db.ForeignKey(Program.id, ondelete='CASCADE'))
     email = db.Column(db.String(100), nullable=True)
     url = db.Column(db.String(100), nullable=True)
-    status = db.Column(db.String(30), nullable=False)
-    fees = db.Column(db.String(10), nullable=True)
+    tuition = db.Column(db.Float, nullable=True)
+    materials_cost = db.Column(db.Float, nullable=True)
     
-    def __init__(self, name, status, potential_outcome, description=None, organization_id=None, program_id=None,
-                 fees=None, email=None, url=None):
+    locations = db.relationship("Location", secondary=service_location, lazy='subquery',
+                               backref=db.backref("services", lazy=True))
+    
+    def __init__(self, name, status, format, num_hrs, num_weeks, 
+                 description=None, organization_id=None, program_id=None,
+                 email=None, url=None, tuition=None, materials_cost=None):
         """Initialize the service with its fields."""
         #TODO: set validation, organization_id and program_id are mutually exclusive
 
         self.name = name
         self.status = status
-        self.potential_outcome = potential_outcome
+        self.format = format
+        self.num_hrs = num_hrs
+        self.num_weeks = num_weeks
         self.description = description
         self.organization_id = organization_id
         self.program_id = program_id
         self.email = email
-        self.fees = fees
         self.url = url
+        self.tuition = tuition
+        self.materials_cost = materials_cost
         
     def __repr__(self):
         """Return a representation of the service model instance."""
         
         return "<Service: {}, {}>".format(self.id, self.name)
+
+
+# association table
+service_location = db.Table('service_location', 
+                            db.Column('service_id', db.Integer, db.ForeignKey('service.id'), primary_key=True),
+                            db.Column('location_id', db.Integer, db.ForeignKey('location.id'), primary_key=True) )
 
 
 class Location(db.Model, BaseMixin):
