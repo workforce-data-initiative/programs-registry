@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date
-from webargs.flaskparser import use_args
-from marshmallow.decorators import pre_load, post_load
+from marshmallow.decorators import pre_load
 from flask_marshmallow import Marshmallow
 
-from . models import *
+from .models import *
 
 
 __all__ = ['PhysicalAddressSchema', 
@@ -26,12 +25,11 @@ class PhysicalAddressSchema(ma.ModelSchema):
 class OrganizationSchema(ma.ModelSchema):
     class Meta:
         model = Organization
-        #strict = True
     
     locations = ma.Nested('LocationSchema', many=True, exclude=('organization', 'services'))
     #programs =
     #services =
-   
+
 
 class OrganizationPostSchema(ma.ModelSchema):
     class Meta:
@@ -62,7 +60,9 @@ class ServiceSchema(ma.ModelSchema):
     program = ma.Nested('ProgramSchema', exclude=('services', 'organization'))
     organization = ma.Nested(OrganizationSchema, exclude=('programs', 'services', 'locations'))
     locations = ma.Nested(LocationSchema, many=True, exclude=('services', 'organization'))
-    #TODO: fix so provider location(s) == service locations
+
+# TODO: 
+#     -add readable dump for potential outcome, format, entity_type, prerequisite      
 
 
 class ServicePostSchema(ma.ModelSchema):
