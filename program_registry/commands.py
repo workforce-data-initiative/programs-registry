@@ -26,4 +26,3 @@ def test(group):
     
     except Exception as err:
         raise err
-    
