@@ -1,7 +1,7 @@
-Flask==0.12.2
+Flask==1.0.2
 Flask-API==1.0
 Flask-Migrate==2.1.1
-Flask-SQLAlchemy==2.2
+Flask-SQLAlchemy==2.3.2
 Flask-Script==2.0.6
 flask-restful==0.3.6
 flask-marshmallow==0.8.0
