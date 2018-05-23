@@ -6,17 +6,8 @@ from flask_migrate import Migrate
 
 from instance.config import app_config
 
-
-def openapi_spec():
-    import connexion
-    return connexion.App(__name__).add_api('../openapi.yaml')
      
 def create_app(config_name):
-#     if 'production' in config_name.lower():
-#         app = Flask(__name__, instance_relative_config=True) 
-#     else:
-#         app = openapi_spec()
-
     app = Flask(__name__) 
     app.config.from_object(app_config.get(config_name))
 
@@ -35,6 +26,8 @@ def create_app(config_name):
      
     return app
 
+
+# for 'flask run'
 config_name = os.environ.get('FLASK_ENV')
 app = create_app(config_name)
   
