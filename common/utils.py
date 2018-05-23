@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import os
 import json
 from flask import jsonify, make_response
-
-from program_registry.api.v1 import schemas
 
 
 def create_response(data, schema, status, custom_headers=None):
