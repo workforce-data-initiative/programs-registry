@@ -1,71 +1,126 @@
-# program-registry
-A comprehensive directory of youth programs and services – openly available and machine readable.
+# Training Provider Outcomes Toolkit - Programs Registry API
+Machine readable, public directory of programs and services offered by eligible training providers across locations. See the [BrightHive API Documentation](https://docs.brighthive.io) for the full Programs Registry API specification.
 
-# Development Setup
-## Steps
+
+## Developer Guide
+
+How to setup in your local development environment
+
 ### Prerequisites
-- Python3
-- pip
-- Postgres (with a database 'registry' created)
 
-### Run the following commands
+1. Have Python v3.6+ available, including package manager `pip` 
+2. Have a virtual environment manager for Python available e.g `virtualenv`
+	
+	```bash
+	python3 -m pip install -U virtualenv	
+	```
 
-Install required python packages and export environment variables by running:
+3. Create and/or connect to a Postgres v9.6+ database instance (a public docker image is a decent option)
 
-```bash
-pip install -r requirements.txt
-export FLASK_APP=app.py
-export APP_SETTINGS="development"
-export DATABASE_URL=postgresql://localhost:5432/registry
+### Setup Environment
+
+1. Login to the Postgres database instance as a privileged user and create programs registry database. From command line:
+
+	```bash
+	useradd --user-group regdb 
+	su - ${PG_DEFAULT_ADMIN}  # generally default admin user is 'postgres'
+	psql --command "CREATE USER regdb; ALTER USER regdb SUPERUSER CREATEDB;" 
+	createdb --echo --owner=regdb --encoding=utf-8 registry
+	```
+
+**_Note: If there's need to drop existing database to resolve issues_**
+
+	```bash
+	dropdb --echo regdb
+	```
+
+2. Get the code to your local environment
+
+	```bash
+	git clone ${GITHUB_CLONE_URL}
+	cd program_registry
+	```
+
+3. Create and activate a python virtual environment using Python 3.6+ interpreter, then install required python packages
+
+	```bash
+	python3 -m venv ${VENV_NAME} ${ENV_DIR}
+	. ${ENV_DIR}/${VENV_NAME}/bin/activate
+	pip install -r requirements.txt
+	```
+
+4. Set required environment variables for running Flask application
+
+	```bash
+	export FLASK_APP=program_registry
+	export FLASK_ENV="development"
+	export DATABASE_URL=postgresql://regdb:@${PGSQL_SERVER_HOSTNAME}:${PGSQL_PORT}/registry
+	```
+
+5. Load program registry database
+
+	* Option 1: Create and seed tables using migration script
+	
+	```bash
+	flask db upgrade seed
+	```
+
+	* Option 2: Create and seed tables using CSV file data
+
+	```bash
+	flask db upgrade head
+	sh seed_data.sh 
+	```
+	
+6. Run tests
+	
+	```bash
+	flask test models
+	flask test endpoints
+	```
+	
+### Run Development Server
+
+1. Start Flask app server
+
+	```bash
+	flask run --host ${FLASK_RUN_HOST} --port ${FLASK_RUN_PORT}
+	```
+
+2. API can then be accessed from base url `https://${FLASK_RUN_HOST}:${FLASK_RUN_PORT}/api/v1`
+
+
+### Access API Documentation
+
+The official API documentation is published at [https://docs.brighthive.io](https://docs.brighthive.io) however OpenAPI specification can be made locally available using [Connexion](https://github.com/zalando/connexion#why-connexion) 
+
+```
+connexion run -v --host ${FLASK_RUN_HOST} --port ${OPENAPI_SPEC_RUN_PORT} .openapi/openapi.yml
 ```
 
-If it is your first time, create the database and run migrations by running:
-```bash
-python3 manage.py db init
-python3 manage.py db migrate
-python3 manage.py db upgrade
-```
+Then access the OpenAPI specification using url: `http://${FLASK_RUN_HOST}:${OPENAPI_SPEC_RUN_PORT}/api/v1/ui/`
 
-To seed-in data run:
+For any issues with the official API documentation, please [open a documentation issue](https://github.com/brighthive/program-registry/issues).
 
-```bash
-python3 manage.py seed_data
-```
+### Alternative Deployment Options
 
-Now start the server:
-```bash
-python3 app.py
-```
+#### Make Docker Image
 
+##### Prerequisites
 
-The API is now accessible from: `0.0.0.0:5000/api` and the API spec at: `0.0.0.0:5000/api/ui/`
+1. Docker install ([Get Docker](https://www.docker.com/get-docker) for your environment) 
 
-> Endpoints
-
-So the urls are:
-`/api` - as the main API endpoint
-`/api/ui/` - as the API SPEC url endpoint
-
-# Testing
-Run `python3 manage.py test` after following the Development Setup above.
-
-
-# Docker workflow
-## Steps
-### Prerequisites
-- docker (Download it from [here](https://www.docker.com/get-docker) and choose `Get Docker` for either the desktop version or server version)
-
-### Run the following command
+##### Compose Image
 
 ```bash
 docker-compose up
 ```
 
-# Deployment
-This project is using `Heroku Container Registry` for automatic deployments of master and develop branches. It is part of the CI/CD pipeline as detailed in [heroku.sh](/heroku.sh).
+### Continuous Delivery
 
-> Please note
+As part of CircleCI CI/CD pipeline, this repository uses `Heroku Container Registry` for automatic deployment of master and develop branches to Heroku. See [heroku.sh](https://github.com/brighthive/program-registry/blob/master/heroku.sh) for configurations, these can be updated to run with Heroku app of choice.
 
-The Postgres Add-on does not have automatic reset for each deployment so the developers will need to reset the DB whenever we have changes to the models.
+**Note**:
+The Postgres Add-on does not have automatic reset for each deployment so the developers need to reset the deployed db on Heroku whenever we have changes to the models.
 
-To do this click on either [this link](https://dashboard.heroku.com/apps/programs-registry-dev/resources) for `develop` branch or [this other link](https://dashboard.heroku.com/apps/programs-registry/resources) for `master` branch; then click on `Heroku Postgres :: Database` which redirects you to the Datastore. Click on `Settings` then select `Reset Database`. Finally get back to the heroku app, click on `More` and select `Restart all dynos`.
+To do this, go to Heroku app resources page (for each branch) > `Heroku Postgres :: Database` which redirects you to the Datastore. Click on `Settings` > `Reset Database`. Finally get back to the Heroku app, click on `More` > `Restart all dynos`.
