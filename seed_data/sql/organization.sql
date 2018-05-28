@@ -1,12 +1,4 @@
-create table if not exists organization (
-	id INT,
-	name VARCHAR(50),
-	description VARCHAR(256),
-	type_id INT,
-	email VARCHAR(50),
-	url VARCHAR(50),
-	year_incorporated DATE
-);
+create table if not exists organization (id INT, name VARCHAR(50), description VARCHAR(256), type_id INT, email VARCHAR(50), url VARCHAR(50), year_incorporated DATE);
 insert into organization (id, name, description, type_id, email, url, year_incorporated) values (5288, 'La Salle University', 'Maecenas ut massa quis augue luctus tincidunt.', 3, 'bcottle@cbsnews.com', 'cbsnews.com', '1987-07-02');
 insert into organization (id, name, description, type_id, email, url, year_incorporated) values (7460, 'Institute of Teachers Education, Kent', 'Proin at turpis a pede posuere nonummy. Integer non velit.', 8, 'ciacabucci@examiner.com', 'examiner.com', '1943-08-27');
 insert into organization (id, name, description, type_id, email, url, year_incorporated) values (5700, 'Milligan College', 'Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Etiam vel augue.', 7, 'omcquie@google.ru', 'google.ru', '1980-12-29');

@@ -1,17 +1,4 @@
-create table if not exists program (
-	id INT,
-	cip INT,
-	name VARCHAR(8),
-	organization_id INT,
-	potential_outcome_id INT,
-	prerequisites INT,
-	soc_code_1 INT,
-	soc_code_2 INT,
-	soc_code_3 INT,
-	credential_name VARCHAR(50),
-	alternate_name VARCHAR(50),
-	on_etpl INT
-);
+create table if not exists program (id INT, cip INT, name VARCHAR(8), organization_id INT, potential_outcome_id INT, prerequisites INT, soc_code_1 INT, soc_code_2 INT, soc_code_3 INT, credential_name VARCHAR(50), alternate_name VARCHAR(50), on_etpl INT);
 insert into program (id, cip, name, organization_id, potential_outcome_id, prerequisites, soc_code_1, soc_code_2, soc_code_3, credential_name, alternate_name, on_etpl) values (1, 310505, 'Physical Fitness Specialist', 7460, 1, 0, 72540228, 39925586, 59608763, 'Certification in Physical Fitness Specialist', 'Physical Fitness ', 1);
 insert into program (id, cip, name, organization_id, potential_outcome_id, prerequisites, soc_code_1, soc_code_2, soc_code_3, credential_name, alternate_name, on_etpl) values (2, 120503, 'Registered Apprenticeship Certified Chef', 3401, 3, 5, 99583046, 76694548, 57984684, 'License in Registered Apprenticeship Certified Chef', 'Registered Apprenticeship Certified ', 0);
 insert into program (id, cip, name, organization_id, potential_outcome_id, prerequisites, soc_code_1, soc_code_2, soc_code_3, credential_name, alternate_name, on_etpl) values (3, 510805, 'Pharmacy Technician', 4140, 4, 4, 12478815, 13982305, 37598691, 'Associate’s Degree Pharmacy Technician', 'Pharmacy ', 1);

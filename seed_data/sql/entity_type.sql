@@ -1,7 +1,4 @@
-create table if not exists entity_type (
-	id INT,
-	name VARCHAR(50)
-);
+create table if not exists entity_type (id INT, name VARCHAR(50));
 insert into entity_type (id, name) values (1, 'Higher Ed: Associate’s Degree');
 insert into entity_type (id, name) values (2, 'Higher Ed: Baccalaureate or Higher');
 insert into entity_type (id, name) values (3, 'Higher Ed: Certificate of Completion');

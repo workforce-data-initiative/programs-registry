@@ -1,1 +1,14 @@
-﻿[{"id"  :"1","name"  :"In-person"},{"id"  :"2","name"  :"Online, E-learning, or Distance Learning"},{"id"  :"3","name"  :"Hybrid or Blended Program"}]
+[
+   {
+      "id":"1",
+      "name":"In-person"
+   },
+   {
+      "id":"2",
+      "name":"Online, E-learning, or Distance Learning"
+   },
+   {
+      "id":"3",
+      "name":"Hybrid or Blended Program"
+   }
+]

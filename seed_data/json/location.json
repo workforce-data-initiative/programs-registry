@@ -1,1 +1,1002 @@
-﻿[{"id"  :"1","name"  :"Florida","organization_id"  :"4140","alternate_name"  :"Florida","description"  :"eget tempus vel pede morbi","transportation"  :"Train","latitude"  :"11.0678757","longitude"  :"-63.9201942"},{"id"  :"2","name"  :"Florida","organization_id"  :"5700","alternate_name"  :"Florida","description"  :"leo odio condimentum id","transportation"  :"Walk","latitude"  :"39.999174","longitude"  :"118.701144"},{"id"  :"3","name"  :"Columbus","organization_id"  :"6628","alternate_name"  :"Columbus","description"  :"pharetra magna ac","transportation"  :"Shuttle","latitude"  :"29.248085","longitude"  :"117.861797"},{"id"  :"4","name"  :"Texas","organization_id"  :"4140","alternate_name"  :"Texas","description"  :"suspendisse potenti","transportation"  :"Shuttle","latitude"  :"45.1452956","longitude"  :"18.9362522"},{"id"  :"5","name"  :"Indiana","organization_id"  :"5288","alternate_name"  :"Indiana","description"  :"augue vel accumsan tellus nisi","transportation"  :"Bus","latitude"  :"-7.4515784","longitude"  :"108.1888771"},{"id"  :"6","name"  :"Green Bay","organization_id"  :"1972","alternate_name"  :"Green Bay","description"  :"vel augue","transportation"  :"Bus","latitude"  :"57.7856103","longitude"  :"43.200317"},{"id"  :"7","name"  :"Florida","organization_id"  :"6628","alternate_name"  :"Florida","description"  :"rutrum rutrum","transportation"  :"Train","latitude"  :"43.236609","longitude"  :"88.409879"},{"id"  :"8","name"  :"Ohio","organization_id"  :"7841","alternate_name"  :"Ohio","description"  :"faucibus cursus","transportation"  :"Shuttle","latitude"  :"36.60123","longitude"  :"126.6607764"},{"id"  :"9","name"  :"Long Beach","organization_id"  :"4140","alternate_name"  :"Long Beach","description"  :"varius ut blandit non","transportation"  :"Bus","latitude"  :"48.7114913","longitude"  :"23.1850055"},{"id"  :"10","name"  :"California","organization_id"  :"7460","alternate_name"  :"California","description"  :"ut volutpat","transportation"  :"Shuttle","latitude"  :"10.9638707","longitude"  :"8.3937532"},{"id"  :"11","name"  :"Florida","organization_id"  :"7637","alternate_name"  :"Florida","description"  :"justo sit amet sapien dignissim","transportation"  :"Bus","latitude"  :"59.3778462","longitude"  :"18.0367294"},{"id"  :"12","name"  :"Peoria","organization_id"  :"7460","alternate_name"  :"Peoria","description"  :"in hac","transportation"  :"Train","latitude"  :"38.9013413","longitude"  :"141.3981944"},{"id"  :"13","name"  :"District of Columbia","organization_id"  :"6628","alternate_name"  :"District of Columbia","description"  :"sit amet eros suspendisse accumsan","transportation"  :"Drive","latitude"  :"-21.7034017","longitude"  :"-47.27079"},{"id"  :"14","name"  :"Florida","organization_id"  :"7637","alternate_name"  :"Florida","description"  :"vitae ipsum aliquam non mauris","transportation"  :"Train","latitude"  :"50.5801021","longitude"  :"-113.8707312"},{"id"  :"15","name"  :"Honolulu","organization_id"  :"5288","alternate_name"  :"Honolulu","description"  :"nulla integer","transportation"  :"Bus","latitude"  :"39.5691202","longitude"  :"45.9004974"},{"id"  :"16","name"  :"Alabama","organization_id"  :"4140","alternate_name"  :"Alabama","description"  :"integer ac neque duis bibendum","transportation"  :"Drive","latitude"  :"44.8657158","longitude"  :"16.8537839"},{"id"  :"17","name"  :"Illinois","organization_id"  :"6628","alternate_name"  :"Illinois","description"  :"eget eros elementum pellentesque","transportation"  :"Drive","latitude"  :"23.296786","longitude"  :"113.823135"},{"id"  :"18","name"  :"Palm Bay","organization_id"  :"1972","alternate_name"  :"Palm Bay","description"  :"interdum in ante vestibulum","transportation"  :"Drive","latitude"  :"54.2732308","longitude"  :"32.014211"},{"id"  :"19","name"  :"Nevada","organization_id"  :"7841","alternate_name"  :"Nevada","description"  :"odio consequat","transportation"  :"Drive","latitude"  :"-6.813931","longitude"  :"108.1784455"},{"id"  :"20","name"  :"Florida","organization_id"  :"7460","alternate_name"  :"Florida","description"  :"bibendum felis sed interdum","transportation"  :"Shuttle","latitude"  :"-34.7382955","longitude"  :"-58.3820197"},{"id"  :"21","name"  :"Bellevue","organization_id"  :"9064","alternate_name"  :"Bellevue","description"  :"quisque erat eros","transportation"  :"Walk","latitude"  :"-7.6608184","longitude"  :"111.0892601"},{"id"  :"22","name"  :"Indiana","organization_id"  :"6628","alternate_name"  :"Indiana","description"  :"dictumst maecenas ut massa quis","transportation"  :"Shuttle","latitude"  :"9.7031412","longitude"  :"10.1941399"},{"id"  :"23","name"  :"Florida","organization_id"  :"5288","alternate_name"  :"Florida","description"  :"ac nulla","transportation"  :"Train","latitude"  :"38.371402","longitude"  :"117.329949"},{"id"  :"24","name"  :"Jersey City","organization_id"  :"4140","alternate_name"  :"Jersey City","description"  :"nisl nunc nisl","transportation"  :"Drive","latitude"  :"-2.9055447","longitude"  :"-41.7733626"},{"id"  :"25","name"  :"California","organization_id"  :"1972","alternate_name"  :"California","description"  :"enim sit","transportation"  :"Train","latitude"  :"21.0471807","longitude"  :"104.2991973"},{"id"  :"26","name"  :"Florida","organization_id"  :"7841","alternate_name"  :"Florida","description"  :"vestibulum aliquet ultrices","transportation"  :"Walk","latitude"  :"5.2805802","longitude"  :"115.2384663"},{"id"  :"27","name"  :"Dallas","organization_id"  :"7460","alternate_name"  :"Dallas","description"  :"sit amet","transportation"  :"Shuttle","latitude"  :"28.55386","longitude"  :"112.35518"},{"id"  :"28","name"  :"Pennsylvania","organization_id"  :"1972","alternate_name"  :"Pennsylvania","description"  :"vestibulum velit id","transportation"  :"Train","latitude"  :"-26.69475","longitude"  :"25.4735999"},{"id"  :"29","name"  :"Kansas","organization_id"  :"9064","alternate_name"  :"Kansas","description"  :"est et tempus semper est","transportation"  :"Walk","latitude"  :"5.3523231","longitude"  :"100.3573891"},{"id"  :"30","name"  :"Orlando","organization_id"  :"9064","alternate_name"  :"Orlando","description"  :"non sodales sed tincidunt eu","transportation"  :"Drive","latitude"  :"39.944315","longitude"  :"116.809657"},{"id"  :"31","name"  :"New York","organization_id"  :"3401","alternate_name"  :"New York","description"  :"platea dictumst morbi","transportation"  :"Train","latitude"  :"30.978349","longitude"  :"107.980213"},{"id"  :"32","name"  :"District of Columbia","organization_id"  :"3401","alternate_name"  :"District of Columbia","description"  :"vulputate vitae","transportation"  :"Train","latitude"  :"31.7284972","longitude"  :"-106.4899163"},{"id"  :"33","name"  :"Anchorage","organization_id"  :"4140","alternate_name"  :"Anchorage","description"  :"magnis dis","transportation"  :"Train","latitude"  :"27.955261","longitude"  :"112.497228"},{"id"  :"34","name"  :"Texas","organization_id"  :"5700","alternate_name"  :"Texas","description"  :"duis ac","transportation"  :"Walk","latitude"  :"-6.9158","longitude"  :"112.5541"},{"id"  :"35","name"  :"Texas","organization_id"  :"9064","alternate_name"  :"Texas","description"  :"metus aenean fermentum donec","transportation"  :"Train","latitude"  :"20.7240105","longitude"  :"-97.5308167"},{"id"  :"36","name"  :"Lincoln","organization_id"  :"9064","alternate_name"  :"Lincoln","description"  :"sapien urna","transportation"  :"Drive","latitude"  :"32.022005","longitude"  :"121.186614"},{"id"  :"37","name"  :"Florida","organization_id"  :"1972","alternate_name"  :"Florida","description"  :"amet nulla quisque arcu libero","transportation"  :"Shuttle","latitude"  :"36.639033","longitude"  :"114.462061"},{"id"  :"38","name"  :"Minnesota","organization_id"  :"4140","alternate_name"  :"Minnesota","description"  :"luctus rutrum nulla","transportation"  :"Train","latitude"  :"39.266576","longitude"  :"77.597552"},{"id"  :"39","name"  :"Wilkes Barre","organization_id"  :"1972","alternate_name"  :"Wilkes Barre","description"  :"sit amet diam in","transportation"  :"Bus","latitude"  :"31.695648","longitude"  :"115.431153"},{"id"  :"40","name"  :"Pennsylvania","organization_id"  :"9064","alternate_name"  :"Pennsylvania","description"  :"turpis adipiscing lorem","transportation"  :"Shuttle","latitude"  :"34.8917477","longitude"  :"138.1627422"},{"id"  :"41","name"  :"Michigan","organization_id"  :"7460","alternate_name"  :"Michigan","description"  :"lacus purus aliquet at","transportation"  :"Drive","latitude"  :"-1.0460477","longitude"  :"-79.6333674"},{"id"  :"42","name"  :"Portsmouth","organization_id"  :"3401","alternate_name"  :"Portsmouth","description"  :"turpis eget elit sodales scelerisque","transportation"  :"Walk","latitude"  :"36.809895","longitude"  :"116.428916"},{"id"  :"43","name"  :"Colorado","organization_id"  :"7460","alternate_name"  :"Colorado","description"  :"nulla tellus","transportation"  :"Shuttle","latitude"  :"-5.4008202","longitude"  :"105.2677562"},{"id"  :"44","name"  :"Texas","organization_id"  :"5288","alternate_name"  :"Texas","description"  :"in faucibus orci luctus et","transportation"  :"Shuttle","latitude"  :"2.965147","longitude"  :"99.0626377"},{"id"  :"45","name"  :"Stockton","organization_id"  :"7637","alternate_name"  :"Stockton","description"  :"faucibus accumsan odio curabitur convallis","transportation"  :"Walk","latitude"  :"14.024307","longitude"  :"35.3685679"},{"id"  :"46","name"  :"Michigan","organization_id"  :"7637","alternate_name"  :"Michigan","description"  :"placerat ante nulla justo","transportation"  :"Shuttle","latitude"  :"46.364025","longitude"  :"124.25218"},{"id"  :"47","name"  :"Texas","organization_id"  :"6628","alternate_name"  :"Texas","description"  :"est congue elementum in","transportation"  :"Train","latitude"  :"-7.0431437","longitude"  :"111.3679689"},{"id"  :"48","name"  :"Lancaster","organization_id"  :"1972","alternate_name"  :"Lancaster","description"  :"quis turpis sed ante vivamus","transportation"  :"Train","latitude"  :"59.4013379","longitude"  :"17.9291325"},{"id"  :"49","name"  :"Missouri","organization_id"  :"6628","alternate_name"  :"Missouri","description"  :"sem duis aliquam convallis","transportation"  :"Drive","latitude"  :"-17.3079902","longitude"  :"-40.1862129"},{"id"  :"50","name"  :"North Carolina","organization_id"  :"4140","alternate_name"  :"North Carolina","description"  :"nunc proin at turpis a","transportation"  :"Train","latitude"  :"-8.6283422","longitude"  :"115.2580854"},{"id"  :"51","name"  :"Port Washington","organization_id"  :"5288","alternate_name"  :"Port Washington","description"  :"a odio in","transportation"  :"Bus","latitude"  :"31.93957","longitude"  :"121.012416"},{"id"  :"52","name"  :"New York","organization_id"  :"7841","alternate_name"  :"New York","description"  :"quis odio consequat","transportation"  :"Drive","latitude"  :"39.5001721","longitude"  :"22.8859196"},{"id"  :"53","name"  :"Kansas","organization_id"  :"7460","alternate_name"  :"Kansas","description"  :"et magnis","transportation"  :"Walk","latitude"  :"59.6794853","longitude"  :"18.67843"},{"id"  :"54","name"  :"Boca Raton","organization_id"  :"5288","alternate_name"  :"Boca Raton","description"  :"facilisi cras non velit","transportation"  :"Bus","latitude"  :"60.502878","longitude"  :"43.5649824"},{"id"  :"55","name"  :"Rhode Island","organization_id"  :"4140","alternate_name"  :"Rhode Island","description"  :"enim leo rhoncus","transportation"  :"Shuttle","latitude"  :"45.551643","longitude"  :"-73.1932647"},{"id"  :"56","name"  :"Nevada","organization_id"  :"1972","alternate_name"  :"Nevada","description"  :"sed vel","transportation"  :"Bus","latitude"  :"28.532422","longitude"  :"118.592707"},{"id"  :"57","name"  :"Philadelphia","organization_id"  :"4140","alternate_name"  :"Philadelphia","description"  :"pellentesque ultrices mattis odio donec","transportation"  :"Shuttle","latitude"  :"47.343506","longitude"  :"6.309262"},{"id"  :"58","name"  :"California","organization_id"  :"9064","alternate_name"  :"California","description"  :"fermentum donec ut","transportation"  :"Shuttle","latitude"  :"27.091274","longitude"  :"113.439972"},{"id"  :"59","name"  :"California","organization_id"  :"7460","alternate_name"  :"California","description"  :"dolor quis odio consequat","transportation"  :"Drive","latitude"  :"42.2368","longitude"  :"46.83073"},{"id"  :"60","name"  :"Brooklyn","organization_id"  :"4140","alternate_name"  :"Brooklyn","description"  :"in sagittis dui vel","transportation"  :"Bus","latitude"  :"40.4690667","longitude"  :"-8.1110545"},{"id"  :"61","name"  :"Texas","organization_id"  :"1972","alternate_name"  :"Texas","description"  :"posuere metus vitae ipsum","transportation"  :"Train","latitude"  :"28.922003","longitude"  :"110.898783"},{"id"  :"62","name"  :"Kansas","organization_id"  :"7460","alternate_name"  :"Kansas","description"  :"dapibus augue vel accumsan","transportation"  :"Walk","latitude"  :"45.3940354","longitude"  :"18.3826102"},{"id"  :"63","name"  :"Decatur","organization_id"  :"5700","alternate_name"  :"Decatur","description"  :"vestibulum sagittis sapien","transportation"  :"Train","latitude"  :"49.7219212","longitude"  :"18.188717"},{"id"  :"64","name"  :"California","organization_id"  :"7460","alternate_name"  :"California","description"  :"at nibh in","transportation"  :"Train","latitude"  :"32.50171","longitude"  :"35.16621"},{"id"  :"65","name"  :"New York","organization_id"  :"9064","alternate_name"  :"New York","description"  :"ullamcorper augue a suscipit","transportation"  :"Drive","latitude"  :"45.597839","longitude"  :"126.637515"},{"id"  :"66","name"  :"Milwaukee","organization_id"  :"3401","alternate_name"  :"Milwaukee","description"  :"odio in hac habitasse","transportation"  :"Bus","latitude"  :"52.774987","longitude"  :"78.808874"},{"id"  :"67","name"  :"District of Columbia","organization_id"  :"7460","alternate_name"  :"District of Columbia","description"  :"cras non velit","transportation"  :"Train","latitude"  :"35.035","longitude"  :"10.90809"},{"id"  :"68","name"  :"California","organization_id"  :"7637","alternate_name"  :"California","description"  :"lacus at turpis donec","transportation"  :"Shuttle","latitude"  :"53.8536","longitude"  :"30.2671"},{"id"  :"69","name"  :"Colorado Springs","organization_id"  :"5288","alternate_name"  :"Colorado Springs","description"  :"ac nulla sed vel enim","transportation"  :"Shuttle","latitude"  :"60.2285503","longitude"  :"23.1228098"},{"id"  :"70","name"  :"Missouri","organization_id"  :"7637","alternate_name"  :"Missouri","description"  :"adipiscing lorem vitae mattis nibh","transportation"  :"Shuttle","latitude"  :"40.9303255","longitude"  :"-8.4956553"},{"id"  :"71","name"  :"Oklahoma","organization_id"  :"6628","alternate_name"  :"Oklahoma","description"  :"ultrices enim lorem ipsum dolor","transportation"  :"Train","latitude"  :"13.0883907","longitude"  :"-85.9993997"},{"id"  :"72","name"  :"Fresno","organization_id"  :"1972","alternate_name"  :"Fresno","description"  :"sed tristique in tempus","transportation"  :"Shuttle","latitude"  :"-5.9873416","longitude"  :"-79.7455956"},{"id"  :"73","name"  :"Florida","organization_id"  :"3401","alternate_name"  :"Florida","description"  :"dictumst morbi vestibulum","transportation"  :"Shuttle","latitude"  :"10.9893","longitude"  :"119.3593"},{"id"  :"74","name"  :"Indiana","organization_id"  :"5700","alternate_name"  :"Indiana","description"  :"augue aliquam erat volutpat","transportation"  :"Train","latitude"  :"-7.7687701","longitude"  :"112.9386472"},{"id"  :"75","name"  :"Jacksonville","organization_id"  :"4140","alternate_name"  :"Jacksonville","description"  :"nec nisi vulputate nonummy","transportation"  :"Bus","latitude"  :"38.93","longitude"  :"-77.4"},{"id"  :"76","name"  :"California","organization_id"  :"7637","alternate_name"  :"California","description"  :"ligula suspendisse ornare","transportation"  :"Bus","latitude"  :"9.9817261","longitude"  :"122.5356326"},{"id"  :"77","name"  :"New York","organization_id"  :"7841","alternate_name"  :"New York","description"  :"id lobortis convallis tortor","transportation"  :"Shuttle","latitude"  :"49.2147869","longitude"  :"15.8795516"},{"id"  :"78","name"  :"Toledo","organization_id"  :"7841","alternate_name"  :"Toledo","description"  :"rhoncus aliquam lacus morbi quis","transportation"  :"Bus","latitude"  :"49.8474618","longitude"  :"19.1473808"},{"id"  :"79","name"  :"Oregon","organization_id"  :"1972","alternate_name"  :"Oregon","description"  :"integer tincidunt","transportation"  :"Drive","latitude"  :"22.948016","longitude"  :"113.366904"},{"id"  :"80","name"  :"Florida","organization_id"  :"5700","alternate_name"  :"Florida","description"  :"vel nulla eget","transportation"  :"Walk","latitude"  :"-7.2760371","longitude"  :"107.6925674"},{"id"  :"81","name"  :"Los Angeles","organization_id"  :"7460","alternate_name"  :"Los Angeles","description"  :"mauris ullamcorper purus sit","transportation"  :"Train","latitude"  :"39.940646","longitude"  :"116.102009"},{"id"  :"82","name"  :"Florida","organization_id"  :"7460","alternate_name"  :"Florida","description"  :"odio cras mi","transportation"  :"Walk","latitude"  :"14.9333333","longitude"  :"120.6166667"},{"id"  :"83","name"  :"Virginia","organization_id"  :"3401","alternate_name"  :"Virginia","description"  :"purus sit amet","transportation"  :"Shuttle","latitude"  :"-9.821088","longitude"  :"124.4031833"},{"id"  :"84","name"  :"Washington","organization_id"  :"6628","alternate_name"  :"Washington","description"  :"porta volutpat quam","transportation"  :"Train","latitude"  :"-1.9296172","longitude"  :"18.291137"},{"id"  :"85","name"  :"Georgia","organization_id"  :"5700","alternate_name"  :"Georgia","description"  :"est congue elementum","transportation"  :"Bus","latitude"  :"10.0016057","longitude"  :"123.4091052"},{"id"  :"86","name"  :"Texas","organization_id"  :"4140","alternate_name"  :"Texas","description"  :"ac enim in","transportation"  :"Drive","latitude"  :"50.0429768","longitude"  :"46.8886722"},{"id"  :"87","name"  :"Minneapolis","organization_id"  :"5288","alternate_name"  :"Minneapolis","description"  :"erat eros","transportation"  :"Bus","latitude"  :"-10.2735517","longitude"  :"-36.5536172"},{"id"  :"88","name"  :"Oregon","organization_id"  :"7841","alternate_name"  :"Oregon","description"  :"congue vivamus metus arcu","transportation"  :"Train","latitude"  :"36.512506","longitude"  :"118.542982"},{"id"  :"89","name"  :"Oregon","organization_id"  :"6628","alternate_name"  :"Oregon","description"  :"integer ac leo pellentesque ultrices","transportation"  :"Train","latitude"  :"19.543266","longitude"  :"109.103413"},{"id"  :"90","name"  :"Memphis","organization_id"  :"9064","alternate_name"  :"Memphis","description"  :"sem sed sagittis nam congue","transportation"  :"Shuttle","latitude"  :"-4.1682452","longitude"  :"13.5523679"},{"id"  :"91","name"  :"Texas","organization_id"  :"7460","alternate_name"  :"Texas","description"  :"dictumst maecenas ut massa quis","transportation"  :"Walk","latitude"  :"-27.6856839","longitude"  :"-48.7817857"},{"id"  :"92","name"  :"New York","organization_id"  :"7460","alternate_name"  :"New York","description"  :"non velit donec","transportation"  :"Walk","latitude"  :"-20.94333","longitude"  :"55.327338"},{"id"  :"93","name"  :"Anderson","organization_id"  :"3401","alternate_name"  :"Anderson","description"  :"diam cras pellentesque","transportation"  :"Shuttle","latitude"  :"34.2412845","longitude"  :"108.9652643"},{"id"  :"94","name"  :"Illinois","organization_id"  :"7637","alternate_name"  :"Illinois","description"  :"faucibus orci luctus","transportation"  :"Drive","latitude"  :"9.08556","longitude"  :"125.57278"},{"id"  :"95","name"  :"North Carolina","organization_id"  :"9064","alternate_name"  :"North Carolina","description"  :"velit vivamus vel nulla","transportation"  :"Shuttle","latitude"  :"41.5225691","longitude"  :"20.2818148"},{"id"  :"96","name"  :"Chicago","organization_id"  :"4140","alternate_name"  :"Chicago","description"  :"porttitor id consequat in consequat","transportation"  :"Drive","latitude"  :"3.9671435","longitude"  :"103.40391"},{"id"  :"97","name"  :"Indiana","organization_id"  :"7841","alternate_name"  :"Indiana","description"  :"donec diam neque vestibulum","transportation"  :"Shuttle","latitude"  :"34.800458","longitude"  :"114.364875"},{"id"  :"98","name"  :"Florida","organization_id"  :"7460","alternate_name"  :"Florida","description"  :"id justo sit amet","transportation"  :"Train","latitude"  :"45.6629694","longitude"  :"6.3760602"},{"id"  :"99","name"  :"Tuscaloosa","organization_id"  :"5700","alternate_name"  :"Tuscaloosa","description"  :"morbi quis","transportation"  :"Shuttle","latitude"  :"52.96401","longitude"  :"14.42781"},{"id"  :"100","name"  :"California","organization_id"  :"7841","alternate_name"  :"California","description"  :"velit vivamus vel nulla eget","transportation"  :"Walk","latitude"  :"48.890054","longitude"  :"2.2372792"}]
+[
+   {
+      "id":"1",
+      "name":"Florida",
+      "organization_id":"4140",
+      "alternate_name":"Florida",
+      "description":"eget tempus vel pede morbi",
+      "transportation":"Train",
+      "latitude":"11.0678757",
+      "longitude":"-63.9201942"
+   },
+   {
+      "id":"2",
+      "name":"Florida",
+      "organization_id":"5700",
+      "alternate_name":"Florida",
+      "description":"leo odio condimentum id",
+      "transportation":"Walk",
+      "latitude":"39.999174",
+      "longitude":"118.701144"
+   },
+   {
+      "id":"3",
+      "name":"Columbus",
+      "organization_id":"6628",
+      "alternate_name":"Columbus",
+      "description":"pharetra magna ac",
+      "transportation":"Shuttle",
+      "latitude":"29.248085",
+      "longitude":"117.861797"
+   },
+   {
+      "id":"4",
+      "name":"Texas",
+      "organization_id":"4140",
+      "alternate_name":"Texas",
+      "description":"suspendisse potenti",
+      "transportation":"Shuttle",
+      "latitude":"45.1452956",
+      "longitude":"18.9362522"
+   },
+   {
+      "id":"5",
+      "name":"Indiana",
+      "organization_id":"5288",
+      "alternate_name":"Indiana",
+      "description":"augue vel accumsan tellus nisi",
+      "transportation":"Bus",
+      "latitude":"-7.4515784",
+      "longitude":"108.1888771"
+   },
+   {
+      "id":"6",
+      "name":"Green Bay",
+      "organization_id":"1972",
+      "alternate_name":"Green Bay",
+      "description":"vel augue",
+      "transportation":"Bus",
+      "latitude":"57.7856103",
+      "longitude":"43.200317"
+   },
+   {
+      "id":"7",
+      "name":"Florida",
+      "organization_id":"6628",
+      "alternate_name":"Florida",
+      "description":"rutrum rutrum",
+      "transportation":"Train",
+      "latitude":"43.236609",
+      "longitude":"88.409879"
+   },
+   {
+      "id":"8",
+      "name":"Ohio",
+      "organization_id":"7841",
+      "alternate_name":"Ohio",
+      "description":"faucibus cursus",
+      "transportation":"Shuttle",
+      "latitude":"36.60123",
+      "longitude":"126.6607764"
+   },
+   {
+      "id":"9",
+      "name":"Long Beach",
+      "organization_id":"4140",
+      "alternate_name":"Long Beach",
+      "description":"varius ut blandit non",
+      "transportation":"Bus",
+      "latitude":"48.7114913",
+      "longitude":"23.1850055"
+   },
+   {
+      "id":"10",
+      "name":"California",
+      "organization_id":"7460",
+      "alternate_name":"California",
+      "description":"ut volutpat",
+      "transportation":"Shuttle",
+      "latitude":"10.9638707",
+      "longitude":"8.3937532"
+   },
+   {
+      "id":"11",
+      "name":"Florida",
+      "organization_id":"7637",
+      "alternate_name":"Florida",
+      "description":"justo sit amet sapien dignissim",
+      "transportation":"Bus",
+      "latitude":"59.3778462",
+      "longitude":"18.0367294"
+   },
+   {
+      "id":"12",
+      "name":"Peoria",
+      "organization_id":"7460",
+      "alternate_name":"Peoria",
+      "description":"in hac",
+      "transportation":"Train",
+      "latitude":"38.9013413",
+      "longitude":"141.3981944"
+   },
+   {
+      "id":"13",
+      "name":"District of Columbia",
+      "organization_id":"6628",
+      "alternate_name":"District of Columbia",
+      "description":"sit amet eros suspendisse accumsan",
+      "transportation":"Drive",
+      "latitude":"-21.7034017",
+      "longitude":"-47.27079"
+   },
+   {
+      "id":"14",
+      "name":"Florida",
+      "organization_id":"7637",
+      "alternate_name":"Florida",
+      "description":"vitae ipsum aliquam non mauris",
+      "transportation":"Train",
+      "latitude":"50.5801021",
+      "longitude":"-113.8707312"
+   },
+   {
+      "id":"15",
+      "name":"Honolulu",
+      "organization_id":"5288",
+      "alternate_name":"Honolulu",
+      "description":"nulla integer",
+      "transportation":"Bus",
+      "latitude":"39.5691202",
+      "longitude":"45.9004974"
+   },
+   {
+      "id":"16",
+      "name":"Alabama",
+      "organization_id":"4140",
+      "alternate_name":"Alabama",
+      "description":"integer ac neque duis bibendum",
+      "transportation":"Drive",
+      "latitude":"44.8657158",
+      "longitude":"16.8537839"
+   },
+   {
+      "id":"17",
+      "name":"Illinois",
+      "organization_id":"6628",
+      "alternate_name":"Illinois",
+      "description":"eget eros elementum pellentesque",
+      "transportation":"Drive",
+      "latitude":"23.296786",
+      "longitude":"113.823135"
+   },
+   {
+      "id":"18",
+      "name":"Palm Bay",
+      "organization_id":"1972",
+      "alternate_name":"Palm Bay",
+      "description":"interdum in ante vestibulum",
+      "transportation":"Drive",
+      "latitude":"54.2732308",
+      "longitude":"32.014211"
+   },
+   {
+      "id":"19",
+      "name":"Nevada",
+      "organization_id":"7841",
+      "alternate_name":"Nevada",
+      "description":"odio consequat",
+      "transportation":"Drive",
+      "latitude":"-6.813931",
+      "longitude":"108.1784455"
+   },
+   {
+      "id":"20",
+      "name":"Florida",
+      "organization_id":"7460",
+      "alternate_name":"Florida",
+      "description":"bibendum felis sed interdum",
+      "transportation":"Shuttle",
+      "latitude":"-34.7382955",
+      "longitude":"-58.3820197"
+   },
+   {
+      "id":"21",
+      "name":"Bellevue",
+      "organization_id":"9064",
+      "alternate_name":"Bellevue",
+      "description":"quisque erat eros",
+      "transportation":"Walk",
+      "latitude":"-7.6608184",
+      "longitude":"111.0892601"
+   },
+   {
+      "id":"22",
+      "name":"Indiana",
+      "organization_id":"6628",
+      "alternate_name":"Indiana",
+      "description":"dictumst maecenas ut massa quis",
+      "transportation":"Shuttle",
+      "latitude":"9.7031412",
+      "longitude":"10.1941399"
+   },
+   {
+      "id":"23",
+      "name":"Florida",
+      "organization_id":"5288",
+      "alternate_name":"Florida",
+      "description":"ac nulla",
+      "transportation":"Train",
+      "latitude":"38.371402",
+      "longitude":"117.329949"
+   },
+   {
+      "id":"24",
+      "name":"Jersey City",
+      "organization_id":"4140",
+      "alternate_name":"Jersey City",
+      "description":"nisl nunc nisl",
+      "transportation":"Drive",
+      "latitude":"-2.9055447",
+      "longitude":"-41.7733626"
+   },
+   {
+      "id":"25",
+      "name":"California",
+      "organization_id":"1972",
+      "alternate_name":"California",
+      "description":"enim sit",
+      "transportation":"Train",
+      "latitude":"21.0471807",
+      "longitude":"104.2991973"
+   },
+   {
+      "id":"26",
+      "name":"Florida",
+      "organization_id":"7841",
+      "alternate_name":"Florida",
+      "description":"vestibulum aliquet ultrices",
+      "transportation":"Walk",
+      "latitude":"5.2805802",
+      "longitude":"115.2384663"
+   },
+   {
+      "id":"27",
+      "name":"Dallas",
+      "organization_id":"7460",
+      "alternate_name":"Dallas",
+      "description":"sit amet",
+      "transportation":"Shuttle",
+      "latitude":"28.55386",
+      "longitude":"112.35518"
+   },
+   {
+      "id":"28",
+      "name":"Pennsylvania",
+      "organization_id":"1972",
+      "alternate_name":"Pennsylvania",
+      "description":"vestibulum velit id",
+      "transportation":"Train",
+      "latitude":"-26.69475",
+      "longitude":"25.4735999"
+   },
+   {
+      "id":"29",
+      "name":"Kansas",
+      "organization_id":"9064",
+      "alternate_name":"Kansas",
+      "description":"est et tempus semper est",
+      "transportation":"Walk",
+      "latitude":"5.3523231",
+      "longitude":"100.3573891"
+   },
+   {
+      "id":"30",
+      "name":"Orlando",
+      "organization_id":"9064",
+      "alternate_name":"Orlando",
+      "description":"non sodales sed tincidunt eu",
+      "transportation":"Drive",
+      "latitude":"39.944315",
+      "longitude":"116.809657"
+   },
+   {
+      "id":"31",
+      "name":"New York",
+      "organization_id":"3401",
+      "alternate_name":"New York",
+      "description":"platea dictumst morbi",
+      "transportation":"Train",
+      "latitude":"30.978349",
+      "longitude":"107.980213"
+   },
+   {
+      "id":"32",
+      "name":"District of Columbia",
+      "organization_id":"3401",
+      "alternate_name":"District of Columbia",
+      "description":"vulputate vitae",
+      "transportation":"Train",
+      "latitude":"31.7284972",
+      "longitude":"-106.4899163"
+   },
+   {
+      "id":"33",
+      "name":"Anchorage",
+      "organization_id":"4140",
+      "alternate_name":"Anchorage",
+      "description":"magnis dis",
+      "transportation":"Train",
+      "latitude":"27.955261",
+      "longitude":"112.497228"
+   },
+   {
+      "id":"34",
+      "name":"Texas",
+      "organization_id":"5700",
+      "alternate_name":"Texas",
+      "description":"duis ac",
+      "transportation":"Walk",
+      "latitude":"-6.9158",
+      "longitude":"112.5541"
+   },
+   {
+      "id":"35",
+      "name":"Texas",
+      "organization_id":"9064",
+      "alternate_name":"Texas",
+      "description":"metus aenean fermentum donec",
+      "transportation":"Train",
+      "latitude":"20.7240105",
+      "longitude":"-97.5308167"
+   },
+   {
+      "id":"36",
+      "name":"Lincoln",
+      "organization_id":"9064",
+      "alternate_name":"Lincoln",
+      "description":"sapien urna",
+      "transportation":"Drive",
+      "latitude":"32.022005",
+      "longitude":"121.186614"
+   },
+   {
+      "id":"37",
+      "name":"Florida",
+      "organization_id":"1972",
+      "alternate_name":"Florida",
+      "description":"amet nulla quisque arcu libero",
+      "transportation":"Shuttle",
+      "latitude":"36.639033",
+      "longitude":"114.462061"
+   },
+   {
+      "id":"38",
+      "name":"Minnesota",
+      "organization_id":"4140",
+      "alternate_name":"Minnesota",
+      "description":"luctus rutrum nulla",
+      "transportation":"Train",
+      "latitude":"39.266576",
+      "longitude":"77.597552"
+   },
+   {
+      "id":"39",
+      "name":"Wilkes Barre",
+      "organization_id":"1972",
+      "alternate_name":"Wilkes Barre",
+      "description":"sit amet diam in",
+      "transportation":"Bus",
+      "latitude":"31.695648",
+      "longitude":"115.431153"
+   },
+   {
+      "id":"40",
+      "name":"Pennsylvania",
+      "organization_id":"9064",
+      "alternate_name":"Pennsylvania",
+      "description":"turpis adipiscing lorem",
+      "transportation":"Shuttle",
+      "latitude":"34.8917477",
+      "longitude":"138.1627422"
+   },
+   {
+      "id":"41",
+      "name":"Michigan",
+      "organization_id":"7460",
+      "alternate_name":"Michigan",
+      "description":"lacus purus aliquet at",
+      "transportation":"Drive",
+      "latitude":"-1.0460477",
+      "longitude":"-79.6333674"
+   },
+   {
+      "id":"42",
+      "name":"Portsmouth",
+      "organization_id":"3401",
+      "alternate_name":"Portsmouth",
+      "description":"turpis eget elit sodales scelerisque",
+      "transportation":"Walk",
+      "latitude":"36.809895",
+      "longitude":"116.428916"
+   },
+   {
+      "id":"43",
+      "name":"Colorado",
+      "organization_id":"7460",
+      "alternate_name":"Colorado",
+      "description":"nulla tellus",
+      "transportation":"Shuttle",
+      "latitude":"-5.4008202",
+      "longitude":"105.2677562"
+   },
+   {
+      "id":"44",
+      "name":"Texas",
+      "organization_id":"5288",
+      "alternate_name":"Texas",
+      "description":"in faucibus orci luctus et",
+      "transportation":"Shuttle",
+      "latitude":"2.965147",
+      "longitude":"99.0626377"
+   },
+   {
+      "id":"45",
+      "name":"Stockton",
+      "organization_id":"7637",
+      "alternate_name":"Stockton",
+      "description":"faucibus accumsan odio curabitur convallis",
+      "transportation":"Walk",
+      "latitude":"14.024307",
+      "longitude":"35.3685679"
+   },
+   {
+      "id":"46",
+      "name":"Michigan",
+      "organization_id":"7637",
+      "alternate_name":"Michigan",
+      "description":"placerat ante nulla justo",
+      "transportation":"Shuttle",
+      "latitude":"46.364025",
+      "longitude":"124.25218"
+   },
+   {
+      "id":"47",
+      "name":"Texas",
+      "organization_id":"6628",
+      "alternate_name":"Texas",
+      "description":"est congue elementum in",
+      "transportation":"Train",
+      "latitude":"-7.0431437",
+      "longitude":"111.3679689"
+   },
+   {
+      "id":"48",
+      "name":"Lancaster",
+      "organization_id":"1972",
+      "alternate_name":"Lancaster",
+      "description":"quis turpis sed ante vivamus",
+      "transportation":"Train",
+      "latitude":"59.4013379",
+      "longitude":"17.9291325"
+   },
+   {
+      "id":"49",
+      "name":"Missouri",
+      "organization_id":"6628",
+      "alternate_name":"Missouri",
+      "description":"sem duis aliquam convallis",
+      "transportation":"Drive",
+      "latitude":"-17.3079902",
+      "longitude":"-40.1862129"
+   },
+   {
+      "id":"50",
+      "name":"North Carolina",
+      "organization_id":"4140",
+      "alternate_name":"North Carolina",
+      "description":"nunc proin at turpis a",
+      "transportation":"Train",
+      "latitude":"-8.6283422",
+      "longitude":"115.2580854"
+   },
+   {
+      "id":"51",
+      "name":"Port Washington",
+      "organization_id":"5288",
+      "alternate_name":"Port Washington",
+      "description":"a odio in",
+      "transportation":"Bus",
+      "latitude":"31.93957",
+      "longitude":"121.012416"
+   },
+   {
+      "id":"52",
+      "name":"New York",
+      "organization_id":"7841",
+      "alternate_name":"New York",
+      "description":"quis odio consequat",
+      "transportation":"Drive",
+      "latitude":"39.5001721",
+      "longitude":"22.8859196"
+   },
+   {
+      "id":"53",
+      "name":"Kansas",
+      "organization_id":"7460",
+      "alternate_name":"Kansas",
+      "description":"et magnis",
+      "transportation":"Walk",
+      "latitude":"59.6794853",
+      "longitude":"18.67843"
+   },
+   {
+      "id":"54",
+      "name":"Boca Raton",
+      "organization_id":"5288",
+      "alternate_name":"Boca Raton",
+      "description":"facilisi cras non velit",
+      "transportation":"Bus",
+      "latitude":"60.502878",
+      "longitude":"43.5649824"
+   },
+   {
+      "id":"55",
+      "name":"Rhode Island",
+      "organization_id":"4140",
+      "alternate_name":"Rhode Island",
+      "description":"enim leo rhoncus",
+      "transportation":"Shuttle",
+      "latitude":"45.551643",
+      "longitude":"-73.1932647"
+   },
+   {
+      "id":"56",
+      "name":"Nevada",
+      "organization_id":"1972",
+      "alternate_name":"Nevada",
+      "description":"sed vel",
+      "transportation":"Bus",
+      "latitude":"28.532422",
+      "longitude":"118.592707"
+   },
+   {
+      "id":"57",
+      "name":"Philadelphia",
+      "organization_id":"4140",
+      "alternate_name":"Philadelphia",
+      "description":"pellentesque ultrices mattis odio donec",
+      "transportation":"Shuttle",
+      "latitude":"47.343506",
+      "longitude":"6.309262"
+   },
+   {
+      "id":"58",
+      "name":"California",
+      "organization_id":"9064",
+      "alternate_name":"California",
+      "description":"fermentum donec ut",
+      "transportation":"Shuttle",
+      "latitude":"27.091274",
+      "longitude":"113.439972"
+   },
+   {
+      "id":"59",
+      "name":"California",
+      "organization_id":"7460",
+      "alternate_name":"California",
+      "description":"dolor quis odio consequat",
+      "transportation":"Drive",
+      "latitude":"42.2368",
+      "longitude":"46.83073"
+   },
+   {
+      "id":"60",
+      "name":"Brooklyn",
+      "organization_id":"4140",
+      "alternate_name":"Brooklyn",
+      "description":"in sagittis dui vel",
+      "transportation":"Bus",
+      "latitude":"40.4690667",
+      "longitude":"-8.1110545"
+   },
+   {
+      "id":"61",
+      "name":"Texas",
+      "organization_id":"1972",
+      "alternate_name":"Texas",
+      "description":"posuere metus vitae ipsum",
+      "transportation":"Train",
+      "latitude":"28.922003",
+      "longitude":"110.898783"
+   },
+   {
+      "id":"62",
+      "name":"Kansas",
+      "organization_id":"7460",
+      "alternate_name":"Kansas",
+      "description":"dapibus augue vel accumsan",
+      "transportation":"Walk",
+      "latitude":"45.3940354",
+      "longitude":"18.3826102"
+   },
+   {
+      "id":"63",
+      "name":"Decatur",
+      "organization_id":"5700",
+      "alternate_name":"Decatur",
+      "description":"vestibulum sagittis sapien",
+      "transportation":"Train",
+      "latitude":"49.7219212",
+      "longitude":"18.188717"
+   },
+   {
+      "id":"64",
+      "name":"California",
+      "organization_id":"7460",
+      "alternate_name":"California",
+      "description":"at nibh in",
+      "transportation":"Train",
+      "latitude":"32.50171",
+      "longitude":"35.16621"
+   },
+   {
+      "id":"65",
+      "name":"New York",
+      "organization_id":"9064",
+      "alternate_name":"New York",
+      "description":"ullamcorper augue a suscipit",
+      "transportation":"Drive",
+      "latitude":"45.597839",
+      "longitude":"126.637515"
+   },
+   {
+      "id":"66",
+      "name":"Milwaukee",
+      "organization_id":"3401",
+      "alternate_name":"Milwaukee",
+      "description":"odio in hac habitasse",
+      "transportation":"Bus",
+      "latitude":"52.774987",
+      "longitude":"78.808874"
+   },
+   {
+      "id":"67",
+      "name":"District of Columbia",
+      "organization_id":"7460",
+      "alternate_name":"District of Columbia",
+      "description":"cras non velit",
+      "transportation":"Train",
+      "latitude":"35.035",
+      "longitude":"10.90809"
+   },
+   {
+      "id":"68",
+      "name":"California",
+      "organization_id":"7637",
+      "alternate_name":"California",
+      "description":"lacus at turpis donec",
+      "transportation":"Shuttle",
+      "latitude":"53.8536",
+      "longitude":"30.2671"
+   },
+   {
+      "id":"69",
+      "name":"Colorado Springs",
+      "organization_id":"5288",
+      "alternate_name":"Colorado Springs",
+      "description":"ac nulla sed vel enim",
+      "transportation":"Shuttle",
+      "latitude":"60.2285503",
+      "longitude":"23.1228098"
+   },
+   {
+      "id":"70",
+      "name":"Missouri",
+      "organization_id":"7637",
+      "alternate_name":"Missouri",
+      "description":"adipiscing lorem vitae mattis nibh",
+      "transportation":"Shuttle",
+      "latitude":"40.9303255",
+      "longitude":"-8.4956553"
+   },
+   {
+      "id":"71",
+      "name":"Oklahoma",
+      "organization_id":"6628",
+      "alternate_name":"Oklahoma",
+      "description":"ultrices enim lorem ipsum dolor",
+      "transportation":"Train",
+      "latitude":"13.0883907",
+      "longitude":"-85.9993997"
+   },
+   {
+      "id":"72",
+      "name":"Fresno",
+      "organization_id":"1972",
+      "alternate_name":"Fresno",
+      "description":"sed tristique in tempus",
+      "transportation":"Shuttle",
+      "latitude":"-5.9873416",
+      "longitude":"-79.7455956"
+   },
+   {
+      "id":"73",
+      "name":"Florida",
+      "organization_id":"3401",
+      "alternate_name":"Florida",
+      "description":"dictumst morbi vestibulum",
+      "transportation":"Shuttle",
+      "latitude":"10.9893",
+      "longitude":"119.3593"
+   },
+   {
+      "id":"74",
+      "name":"Indiana",
+      "organization_id":"5700",
+      "alternate_name":"Indiana",
+      "description":"augue aliquam erat volutpat",
+      "transportation":"Train",
+      "latitude":"-7.7687701",
+      "longitude":"112.9386472"
+   },
+   {
+      "id":"75",
+      "name":"Jacksonville",
+      "organization_id":"4140",
+      "alternate_name":"Jacksonville",
+      "description":"nec nisi vulputate nonummy",
+      "transportation":"Bus",
+      "latitude":"38.93",
+      "longitude":"-77.4"
+   },
+   {
+      "id":"76",
+      "name":"California",
+      "organization_id":"7637",
+      "alternate_name":"California",
+      "description":"ligula suspendisse ornare",
+      "transportation":"Bus",
+      "latitude":"9.9817261",
+      "longitude":"122.5356326"
+   },
+   {
+      "id":"77",
+      "name":"New York",
+      "organization_id":"7841",
+      "alternate_name":"New York",
+      "description":"id lobortis convallis tortor",
+      "transportation":"Shuttle",
+      "latitude":"49.2147869",
+      "longitude":"15.8795516"
+   },
+   {
+      "id":"78",
+      "name":"Toledo",
+      "organization_id":"7841",
+      "alternate_name":"Toledo",
+      "description":"rhoncus aliquam lacus morbi quis",
+      "transportation":"Bus",
+      "latitude":"49.8474618",
+      "longitude":"19.1473808"
+   },
+   {
+      "id":"79",
+      "name":"Oregon",
+      "organization_id":"1972",
+      "alternate_name":"Oregon",
+      "description":"integer tincidunt",
+      "transportation":"Drive",
+      "latitude":"22.948016",
+      "longitude":"113.366904"
+   },
+   {
+      "id":"80",
+      "name":"Florida",
+      "organization_id":"5700",
+      "alternate_name":"Florida",
+      "description":"vel nulla eget",
+      "transportation":"Walk",
+      "latitude":"-7.2760371",
+      "longitude":"107.6925674"
+   },
+   {
+      "id":"81",
+      "name":"Los Angeles",
+      "organization_id":"7460",
+      "alternate_name":"Los Angeles",
+      "description":"mauris ullamcorper purus sit",
+      "transportation":"Train",
+      "latitude":"39.940646",
+      "longitude":"116.102009"
+   },
+   {
+      "id":"82",
+      "name":"Florida",
+      "organization_id":"7460",
+      "alternate_name":"Florida",
+      "description":"odio cras mi",
+      "transportation":"Walk",
+      "latitude":"14.9333333",
+      "longitude":"120.6166667"
+   },
+   {
+      "id":"83",
+      "name":"Virginia",
+      "organization_id":"3401",
+      "alternate_name":"Virginia",
+      "description":"purus sit amet",
+      "transportation":"Shuttle",
+      "latitude":"-9.821088",
+      "longitude":"124.4031833"
+   },
+   {
+      "id":"84",
+      "name":"Washington",
+      "organization_id":"6628",
+      "alternate_name":"Washington",
+      "description":"porta volutpat quam",
+      "transportation":"Train",
+      "latitude":"-1.9296172",
+      "longitude":"18.291137"
+   },
+   {
+      "id":"85",
+      "name":"Georgia",
+      "organization_id":"5700",
+      "alternate_name":"Georgia",
+      "description":"est congue elementum",
+      "transportation":"Bus",
+      "latitude":"10.0016057",
+      "longitude":"123.4091052"
+   },
+   {
+      "id":"86",
+      "name":"Texas",
+      "organization_id":"4140",
+      "alternate_name":"Texas",
+      "description":"ac enim in",
+      "transportation":"Drive",
+      "latitude":"50.0429768",
+      "longitude":"46.8886722"
+   },
+   {
+      "id":"87",
+      "name":"Minneapolis",
+      "organization_id":"5288",
+      "alternate_name":"Minneapolis",
+      "description":"erat eros",
+      "transportation":"Bus",
+      "latitude":"-10.2735517",
+      "longitude":"-36.5536172"
+   },
+   {
+      "id":"88",
+      "name":"Oregon",
+      "organization_id":"7841",
+      "alternate_name":"Oregon",
+      "description":"congue vivamus metus arcu",
+      "transportation":"Train",
+      "latitude":"36.512506",
+      "longitude":"118.542982"
+   },
+   {
+      "id":"89",
+      "name":"Oregon",
+      "organization_id":"6628",
+      "alternate_name":"Oregon",
+      "description":"integer ac leo pellentesque ultrices",
+      "transportation":"Train",
+      "latitude":"19.543266",
+      "longitude":"109.103413"
+   },
+   {
+      "id":"90",
+      "name":"Memphis",
+      "organization_id":"9064",
+      "alternate_name":"Memphis",
+      "description":"sem sed sagittis nam congue",
+      "transportation":"Shuttle",
+      "latitude":"-4.1682452",
+      "longitude":"13.5523679"
+   },
+   {
+      "id":"91",
+      "name":"Texas",
+      "organization_id":"7460",
+      "alternate_name":"Texas",
+      "description":"dictumst maecenas ut massa quis",
+      "transportation":"Walk",
+      "latitude":"-27.6856839",
+      "longitude":"-48.7817857"
+   },
+   {
+      "id":"92",
+      "name":"New York",
+      "organization_id":"7460",
+      "alternate_name":"New York",
+      "description":"non velit donec",
+      "transportation":"Walk",
+      "latitude":"-20.94333",
+      "longitude":"55.327338"
+   },
+   {
+      "id":"93",
+      "name":"Anderson",
+      "organization_id":"3401",
+      "alternate_name":"Anderson",
+      "description":"diam cras pellentesque",
+      "transportation":"Shuttle",
+      "latitude":"34.2412845",
+      "longitude":"108.9652643"
+   },
+   {
+      "id":"94",
+      "name":"Illinois",
+      "organization_id":"7637",
+      "alternate_name":"Illinois",
+      "description":"faucibus orci luctus",
+      "transportation":"Drive",
+      "latitude":"9.08556",
+      "longitude":"125.57278"
+   },
+   {
+      "id":"95",
+      "name":"North Carolina",
+      "organization_id":"9064",
+      "alternate_name":"North Carolina",
+      "description":"velit vivamus vel nulla",
+      "transportation":"Shuttle",
+      "latitude":"41.5225691",
+      "longitude":"20.2818148"
+   },
+   {
+      "id":"96",
+      "name":"Chicago",
+      "organization_id":"4140",
+      "alternate_name":"Chicago",
+      "description":"porttitor id consequat in consequat",
+      "transportation":"Drive",
+      "latitude":"3.9671435",
+      "longitude":"103.40391"
+   },
+   {
+      "id":"97",
+      "name":"Indiana",
+      "organization_id":"7841",
+      "alternate_name":"Indiana",
+      "description":"donec diam neque vestibulum",
+      "transportation":"Shuttle",
+      "latitude":"34.800458",
+      "longitude":"114.364875"
+   },
+   {
+      "id":"98",
+      "name":"Florida",
+      "organization_id":"7460",
+      "alternate_name":"Florida",
+      "description":"id justo sit amet",
+      "transportation":"Train",
+      "latitude":"45.6629694",
+      "longitude":"6.3760602"
+   },
+   {
+      "id":"99",
+      "name":"Tuscaloosa",
+      "organization_id":"5700",
+      "alternate_name":"Tuscaloosa",
+      "description":"morbi quis",
+      "transportation":"Shuttle",
+      "latitude":"52.96401",
+      "longitude":"14.42781"
+   },
+   {
+      "id":"100",
+      "name":"California",
+      "organization_id":"7841",
+      "alternate_name":"California",
+      "description":"velit vivamus vel nulla eget",
+      "transportation":"Walk",
+      "latitude":"48.890054",
+      "longitude":"2.2372792"
+   }
+]

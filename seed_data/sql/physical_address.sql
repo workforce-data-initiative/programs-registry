@@ -1,12 +1,4 @@
-create table if not exists physical_address(
-	id INT,
-	location_id INT,
-	address VARCHAR(50),
-	city VARCHAR(50),
-	state VARCHAR(50),
-	postal_code INT,
-	country VARCHAR(2)
-);
+create table if not exists physical_address(id INT, location_id INT, address VARCHAR(50), city VARCHAR(50), state VARCHAR(50), postal_code INT, country VARCHAR(2));
 insert into physical_address (id, location_id, address, city, state, postal_code, country) values (1, 1, '72 Springview Avenue', 'New Bedford', 'Massachusetts', '02745', 'US');
 insert into physical_address (id, location_id, address, city, state, postal_code, country) values (2, 2, '16 Toban Crossing', 'Saginaw', 'Michigan', '48604', 'US');
 insert into physical_address (id, location_id, address, city, state, postal_code, country) values (3, 3, '10 Sachs Crossing', 'Houston', 'Texas', '77281', 'US');

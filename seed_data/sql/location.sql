@@ -1,13 +1,4 @@
-create table if not exists location (
-	id INT,
-	name VARCHAR(20),
-	organization_id INT,
-	alternate_name VARCHAR(50),
-	description VARCHAR(256),
-	transportation VARCHAR(7),
-	latitude DECIMAL(3,6),
-	longitude DECIMAL(3,6)
-);
+create table if not exists location (id INT, name VARCHAR(20), organization_id INT, alternate_name VARCHAR(50), description VARCHAR(256), transportation VARCHAR(7), latitude DECIMAL(3,6), longitude DECIMAL(3,6));
 insert into location (id, name, organization_id, alternate_name, description, transportation, latitude, longitude) values (1, 'Florida', 4140, 'Florida', 'eget tempus vel pede morbi', 'Train', 11.0678757, -63.9201942);
 insert into location (id, name, organization_id, alternate_name, description, transportation, latitude, longitude) values (2, 'Florida', 5700, 'Florida', 'leo odio condimentum id', 'Walk', 39.999174, 118.701144);
 insert into location (id, name, organization_id, alternate_name, description, transportation, latitude, longitude) values (3, 'Columbus', 6628, 'Columbus', 'pharetra magna ac', 'Shuttle', 29.248085, 117.861797);
