@@ -133,9 +133,9 @@ class Program(db.Model, BaseMixin):
     soc_code_1 = db.Column(db.Integer, nullable=False)
     soc_code_2 = db.Column(db.Integer, nullable=False)
     soc_code_3 = db.Column(db.Integer, nullable=False)
-    credential_name = db.Column(db.String(100), nullable=True)
+    credential_name = db.Column(db.String(256), nullable=True)
     alternate_name = db.Column(db.String(100), nullable=True)
-    on_etpl = db.Column(db.String(20), default='N/A', nullable=False)
+    on_etpl = db.Column(db.Integer, default=0, nullable=False)
     
     services = db.relationship("Service", backref="program", 
                                lazy=True, passive_deletes=True)

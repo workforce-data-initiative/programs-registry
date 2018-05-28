@@ -28,8 +28,7 @@ def create_app(config_name):
 
 
 # for 'flask run'
-config_name = os.environ.get('FLASK_ENV')
-app = create_app(config_name)
+app = create_app(config_name=os.environ.get('FLASK_ENV'))
   
 if __name__ == '__main__':
     app.run()
