@@ -41,12 +41,11 @@ How to setup in your local development environment
 	cd program_registry
 	```
 
-3. Create and activate a python virtual environment using Python 3.6+ interpreter, then install required python packages
+3. Create and activate a python virtual environment using Python 3.6+ interpreter
 
 	```bash
 	python3 -m venv ${VENV_NAME} ${ENV_DIR}
 	. ${ENV_DIR}/${VENV_NAME}/bin/activate
-	pip install -r requirements.txt
 	```
 
 4. Set required environment variables for running Flask application
@@ -57,26 +56,41 @@ How to setup in your local development environment
 	export DATABASE_URL=postgresql://regdb:@${PGSQL_SERVER_HOSTNAME}:${PGSQL_PORT}/registry
 	```
 
-5. Load program registry database
+5. Pip install Flask application all it's dependencies
 
-	* Option 1: Create and seed tables using migration script
+	```bash 
+	pip install -e .
+	```
+	
+6. Load program registry database
+
+	* Option 1(Recommended): Create and seed tables using migration script
 	
 	```bash
 	flask db upgrade seed
 	```
 
-	* Option 2: Create and seed tables using CSV file data
+	* Option 2 (Maybe faster in some instances): Create and seed tables using CSV or SQL file data
 
 	```bash
-	flask db upgrade head
-	sh seed_data.sh 
+	flask db upgrade schema
+	python -m seed_data 
 	```
 	
-6. Run tests
+	* To drop seed data from the database
 	
 	```bash
-	flask test models
+	flask db downgrade
+	```
+	
+	Note: In the case of Option 2, this will drop all tables as well because the data load happens outside migrations.
+
+7. Run tests, with any of the following options
+	
+	```bash
+	flask test --all
 	flask test endpoints
+	flask test endpoints,models
 	```
 	
 ### Run Development Server
@@ -104,13 +118,13 @@ For any issues with the official API documentation, please [open a documentation
 
 ### Alternative Deployment Options
 
-#### Make Docker Image
+#### Docker Container
 
 ##### Prerequisites
 
 1. Docker install ([Get Docker](https://www.docker.com/get-docker) for your environment) 
 
-##### Compose Image
+##### Create Docker Image
 
 ```bash
 docker-compose up
