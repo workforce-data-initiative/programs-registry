@@ -25,23 +25,23 @@ reg_api.add_resource(ProvidersResource, '/providers',
                                         '/providers/<int:organization_id>/locations/<int:location_id>')
 
 reg_api.add_resource(ProgramsResource, '/programs',
-                                        '/programs?id=<int:id>', # remove
-                                        '/programs?cip=<int:cip>',
-                                        '/programs?name=<string:name>',
-                                        '/programs/<int:program_id>',
-                                        '/programs/<int:program_id>/services',
-                                        '/programs/<int:program_id>/services?status=<string:status>',
-                                        '/programs/<int:program_id>/services?name=<string:name>',
-                                        '/programs/<int:program_id>/services/<int:service_id>')
+                     '/programs?id=<int:id>',  # remove
+                     '/programs?cip=<int:cip>',
+                     '/programs?name=<string:name>',
+                     '/programs/<int:program_id>',
+                     '/programs/<int:program_id>/services',
+                     '/programs/<int:program_id>/services?status=<string:status>',
+                     '/programs/<int:program_id>/services?name=<string:name>',
+                     '/programs/<int:program_id>/services/<int:service_id>')
 
-reg_api.add_resource(ServicesResource, '/services', 
-                                        '/services?id=<int:id>', # remove
-                                        '/services?status=<string:status>',
-                                        '/services?name=<string:name>',
-                                        '/services/<int:service_id>',
-                                        '/services/<int:service_id>/locations',
-                                        '/services/<int:service_id>/locations?name=<string:name>',
-                                        '/services/<int:service_id>/locations/<int:location_id>')
+reg_api.add_resource(ServicesResource, '/services',
+                     '/services?id=<int:id>',  # remove
+                     '/services?status=<string:status>',
+                     '/services?name=<string:name>',
+                     '/services/<int:service_id>',
+                     '/services/<int:service_id>/locations',
+                     '/services/<int:service_id>/locations?name=<string:name>',
+                     '/services/<int:service_id>/locations/<int:location_id>')
 
 reg_api.add_resource(LocationsResource, '/locations',
                                         '/locations?name=<string:name>',
