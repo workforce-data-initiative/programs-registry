@@ -32,7 +32,7 @@ tables = ['organization', 'location', 'physical_address', 'program', 'service',
 for table in tables:
     cur = connection.cursor()
     try:
-        with open('data/'+table+'.csv', 'r') as f:
+        with open('data/' + table + '.csv', 'r') as f:
             if sys.argv[-1] != 'no_header':
                 next(f)  # Skip the header row.
             cur.copy_from(f, table, sep=',')
@@ -40,7 +40,7 @@ for table in tables:
     except psycopg2.DataError as error:
         logger.info('Bumped into an error {}'.format(error))
         logger.info('Trying something else')
-        with open('data/'+table+'.sql', 'r') as f:
+        with open('data/' + table + '.sql', 'r') as f:
             if sys.argv[-1] != 'no_header':
                 for line in f[1:]:  # Skip the header row.
                     cur.execute(line)
