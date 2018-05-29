@@ -4,11 +4,22 @@ from setuptools import setup
 
 setup(
     name='program_registry',
+    version='0.1',
     packages=['program_registry'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
         'Flask==1.0.2',
+        'Flask-API==1.0',
+        'Flask-Migrate==2.1.1',
+        'Flask-SQLAlchemy==2.3.2',
+        'Flask-Script==2.0.6',
+        'flask-restful==0.3.6',
+        'flask-marshmallow==0.8.0',
+        'marshmallow-sqlalchemy==0.13.2',
+        'psycopg2==2.7.3.1',
+        'connexion==1.3',
+        'webargs==2.0.0'
     ],
     entry_points={
         'flask.commands': [
@@ -16,3 +27,4 @@ setup(
             ]
         }
 )
+
