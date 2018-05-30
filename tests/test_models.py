@@ -4,7 +4,7 @@ import os
 
 from app import create_app, db
 from app.models import Organization, Service, Program, Location, \
-                       ServiceLocation, PhysicalAddress
+    ServiceLocation, PhysicalAddress
 from instance import config
 
 
