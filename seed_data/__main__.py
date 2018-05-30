@@ -4,7 +4,7 @@ import os
 import sys
 import re
 import logging
-from psycopg2 import IntegrityError, DataError, InternalError
+from psycopg2 import IntegrityError, DataError
 from sqlalchemy import create_engine
 
 
