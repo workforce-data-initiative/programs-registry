@@ -204,14 +204,11 @@ service_blueprint.add_url_rule(
     view_func=service_view, defaults={'program_id': None},
     methods=['GET', 'PUT', 'DELETE'])
 service_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/programs/' +
-    '<int:program_id>/services/',
+    '/api/organizations/<int:organization_id>/programs/' + '<int:program_id>/services/',
     view_func=service_view, methods=['POST'])
 service_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/programs/' +
-    '<int:program_id>/services/',
+    '/api/organizations/<int:organization_id>/programs/' + '<int:program_id>/services/',
     view_func=service_view, defaults={'service_id': None}, methods=['GET'])
 service_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/programs/' +
-    '<int:program_id>/services/<int:service_id>',
+    '/api/organizations/<int:organization_id>/programs/' + '<int:program_id>/services/<int:service_id>',
     view_func=service_view, methods=['GET', 'PUT', 'DELETE'])
