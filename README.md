@@ -70,8 +70,9 @@ docker-compose up
 # Deployment
 This project is using `Heroku Container Registry` for ~~automatic~~ deployments of master and develop branches. It is part of the CI/CD pipeline as detailed in [heroku.sh](/heroku.sh).
 
-Before running `sh heroku.sh`;
-Run `export HEROKU_DATASTORE_URI=<>` with the `<>` replaced by the URI obtained by running either `heroku pg:credentials:url DATABASE --app programs-registry-dev` for `develop` branch or `heroku pg:credentials:url DATABASE --app programs-registry` for `master` branch.
+Before running `sh heroku.sh`:
+
+Run `export HEROKU_DATASTORE_URI=<>` with the `<>` replaced by the URI (obtained by running either `heroku pg:credentials:url DATABASE --app programs-registry-dev` for `develop` branch or `heroku pg:credentials:url DATABASE --app programs-registry` for `master` branch.)
 
 > Please note
 
