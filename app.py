@@ -15,7 +15,7 @@ db = SQLAlchemy()
 
 config_name = os.getenv('APP_SETTINGS')
 app = connexion.App(__name__)
-app.add_api('openapi.yaml')
+app.add_api('.openapi/swagger.yaml')
 
 flask_app = app.app
 flask_app.instance_relative_config = True
