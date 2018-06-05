@@ -2,6 +2,9 @@
 
 import json
 from flask import jsonify, make_response
+from _ast import Delete
+import string
+from dominate.tags import form
 
 
 def create_response(data, schema, status, custom_headers=None):
@@ -45,3 +48,39 @@ def load_json(file_path):
             json_data = json.load(json_path)
         
     return json_data
+
+
+def parse_args(args, kwargs):
+    """
+    Derive a dict of keyword args from webargs passed 
+    from multiple locations in a GET request
+    
+    :param args: tuple of args passed from query string
+    :param kwargs: dict of args passed from url, json/form
+    : return dict of (keyword) args to be used
+    
+    """
+    
+    request_args = {}
+    if kwargs:
+        request_args = kwargs
+    
+    try:
+        for arg in args:
+            request_args.update(arg)
+    except TypeError as err:
+        raise
+    
+    return request_args
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

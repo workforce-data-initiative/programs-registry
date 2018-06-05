@@ -69,7 +69,7 @@ def upgrade():
         sa.Column('name', sa.String(length=100), nullable=False),
         sa.Column('organization_id', sa.Integer(), nullable=True),
         sa.Column('potential_outcome_id', sa.Integer(), nullable=False),
-        sa.Column('prerequisites', sa.Integer(), nullable=False),
+        sa.Column('prerequisite_id', sa.Integer(), nullable=False),
         sa.Column('soc_code_1', sa.Integer(), nullable=False),
         sa.Column('soc_code_2', sa.Integer(), nullable=False),
         sa.Column('soc_code_3', sa.Integer(), nullable=False),
@@ -78,7 +78,7 @@ def upgrade():
         sa.Column('on_etpl', sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(['organization_id'], ['organization.id'], ondelete='CASCADE'),
         sa.ForeignKeyConstraint(['potential_outcome_id'], ['potential_outcome.id'], ondelete='CASCADE'),
-        sa.ForeignKeyConstraint(['prerequisites'], ['prerequisite.id'], ondelete='CASCADE'),
+        sa.ForeignKeyConstraint(['prerequisite_id'], ['prerequisite.id'], ondelete='CASCADE'),
         sa.PrimaryKeyConstraint('id')
     )
     op.create_table('physical_address',
@@ -96,7 +96,7 @@ def upgrade():
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('name', sa.String(length=100), nullable=False),
         sa.Column('status', sa.String(length=30), nullable=False),
-        sa.Column('format', sa.Integer(), nullable=False),
+        sa.Column('format_id', sa.Integer(), nullable=False),
         sa.Column('num_hrs', sa.Integer(), nullable=False),
         sa.Column('num_weeks', sa.Integer(), nullable=False),
         sa.Column('description', sa.String(length=200), nullable=True),
@@ -106,7 +106,7 @@ def upgrade():
         sa.Column('url', sa.String(length=100), nullable=True),
         sa.Column('tuition', sa.Float(), nullable=True),
         sa.Column('materials_cost', sa.Float(), nullable=True),
-        sa.ForeignKeyConstraint(['format'], ['format.id'], ondelete='CASCADE'),
+        sa.ForeignKeyConstraint(['format_id'], ['format.id'], ondelete='CASCADE'),
         sa.ForeignKeyConstraint(['organization_id'], ['organization.id'], ondelete='CASCADE'),
         sa.ForeignKeyConstraint(['program_id'], ['program.id'], ondelete='CASCADE'),
         sa.PrimaryKeyConstraint('id')

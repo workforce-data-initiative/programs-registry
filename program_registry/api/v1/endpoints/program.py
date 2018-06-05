@@ -19,7 +19,7 @@ from http import HTTPStatus
 from flask_restful import Resource, abort 
 from webargs.flaskparser import use_args
 
-from common.utils import create_response
+from common.utils import create_response, parse_args
 from program_registry.api.v1.models import db, Program
 from program_registry.api.v1.schemas import ProgramSchema, ProgramPostSchema
 
@@ -39,19 +39,13 @@ class ProgramResource(Resource):
     
     @use_args(ProgramSchema(), locations=('view_args', 'query'))
     def get(self, *args, **kwargs): 
-        filters = {}
-        if kwargs:
-            filters = kwargs
-        else:
-            for arg in args:
-                filters.update(arg)
-                
-        programs = Program.get_by(filters)
+        request_args = parse_args(args, kwargs)        
+        programs = Program.get_by(request_args)
         
         if programs:
             return create_response(programs, ProgramSchema(many=True), HTTPStatus.OK)
 
-        abort(HTTPStatus.NOT_FOUND, message="No matching programs found: {}".format(filters))
+        abort(HTTPStatus.NOT_FOUND, message="No matching programs found: {}".format(request_args))
 
     @use_args(ProgramPostSchema(), locations=('view_args', 'json', 'form'))
     def post(self, *args):

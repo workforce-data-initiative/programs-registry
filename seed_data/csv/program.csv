@@ -1,4 +1,4 @@
-id|cip|name|organization_id|potential_outcome_id|prerequisites|soc_code_1|soc_code_2|soc_code_3|credential_name|alternate_name|on_etpl
+id|cip|name|organization_id|potential_outcome_id|prerequisite_id|soc_code_1|soc_code_2|soc_code_3|credential_name|alternate_name|on_etpl
 1|310505|Physical Fitness Specialist|7460|1|0|72540228|39925586|59608763|Certification in Physical Fitness Specialist|Physical Fitness |1
 2|120503|Registered Apprenticeship Certified Chef|3401|3|5|99583046|76694548|57984684|License in Registered Apprenticeship Certified Chef|Registered Apprenticeship Certified |0
 3|510805|Pharmacy Technician|4140|4|4|12478815|13982305|37598691|Associate’s Degree Pharmacy Technician|Pharmacy |1

@@ -1,4 +1,4 @@
-id|name|status|format|num_hrs|num_weeks|description|organization_id|program_id|email|url|tuition|materials_cost
+id|name|status|format_id|num_hrs|num_weeks|description|organization_id|program_id|email|url|tuition|materials_cost
 1|Phlebotomy|Discontinued|2|40|56|whiteboard 24/365 web services|NULL|6|phlebotomy@phpbb.com|phpbb.com/phlebotomy|19155|6385
 2|Liberal Arts - A.A.|Open|3|33|30|leverage 24/7 vortals|NULL|15|a.a.@phpbb.com|phpbb.com/a.a.|9479|3159
 3|AAS Business Administration International Business and Foreign Language Con|Open|3|24|49|disintermediate integrated experiences|7460|NULL|con@examiner.com|examiner.com/con|27195|9065

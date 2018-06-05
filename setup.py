@@ -19,7 +19,7 @@ setup(
         'marshmallow-sqlalchemy==0.13.2',
         'psycopg2==2.7.3.1',
         'connexion==1.3',
-        'webargs==2.0.0'
+        'webargs==3.0.0'
     ],
     entry_points={
         'flask.commands': [

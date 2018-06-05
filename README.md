@@ -52,8 +52,8 @@ How to setup in your local development environment
 
 	```bash
 	export FLASK_APP=program_registry
-	export FLASK_ENV="development"
 	export DATABASE_URL=postgresql://regdb:@${PGSQL_SERVER_HOSTNAME}:${PGSQL_PORT}/registry
+	export FLASK_ENV="development"
 	```
 
 5. Pip install Flask application all it's dependencies
