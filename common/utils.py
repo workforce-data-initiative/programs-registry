@@ -2,15 +2,12 @@
 
 import json
 from flask import jsonify, make_response
-from _ast import Delete
-import string
-from dominate.tags import form
 
 
 def create_response(data, schema, status, custom_headers=None):
-    """Create a custom JSON response. 
+    """Create a custom JSON response.
     (credits: WDI skills-api.common.utils)
-    
+
     Args:
         data: List of objects to place in to the custom response body.
         schema(Schema()): Marshmallow schema to use for serialization of data.
@@ -19,12 +16,12 @@ def create_response(data, schema, status, custom_headers=None):
     Returns:
         Custom JSON response.
     """
-    
+
     if schema:
         response = make_response(schema.jsonify(data), status)
     else:
         response = make_response(jsonify(data), status)
-    
+
     response.headers['Content-Type'] = "application/json"
     response.headers['Access-Control-Allow-Headers'] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
     response.headers['Access-Control-Allow-Methods'] = "*"
@@ -72,15 +69,3 @@ def parse_args(args, kwargs):
         raise
     
     return request_args
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

@@ -4,12 +4,16 @@ services:
     build: .
     ports:
       - "5000:5000"
-    env_file: .env
     volumes:
       - .:/app
     depends_on:
       - database
     environment:
-    - DATABASE_URL
+    - DATABASE_URL=postgresql://postgres:postgres@database:5432/postgres
+    - APP_SETTINGS=production
+    - FLASK_APP=app.py
   database:
     image: "postgres"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres

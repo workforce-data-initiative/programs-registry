@@ -134,16 +134,13 @@ class PhysicalAddressView(MethodView):
 
 address_view = PhysicalAddressView.as_view('address_view')
 address_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/locations/' +
-    '<int:location_id>/addresses/',
+    '/api/organizations/<int:organization_id>/locations/' + '<int:location_id>/addresses/',
     view_func=address_view, methods=['POST'])
 address_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/locations/' +
-    '<int:location_id>/addresses/',
+    '/api/organizations/<int:organization_id>/locations/' + '<int:location_id>/addresses/',
     view_func=address_view, defaults={'address_id': None},
     methods=['GET'])
 address_blueprint.add_url_rule(
-    '/api/organizations/<int:organization_id>/locations/' +
-    '<int:location_id>/addresses/<int:address_id>',
+    '/api/organizations/<int:organization_id>/locations/' + '<int:location_id>/addresses/<int:address_id>',
     view_func=address_view,
     methods=['GET', 'PUT', 'DELETE'])
