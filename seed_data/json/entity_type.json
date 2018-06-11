@@ -1,0 +1,34 @@
+[
+   {
+      "id":"1",
+      "name":"Higher Ed: Associate’s Degree"
+   },
+   {
+      "id":"2",
+      "name":"Higher Ed: Baccalaureate or Higher"
+   },
+   {
+      "id":"3",
+      "name":"Higher Ed: Certificate of Completion"
+   },
+   {
+      "id":"4",
+      "name":"National Apprenticeship"
+   },
+   {
+      "id":"5",
+      "name":"Private Non-Profit"
+   },
+   {
+      "id":"6",
+      "name":"Private For-Profit"
+   },
+   {
+      "id":"7",
+      "name":"Public"
+   },
+   {
+      "id":"8",
+      "name":"Other"
+   }
+]

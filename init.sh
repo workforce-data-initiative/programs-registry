@@ -5,12 +5,14 @@ exec 2>&1
 
 sleep 5
 
-DIRECTORY=migrations
-if [ ! -d "$DIRECTORY" ]; then
-  # Control will enter here if $DIRECTORY doesn't exist.
-  python3 manage.py db init
+if [ ! -d "./migrations" ]; then
+  # Control will enter here if migrations directory doesn't exist
+  flask db init
+  flask db migrate
 fi
-python3 manage.py db migrate
-python3 manage.py db upgrade
-python3 manage.py test
-python3 app.py
+
+flask db upgrade schema
+flask test --all
+pip install -e .
+flask run
+

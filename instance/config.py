@@ -8,8 +8,14 @@ class Config(object):
     DEBUG = True
     TESTING = False
     CSRF_ENABLED = True
-    SECRET = os.environ.get('SECRET', 'Secret')
+    SECRET_KEY = os.environ.get('SECRET_KEY', default='Secret')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    
+    @property
+    def qualified_name(self):
+        module_name = self.__module__
+        class_name = self.__class__.__name__
+        return "{}.{}".format(module_name, class_name)
 
 
 class DevelopmentConfig(Config):
@@ -35,7 +41,7 @@ class ProductionConfig(Config):
 
 
 app_config = {
-    'development': DevelopmentConfig,
-    'testing': TestingConfig,
-    'production': ProductionConfig
+    'development': DevelopmentConfig().qualified_name,
+    'test': TestingConfig().qualified_name,
+    'production': ProductionConfig().qualified_name
 }

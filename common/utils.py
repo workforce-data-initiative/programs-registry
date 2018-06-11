@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import json
 from flask import jsonify, make_response
-
-from api.v1 import schemas
 
 
 def create_response(data, schema, status, custom_headers=None):
@@ -34,3 +33,39 @@ def create_response(data, schema, status, custom_headers=None):
             response.headers[header[0].strip()] = header[1].strip()
 
     return response
+
+def load_json(file_path):
+    """Load json from file
+    
+    :param file_path: absolute file path string
+    :returns json_data: deserialized contents of json file
+    """
+    
+    with open(file_path, encoding='utf-8-sig') as json_path:
+            json_data = json.load(json_path)
+        
+    return json_data
+
+
+def parse_args(args, kwargs):
+    """
+    Derive a dict of keyword args from webargs passed 
+    from multiple locations in a GET request
+    
+    :param args: tuple of args passed from query string
+    :param kwargs: dict of args passed from url, json/form
+    : return dict of (keyword) args to be used
+    
+    """
+    
+    request_args = {}
+    if kwargs:
+        request_args = kwargs
+    
+    try:
+        for arg in args:
+            request_args.update(arg)
+    except TypeError as err:
+        raise
+    
+    return request_args

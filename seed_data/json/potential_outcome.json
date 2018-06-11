@@ -1,0 +1,42 @@
+[
+   {
+      "id":"1",
+      "name":"Industry-Recognized Certificate or Certification"
+   },
+   {
+      "id":"2",
+      "name":"Certificate of Completion of an Apprenticeship"
+   },
+   {
+      "id":"3",
+      "name":"License Recognized by the State Involved or the Federal Government"
+   },
+   {
+      "id":"4",
+      "name":"Associate’s Degree"
+   },
+   {
+      "id":"5",
+      "name":"A program of study leading to a baccalaureate degree"
+   },
+   {
+      "id":"6",
+      "name":"Community College Certificate of Completion"
+   },
+   {
+      "id":"7",
+      "name":"Secondary School Diploma or Its Equivalent"
+   },
+   {
+      "id":"8",
+      "name":"Employment"
+   },
+   {
+      "id":"9",
+      "name":"Measureable Skill Gain Leading to a Credential"
+   },
+   {
+      "id":"0",
+      "name":"Measureable Skill Gain Leading to Employment"
+   }
+]

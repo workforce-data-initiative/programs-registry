@@ -1,0 +1,92 @@
+[
+   {
+      "id":"5288",
+      "name":"La Salle University",
+      "description":"Maecenas ut massa quis augue luctus tincidunt.",
+      "type_id":"3",
+      "email":"bcottle@cbsnews.com",
+      "url":"cbsnews.com",
+      "year_incorporated":"1987-07-02"
+   },
+   {
+      "id":"7460",
+      "name":"Institute of Teachers Education, Kent",
+      "description":"Proin at turpis a pede posuere nonummy. Integer non velit.",
+      "type_id":"8",
+      "email":"ciacabucci@examiner.com",
+      "url":"examiner.com",
+      "year_incorporated":"1943-08-27"
+   },
+   {
+      "id":"5700",
+      "name":"Milligan College",
+      "description":"Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Etiam vel augue.",
+      "type_id":"7",
+      "email":"omcquie@google.ru",
+      "url":"google.ru",
+      "year_incorporated":"1980-12-29"
+   },
+   {
+      "id":"1972",
+      "name":"University of Mary Hardin-Baylor",
+      "description":"Proin at turpis a pede posuere nonummy. Integer non velit.",
+      "type_id":"5",
+      "email":"rcamacke@pen.io",
+      "url":"pen.io",
+      "year_incorporated":"1977-04-26"
+   },
+   {
+      "id":"7637",
+      "name":"Fachhochschule Oldenburg/Ostfriesland/Wilhelmshaven",
+      "description":"Proin at turpis a pede posuere nonummy. Integer non velit.",
+      "type_id":"5",
+      "email":"kcollcott@paginegialle.it",
+      "url":"paginegialle.it",
+      "year_incorporated":"1999-10-12"
+   },
+   {
+      "id":"9064",
+      "name":"RMIT International University Vietnam",
+      "description":"Lorem ipsum dolor sit amet consectetuer adipiscing elit.",
+      "type_id":"7",
+      "email":"jwye@uiuc.edu",
+      "url":"uiuc.edu",
+      "year_incorporated":"1923-06-21"
+   },
+   {
+      "id":"6628",
+      "name":"Al-Jabal Al-Gharbi University",
+      "description":"Lorem ipsum dolor sit amet consectetuer adipiscing elit.",
+      "type_id":"7",
+      "email":"lhegdonne@chicagotribune.com",
+      "url":"chicagotribune.com",
+      "year_incorporated":"1920-06-20"
+   },
+   {
+      "id":"7841",
+      "name":"Universidad de Puerto Rico",
+      "description":"Maecenas ut massa quis augue luctus tincidunt.",
+      "type_id":"2",
+      "email":"gfetterplace@hibu.com",
+      "url":"hibu.com",
+      "year_incorporated":"1985-01-12"
+   },
+   {
+      "id":"4140",
+      "name":"Univesidade Agostinho Neto",
+      "description":"Proin at turpis a pede posuere nonummy. Integer non velit.",
+      "type_id":"6",
+      "email":"wavann@ask.com",
+      "url":"ask.com",
+      "year_incorporated":"1921-05-31"
+   },
+   {
+      "id":"3401",
+      "name":"Doane College",
+      "description":"Maecenas ut massa quis augue luctus tincidunt.",
+      "type_id":"2",
+      "email":"jlillow@phpbb.com",
+      "url":"phpbb.com",
+      "year_incorporated":"1921-04-01"
+   }
+]

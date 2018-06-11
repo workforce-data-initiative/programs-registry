@@ -2,13 +2,19 @@
 
 from datetime import datetime
 from marshmallow.compat import iteritems
+from sqlalchemy.orm import synonym
 from flask_sqlalchemy import SQLAlchemy
 
 
-__all__ = ['Organization',
-           'Program',
-           'Service',
-           'Location',
+__all__ = ['db',
+           'EntityType',
+           'PotentialOutcome',
+           'Prerequisite',
+           'Format',
+           'Organization', 
+           'Program', 
+           'Service', 
+           'Location', 
            'PhysicalAddress']
 db = SQLAlchemy()
 
@@ -31,58 +37,86 @@ class BaseMixin(object):
         return cls.query.all()
 
     @classmethod
-    def get_by(cls, args):
-        """Run query based on filter criteria, using equality
+    def get_by(cls, kwargs):
+        """Run query based on filter criteria, using equality 
         for numeric fields and ILIKE for string fields
-
-        :params args: Args passed with request through query string, form, json
-        :return List of all objects matched by query
+        
+        :params kwargs: dict of webargs passed from resource url(view), query string, json, form 
+        :return list of all objects matched by query
+        
         """
-
-        _query = db.session.query(cls)
-        # TODO: handle invalid arguments passed
-        for key, value in iteritems(args):
-            if value:
-                _model_attr = getattr(cls, key)
-                if isinstance(value, int):
-                    _query = _query.filter(_model_attr == value)
-                elif isinstance(value, str):
-                    _query = _query.filter(
-                        _model_attr.ilike("%{}%".format(value)))
-                else:
-                    raise ValueError(
-                        "Query value '{}' not supported".format(key))
-
+        
+        if kwargs:
+            # TODO: handle invalid arguments passed
+            _query = db.session.query(cls)
+        
+            for key, value in iteritems(kwargs):
+                if value:
+                    _model_attr = getattr(cls, key)
+                    if isinstance(value, int):
+                        _query = _query.filter(_model_attr == value)
+                    elif isinstance(value, str):
+                        _query = _query.filter(_model_attr.ilike("%{}%".format(value))) 
+                    else:
+                        raise ValueError("Query value '{}' not supported".format(key)) 
+        else:
+            _query = cls.query  
+                
         return _query.all()
 
 
-# Lookup tables
-entity_type = db.Table('entity_type',
-                       db.Column('id', db.Integer, primary_key=True),
-                       db.Column('name', db.String(100)),
-                       __comment__='Entity type of training provider organization')
+# ----------------------------------------------------------
+# Lookup tables: should be populated as part of deployment
+# ----------------------------------------------------------
+class EntityType(db.Model):
 
-potential_outcome = db.Table('potential_outcome',
-                             db.Column('id', db.Integer, primary_key=True),
-                             db.Column('name', db.String(100)),
-                             __comment__='Potential outcome of program')
-
-prerequisite = db.Table('prerequisite',
-                        db.Column('id', db.Integer, primary_key=True),
-                        db.Column('name', db.String(100)),
-                        __comment__='Prerequisite credential for program entry')
-
-format = db.Table('format',
-                  db.Column('id', db.Integer, primary_key=True),
-                  db.Column('name', db.String(100)),
-                  __comment__='Format of program service instruction')
+    __table__ = db.Table('entity_type', 
+                         db.Column('id', db.Integer, primary_key=True), 
+                         db.Column('name', db.String(100)),
+                         comment='Entity type of training provider organization')
+    
+    organizations = db.relationship('Organization', backref='entity_type',
+                                    lazy=True, passive_deletes=True)
 
 
+class PotentialOutcome(db.Model):
+    __table__ = db.Table('potential_outcome',
+                         db.Column('id', db.Integer, primary_key=True),
+                         db.Column('name', db.String(100)),
+                         comment='Potential outcome of program')
+    
+    programs = db.relationship('Program', backref='potential_outcome', 
+                               lazy=True, passive_deletes=True)
+
+
+class Prerequisite(db.Model):
+    __table__ =  db.Table('prerequisite',
+                          db.Column('id', db.Integer, primary_key=True),
+                          db.Column('name', db.String(100)),
+                          comment='Prerequisite credential for program entry')
+    
+    programs = db.relationship('Program', backref='prerequisite', 
+                               lazy=True, passive_deletes=True)
+
+
+class Format(db.Model):
+    __table__ = db.Table('format',
+                         db.Column('id', db.Integer, primary_key=True),
+                         db.Column('name', db.String(100)),
+                         comment='Format of program service instruction')
+    
+    services = db.relationship('Service', backref='format',
+                               lazy=True, passive_deletes=True)
+
+
+# ------------------------------
+# Provider programs data models
+# ------------------------------
 class Organization(db.Model, BaseMixin):
     """This class defines an organization table."""
 
     __tablename__ = 'organization'
-
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(256), nullable=False)
@@ -98,8 +132,10 @@ class Organization(db.Model, BaseMixin):
                                 lazy=True, passive_deletes=True)
     services = db.relationship("Service", backref="organization",
                                lazy=True, passive_deletes=True)
-
-    def __init__(self, name, description, type_id=None, email=None, url=None,
+    
+    organization_id = synonym('id')
+        
+    def __init__(self, name, description, type_id=None, email=None, url=None, 
                  year_incorporated=None):
         self.name = name
         self.description = description
@@ -121,14 +157,14 @@ class Program(db.Model, BaseMixin):
 
     __tablename__ = 'program'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     cip = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     organization_id = db.Column(db.Integer,
                                 db.ForeignKey(Organization.id, ondelete='CASCADE'))
     potential_outcome_id = db.Column(db.Integer,
-                                     db.ForeignKey(
-                                         'potential_outcome.id', ondelete='CASCADE'),
+                                     db.ForeignKey('potential_outcome.id', 
+                                                   ondelete='CASCADE'),
                                      nullable=False)
     prerequisites = db.Column(db.Integer,
                               db.ForeignKey('prerequisite.id',
@@ -137,15 +173,17 @@ class Program(db.Model, BaseMixin):
     soc_code_1 = db.Column(db.Integer, nullable=False)
     soc_code_2 = db.Column(db.Integer, nullable=False)
     soc_code_3 = db.Column(db.Integer, nullable=False)
-    credential_name = db.Column(db.String(100), nullable=True)
+    credential_name = db.Column(db.String(256), nullable=True)
     alternate_name = db.Column(db.String(100), nullable=True)
-    on_etpl = db.Column(db.String(20), default='N/A', nullable=False)
-
-    services = db.relationship("Service", backref="program",
+    on_etpl = db.Column(db.Integer, default=0, nullable=False)
+    
+    services = db.relationship("Service", backref="program", 
                                lazy=True, passive_deletes=True)
 
-    def __init__(self, cip, name, organization_id, potential_outcome_id,
-                 prerequisites, soc_code_1, soc_code_2, soc_code_3,
+    program_id = synonym('id')
+    
+    def __init__(self, cip, name, organization_id, potential_outcome_id, 
+                 prerequisite_id, soc_code_1, soc_code_2, soc_code_3, 
                  credential_name=None, alternate_name=None, on_etpl=None):
         """Initialize the program with its fields."""
 
@@ -153,7 +191,7 @@ class Program(db.Model, BaseMixin):
         self.name = name
         self.organization_id = organization_id
         self.potential_outcome_id = potential_outcome_id
-        self.prerequisites = prerequisites
+        self.prerequisite_id = prerequisite_id
         self.soc_code_1 = soc_code_1
         self.soc_code_2 = soc_code_2
         self.soc_code_3 = soc_code_3
@@ -179,7 +217,7 @@ class Service(db.Model, BaseMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(30), nullable=False)
-    format = db.Column(db.Integer,
+    format_id = db.Column(db.Integer, 
                        db.ForeignKey('format.id', ondelete='CASCADE'),
                        nullable=False)
     num_hrs = db.Column(db.Integer, nullable=False)
@@ -193,8 +231,8 @@ class Service(db.Model, BaseMixin):
     url = db.Column(db.String(100), nullable=True)
     tuition = db.Column(db.Float, nullable=True)
     materials_cost = db.Column(db.Float, nullable=True)
-
-    def __init__(self, name, status, format, num_hrs, num_weeks,
+    
+    def __init__(self, name, status, format_id, num_hrs, num_weeks, 
                  description=None, organization_id=None, program_id=None,
                  email=None, url=None, tuition=None, materials_cost=None):
         """Initialize the service with its fields."""
@@ -202,7 +240,7 @@ class Service(db.Model, BaseMixin):
 
         self.name = name
         self.status = status
-        self.format = format
+        self.format_id = format_id
         self.num_hrs = num_hrs
         self.num_weeks = num_weeks
         self.description = description
