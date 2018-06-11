@@ -1,6 +1,24 @@
 # program-registry
 A comprehensive directory of youth programs and services – openly available and machine readable.
 
+# Design and Documentation
+The API spec can be publicly viewed [here](https://app.swaggerhub.com/apis/BrightHive/program-registry) and is hosted [here](https://docs.brighthive.io/v1.0/reference#organization).
+
+The folder [.openapi](/openapi) was generated automatically by SwaggerHub. We have set up [`Github Sync`](https://app.swaggerhub.com/help/integrations/github-sync) for the API spec on Swaggerhub. It promises to automatically update the spec on Github with changes done in SwaggerrHub. The API design and documentation process, therefore, is that all stakeholders collaborate on SwaggerHub and the update is synced on Github upon save.
+
+> NB
+
+We noted however that this integration is still buggy (It doesn't sync with Github on save). The integration works well for setting up this workflow for a new repo. So we activated [`Github Push`](https://app.swaggerhub.com/help/integrations/github-push) for the syncing. The spec file is at [.openapi/swagger.yaml](.openapi/swagger.yaml).
+
+### To adopt this workflow
+
+For a similar workflow, you'll find that the docs in [`Github Push`](https://app.swaggerhub.com/help/integrations/github-push) and [`Github Sync`](https://app.swaggerhub.com/help/integrations/github-sync) are quite straight forward.
+
+Be sure to set:
+- a separate branch other that the main ones (In our case we chose *SWAGGERHUB*)
+- swagger output folder as `.openapi` and 
+- swagger file as `swagger.yaml`
+
 # Development Setup
 ## Steps
 ### Prerequisites
@@ -62,10 +80,16 @@ docker-compose up
 ```
 
 # Deployment
-This project is using `Heroku Container Registry` for automatic deployments of master and develop branches. It is part of the CI/CD pipeline as detailed in [heroku.sh](/heroku.sh).
+This project is using `Heroku Container Registry` for ~~automatic~~ deployments of master and develop branches. It is part of the CI/CD pipeline as detailed in [heroku.sh](/heroku.sh).
+
+Before running `sh heroku.sh`:
+
+Run `export HEROKU_DATASTORE_URI=<>` with the `<>` replaced by the URI (obtained by running either `heroku pg:credentials:url DATABASE --app programs-registry-dev` for `develop` branch or `heroku pg:credentials:url DATABASE --app programs-registry` for `master` branch.)
 
 > Please note
 
-The Postgres Add-on does not have automatic reset for each deployment so the developers will need to reset the DB whenever we have changes to the models.
+The Postgres Add-on does not have automatic reset for each deployment so the developers will need to reset the DB whenever we have changes to the models. To do this run either `heroku pg:reset DATABASE --app programs-registry-dev` for `develop` branch or `heroku pg:reset DATABASE --app programs-registry` for `master` branch.
 
-To do this click on either [this link](https://dashboard.heroku.com/apps/programs-registry-dev/resources) for `develop` branch or [this other link](https://dashboard.heroku.com/apps/programs-registry/resources) for `master` branch; then click on `Heroku Postgres :: Database` which redirects you to the Datastore. Click on `Settings` then select `Reset Database`. Finally get back to the heroku app, click on `More` and select `Restart all dynos`.
+The DB URI may also change from time to time so the developers may need rotate the Database URI by running `heroku pg:credentials:url DATABASE --app programs-registry-dev` for `develop` branch or `heroku pg:credentials:url DATABASE --app programs-registry` for `master` branch.
+
+If you prefer using the Web UI, log into heroku with the Brighthive engineering email then click [here](data.heroku.com). Select the Datastore associated with the app in question (either programs-registry or programs-registry-dev, in this case), then click on Settings. The `Reset Database` button can be seen on this page. Clicking on the `View Credentials` button on that page will reveal the **URI** alluded to earlier.
