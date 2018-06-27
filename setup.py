@@ -3,9 +3,9 @@
 from setuptools import setup
 
 setup(
-    name='program_registry',
+    name='programs_registry',
     version='0.1',
-    packages=['program_registry'],
+    packages=['programs_registry'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
@@ -23,7 +23,7 @@ setup(
     ],
     entry_points={
         'flask.commands': [
-            'test=program_registry.commands:test'
+            'test=programs_registry.commands:test'
             ]
         }
 )

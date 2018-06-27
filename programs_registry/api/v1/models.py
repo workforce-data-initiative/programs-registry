@@ -126,14 +126,14 @@ class Organization(db.Model, BaseMixin):
     url = db.Column(db.String(100), nullable=True)
     year_incorporated = db.Column(db.Date, nullable=True)
 
+    organization_id = synonym('id')
+    
     programs = db.relationship("Program", backref="organization",
                                lazy=True, passive_deletes=True)
     locations = db.relationship("Location", backref="organization",
                                 lazy=True, passive_deletes=True)
     services = db.relationship("Service", backref="organization",
                                lazy=True, passive_deletes=True)
-    
-    organization_id = synonym('id')
         
     def __init__(self, name, description, type_id=None, email=None, url=None, 
                  year_incorporated=None):
@@ -166,7 +166,7 @@ class Program(db.Model, BaseMixin):
                                      db.ForeignKey('potential_outcome.id', 
                                                    ondelete='CASCADE'),
                                      nullable=False)
-    prerequisites = db.Column(db.Integer,
+    prerequisite_id = db.Column(db.Integer,
                               db.ForeignKey('prerequisite.id',
                                             ondelete='CASCADE'),
                               nullable=False)
@@ -177,10 +177,12 @@ class Program(db.Model, BaseMixin):
     alternate_name = db.Column(db.String(100), nullable=True)
     on_etpl = db.Column(db.Integer, default=0, nullable=False)
     
+    program_id = synonym('id')
+    
     services = db.relationship("Service", backref="program", 
                                lazy=True, passive_deletes=True)
 
-    program_id = synonym('id')
+    
     
     def __init__(self, cip, name, organization_id, potential_outcome_id, 
                  prerequisite_id, soc_code_1, soc_code_2, soc_code_3, 
@@ -209,7 +211,7 @@ class Service(db.Model, BaseMixin):
     """Service is a specification of a program referring to specific offering in a
     location, for a period of time, contributing to or resulting in the credential
 
-    NOTE: Service should belong to an organization or a program, not both
+    NOTE: Service belongs to an organization or a program, NOT both
     """
 
     __tablename__ = 'service'
@@ -232,24 +234,26 @@ class Service(db.Model, BaseMixin):
     tuition = db.Column(db.Float, nullable=True)
     materials_cost = db.Column(db.Float, nullable=True)
     
-    def __init__(self, name, status, format_id, num_hrs, num_weeks, 
-                 description=None, organization_id=None, program_id=None,
-                 email=None, url=None, tuition=None, materials_cost=None):
-        """Initialize the service with its fields."""
-        # TODO: set validation, organization_id and program_id are mutually exclusive
-
-        self.name = name
-        self.status = status
-        self.format_id = format_id
-        self.num_hrs = num_hrs
-        self.num_weeks = num_weeks
-        self.description = description
-        self.organization_id = organization_id
-        self.program_id = program_id
-        self.email = email
-        self.url = url
-        self.tuition = tuition
-        self.materials_cost = materials_cost
+    service_id = synonym('id')
+    
+#     def __init__(self, name, status, format_id, num_hrs, num_weeks, 
+#                  description=None, organization_id=None, program_id=None,
+#                  email=None, url=None, tuition=None, materials_cost=None):
+#         """Initialize the service with its fields."""
+#         # TODO: set validation, organization_id and program_id are mutually exclusive
+# 
+#         self.name = name
+#         self.status = status
+#         self.format_id = format_id
+#         self.num_hrs = num_hrs
+#         self.num_weeks = num_weeks
+#         self.description = description
+#         self.organization_id = organization_id
+#         self.program_id = program_id
+#         self.email = email
+#         self.url = url
+#         self.tuition = tuition
+#         self.materials_cost = materials_cost
 
     def __repr__(self):
         """Return a representation of the service model instance."""
@@ -279,7 +283,7 @@ class Location(db.Model, BaseMixin):
     latitude = db.Column(db.Float, nullable=True)
     longitude = db.Column(db.Float, nullable=True)
 
-    address = db.relationship("PhysicalAddress", backref="location", lazy=True,
+    physical_address = db.relationship("PhysicalAddress", backref="location", lazy=True,
                               uselist=False, passive_deletes=True)
     services = db.relationship("Service", secondary=service_location, lazy="subquery",
                                backref=db.backref("locations", lazy=True))

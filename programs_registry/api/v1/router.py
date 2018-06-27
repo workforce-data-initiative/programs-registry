@@ -57,4 +57,6 @@ reg_api.add_resource(LocationsResource, '/locations',
                                         '/locations/<int:location_id>/services?name=<string:name>',
                                         '/locations/<int:location_id>/services/<int:service_id>')
 
-# TODO: address filter by city, state, postal_code
+# TODO: LocationAddressResource
+#         -address filter by city, state, postal_code
+#       LocationServiceResource
