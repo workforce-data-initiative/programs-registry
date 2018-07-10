@@ -1,0 +1,101 @@
+id|location_id|address|city|state|postal_code|country
+1|1|72 Springview Avenue|New Bedford|Massachusetts|2745|US
+2|2|16 Toban Crossing|Saginaw|Michigan|48604|US
+3|3|10 Sachs Crossing|Houston|Texas|77281|US
+4|4|44086 Dennis Way|Sparks|Nevada|89436|US
+5|5|68 Swallow Terrace|Dallas|Texas|75342|US
+6|6|60521 Bartillon Hill|Racine|Wisconsin|53405|US
+7|7|3758 Meadow Valley Point|Amarillo|Texas|79116|US
+8|8|2 Twin Pines Parkway|Washington|District of Columbia|20205|US
+9|9|68309 Maryland Street|Columbus|Ohio|43215|US
+10|10|97923 Hoffman Parkway|Las Vegas|Nevada|89120|US
+11|11|548 Scofield Crossing|Saint Petersburg|Florida|33715|US
+12|12|6 3rd Alley|Colorado Springs|Colorado|80935|US
+13|13|0 Sunnyside Point|Pittsburgh|Pennsylvania|15261|US
+14|14|74 Cardinal Lane|Pittsburgh|Pennsylvania|15240|US
+15|15|3 Gateway Crossing|Huntington|West Virginia|25705|US
+16|16|742 Westerfield Street|West Hartford|Connecticut|6127|US
+17|17|85800 Cascade Pass|New York City|New York|10024|US
+18|18|64612 Ramsey Street|Memphis|Tennessee|38131|US
+19|19|77 Maryland Place|Houston|Texas|77234|US
+20|20|2 Corry Way|Baltimore|Maryland|21275|US
+21|21|403 Washington Park|Honolulu|Hawaii|96805|US
+22|22|11 International Place|Flint|Michigan|48550|US
+23|23|25965 Menomonie Parkway|Columbus|Ohio|43240|US
+24|24|680 Morning Crossing|Falls Church|Virginia|22047|US
+25|25|2 Manufacturers Way|Pittsburgh|Pennsylvania|15266|US
+26|26|80 Sherman Hill|Boca Raton|Florida|33487|US
+27|27|2453 Little Fleur Crossing|Akron|Ohio|44310|US
+28|28|99 Lake View Plaza|San Antonio|Texas|78265|US
+29|29|712 Maywood Junction|Baton Rouge|Louisiana|70815|US
+30|30|86421 Sloan Street|Orlando|Florida|32819|US
+31|31|556 Surrey Crossing|Corpus Christi|Texas|78465|US
+32|32|6 Rigney Place|Columbia|Missouri|65211|US
+33|33|11 Mandrake Avenue|Tulsa|Oklahoma|74133|US
+34|34|17456 Aberg Place|Toledo|Ohio|43605|US
+35|35|02796 Monica Plaza|Topeka|Kansas|66611|US
+36|36|1742 Dorton Terrace|Shreveport|Louisiana|71161|US
+37|37|087 Moose Plaza|Fort Worth|Texas|76198|US
+38|38|616 Ronald Regan Center|Pompano Beach|Florida|33064|US
+39|39|9693 Declaration Court|Milwaukee|Wisconsin|53210|US
+40|40|96 Forster Avenue|Las Vegas|Nevada|89135|US
+41|41|8379 Bellgrove Alley|Hartford|Connecticut|6140|US
+42|42|16715 Scofield Alley|Garden Grove|California|92844|US
+43|43|52 Katie Court|Inglewood|California|90398|US
+44|44|0468 Petterle Center|Birmingham|Alabama|35215|US
+45|45|623 Fisk Drive|Fairfax|Virginia|22036|US
+46|46|640 Claremont Point|Sioux Falls|South Dakota|57110|US
+47|47|5 Bartillon Plaza|Mountain View|California|94042|US
+48|48|57560 Hazelcrest Hill|Fort Lauderdale|Florida|33305|US
+49|49|53193 Straubel Way|Maple Plain|Minnesota|55572|US
+50|50|968 Loomis Junction|Laredo|Texas|78044|US
+51|51|4 Gateway Place|Detroit|Michigan|48267|US
+52|52|7411 Hudson Alley|Pittsburgh|Pennsylvania|15266|US
+53|53|6 Sundown Way|Hicksville|New York|11854|US
+54|54|6 Orin Parkway|Biloxi|Mississippi|39534|US
+55|55|4 Stephen Pass|Naperville|Illinois|60567|US
+56|56|04634 Kedzie Pass|Riverside|California|92513|US
+57|57|56619 Cordelia Point|Albuquerque|New Mexico|87180|US
+58|58|19587 Towne Terrace|Albuquerque|New Mexico|87180|US
+59|59|734 David Road|Anchorage|Alaska|99517|US
+60|60|78 Cascade Junction|Port Charlotte|Florida|33954|US
+61|61|166 Myrtle Drive|Los Angeles|California|90050|US
+62|62|34780 Jenna Point|Charlotte|North Carolina|28220|US
+63|63|05196 Buell Trail|Fullerton|California|92640|US
+64|64|2798 Kingsford Trail|Washington|District of Columbia|20057|US
+65|65|3735 Sommers Terrace|Sparks|Nevada|89436|US
+66|66|98 Mitchell Center|El Paso|Texas|88535|US
+67|67|901 Eastlawn Plaza|Bellevue|Washington|98008|US
+68|68|7676 Packers Parkway|Portland|Oregon|97206|US
+69|69|7521 Crownhardt Crossing|Charleston|West Virginia|25336|US
+70|70|4693 Buhler Street|Little Rock|Arkansas|72222|US
+71|71|4096 Blue Bill Park Avenue|Albany|New York|12222|US
+72|72|8653 Holy Cross Place|Saint Louis|Missouri|63121|US
+73|73|253 Alpine Pass|Muskegon|Michigan|49444|US
+74|74|2453 Sauthoff Way|Laredo|Texas|78044|US
+75|75|8 Kipling Road|Erie|Pennsylvania|16522|US
+76|76|4 Dakota Crossing|New Orleans|Louisiana|70174|US
+77|77|1533 Loftsgordon Parkway|Saginaw|Michigan|48609|US
+78|78|74 Sommers Avenue|Winston Salem|North Carolina|27110|US
+79|79|10 Graceland Circle|Maple Plain|Minnesota|55579|US
+80|80|80 Mariners Cove Trail|Saint Louis|Missouri|63131|US
+81|81|14 Marquette Center|Lincoln|Nebraska|68505|US
+82|82|34387 Lunder Parkway|New York City|New York|10203|US
+83|83|73 Dawn Plaza|Jacksonville|Florida|32259|US
+84|84|5618 Tomscot Point|Sacramento|California|94273|US
+85|85|4 Sherman Road|Des Moines|Iowa|50335|US
+86|86|1 Oak Valley Park|Boston|Massachusetts|2163|US
+87|87|04712 Gale Road|Sacramento|California|94297|US
+88|88|20006 Sachs Center|Albuquerque|New Mexico|87121|US
+89|89|1 Glendale Alley|Huntsville|Alabama|35805|US
+90|90|50584 Warner Street|Corpus Christi|Texas|78475|US
+91|91|7 Mallard Plaza|Norwalk|Connecticut|6854|US
+92|92|80 Dunning Lane|Bradenton|Florida|34282|US
+93|93|2628 Crownhardt Drive|Tyler|Texas|75705|US
+94|94|6816 Lukken Road|Phoenix|Arizona|85025|US
+95|95|8 Fulton Trail|Phoenix|Arizona|85015|US
+96|96|071 Eagan Plaza|Waco|Texas|76711|US
+97|97|386 Rusk Circle|Bronx|New York|10469|US
+98|98|01372 Marquette Circle|Honolulu|Hawaii|96840|US
+99|99|380 Sunnyside Lane|Atlanta|Georgia|31106|US
+100|100|42 Sycamore Park|Philadelphia|Pennsylvania|19131|US

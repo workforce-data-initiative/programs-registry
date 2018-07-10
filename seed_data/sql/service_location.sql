@@ -1,7 +1,4 @@
-create table if not exists service_location (
-	service_id INT,
-	location_id INT
-);
+create table if not exists service_location (service_id INT, location_id INT);
 insert into service_location (service_id, location_id) values (84, 85);
 insert into service_location (service_id, location_id) values (52, 20);
 insert into service_location (service_id, location_id) values (86, 52);
@@ -21,9 +18,9 @@ insert into service_location (service_id, location_id) values (42, 7);
 insert into service_location (service_id, location_id) values (24, 57);
 insert into service_location (service_id, location_id) values (31, 52);
 insert into service_location (service_id, location_id) values (51, 54);
+insert into service_location (service_id, location_id) values (10, 12);
 insert into service_location (service_id, location_id) values (10, 27);
-insert into service_location (service_id, location_id) values (10, 27);
-insert into service_location (service_id, location_id) values (36, 68);
+insert into service_location (service_id, location_id) values (36, 94);
 insert into service_location (service_id, location_id) values (89, 14);
 insert into service_location (service_id, location_id) values (8, 54);
 insert into service_location (service_id, location_id) values (25, 95);
@@ -46,7 +43,7 @@ insert into service_location (service_id, location_id) values (46, 61);
 insert into service_location (service_id, location_id) values (48, 3);
 insert into service_location (service_id, location_id) values (12, 50);
 insert into service_location (service_id, location_id) values (92, 95);
-insert into service_location (service_id, location_id) values (29, 47);
+insert into service_location (service_id, location_id) values (29, 3);
 insert into service_location (service_id, location_id) values (64, 93);
 insert into service_location (service_id, location_id) values (93, 99);
 insert into service_location (service_id, location_id) values (19, 83);
@@ -84,7 +81,7 @@ insert into service_location (service_id, location_id) values (78, 27);
 insert into service_location (service_id, location_id) values (7, 90);
 insert into service_location (service_id, location_id) values (90, 20);
 insert into service_location (service_id, location_id) values (27, 99);
-insert into service_location (service_id, location_id) values (34, 42);
+insert into service_location (service_id, location_id) values (34, 66);
 insert into service_location (service_id, location_id) values (31, 77);
 insert into service_location (service_id, location_id) values (12, 86);
 insert into service_location (service_id, location_id) values (24, 60);

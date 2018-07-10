@@ -1,7 +1,4 @@
-create table if not exists prerequisite (
-	id INT,
-	name VARCHAR(50)
-);
+create table if not exists prerequisite (id INT, name VARCHAR(50));
 insert into prerequisite (id, name) values (0, 'None');
 insert into prerequisite (id, name) values (1, 'High School Diploma or Equivalent');
 insert into prerequisite (id, name) values (2, 'Associate''s Degree');

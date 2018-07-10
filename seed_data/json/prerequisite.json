@@ -1,1 +1,26 @@
-﻿[{"id"  :"0","name"  :"None"},{"id"  :"1","name"  :"High School Diploma or Equivalent"},{"id"  :"2","name"  :"Associate's Degree"},{"id"  :"3","name"  :"Bachelor's Degree"},{"id"  :"4","name"  :"Course(s)"},{"id"  :"5","name"  :"Combination of Education and Course(s)"}]
+[
+   {
+      "id":"0",
+      "name":"None"
+   },
+   {
+      "id":"1",
+      "name":"High School Diploma or Equivalent"
+   },
+   {
+      "id":"2",
+      "name":"Associate's Degree"
+   },
+   {
+      "id":"3",
+      "name":"Bachelor's Degree"
+   },
+   {
+      "id":"4",
+      "name":"Course(s)"
+   },
+   {
+      "id":"5",
+      "name":"Combination of Education and Course(s)"
+   }
+]
