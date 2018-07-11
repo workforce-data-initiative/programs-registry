@@ -101,7 +101,7 @@ How to setup in your local development environment
 	flask run --host ${FLASK_RUN_HOST} --port ${FLASK_RUN_PORT}
 	```
 
-2. API can then be accessed from base url `https://${FLASK_RUN_HOST}:${FLASK_RUN_PORT}/api/v1`
+2. API can then be accessed from base url `https://${FLASK_RUN_HOST}:${FLASK_RUN_PORT}/api`
 
 
 ### Access API Documentation
@@ -112,7 +112,7 @@ How to setup in your local development environment
 connexion run -v --host ${FLASK_RUN_HOST} --port ${OPENAPI_SPEC_RUN_PORT} .openapi/swagger.yml
 ```
 
-Then access the OpenAPI specification using url: `http://${FLASK_RUN_HOST}:${OPENAPI_SPEC_RUN_PORT}/api/v1/ui/`
+Then access the OpenAPI specification using url: `http://${FLASK_RUN_HOST}:${OPENAPI_SPEC_RUN_PORT}/api/ui/`
 
 To update the OpenAPI specification through SwaggerHub, see the [OpenAPI setup notes](https://github.com/brighthive/program-registry/blob/master/.openapi/README.md)
 
