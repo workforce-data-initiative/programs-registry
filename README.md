@@ -1,6 +1,6 @@
 # Training Provider Outcomes Toolkit - Programs Registry API
-Machine readable, public directory of programs and services offered by eligible training providers across locations. See the [BrightHive API Documentation](https://docs.brighthive.io) for the full Programs Registry API specification.
 
+Machine readable, public directory of programs and services offered by eligible training providers across locations. See the [BrightHive API Documentation](https://docs.brighthive.io) for the full Programs Registry API specification.
 
 ## Developer Guide
 
@@ -8,12 +8,12 @@ How to setup in your local development environment
 
 ### Prerequisites
 
-1. Have Python v3.6+ available, including package manager `pip` 
+1. Have Python v3.6+ available, including package manager `pip`
 2. Have a virtual environment manager for Python available e.g `virtualenv`
-	
-	```bash
-	python3 -m pip install -U virtualenv	
-	```
+
+    ```bash
+    python3 -m pip install -U virtualenv
+    ```
 
 3. Create and/or connect to a Postgres v9.6+ database instance (a public docker image is a decent option)
 
@@ -21,94 +21,93 @@ How to setup in your local development environment
 
 1. Login to the Postgres database instance as a privileged user and create programs registry database. From command line:
 
-	```bash
-	useradd --user-group regdb 
-	su - ${PG_DEFAULT_ADMIN}  # generally default admin user is 'postgres'
-	psql --command "CREATE USER regdb; ALTER USER regdb SUPERUSER CREATEDB;" 
-	createdb --echo --owner=regdb --encoding=utf-8 registry
-	```
+    ```bash
+    useradd --user-group regdb
+    su - ${PG_DEFAULT_ADMIN}  # generally default admin user is 'postgres'
+    psql --command "CREATE USER regdb; ALTER USER regdb SUPERUSER CREATEDB;"
+    createdb --echo --owner=regdb --encoding=utf-8 registry
+    ```
 
-**_Note: If there's need to drop existing database to resolve issues_**
+    **_Note: If there's need to drop existing database to resolve issues_**
 
-	```bash
-	dropdb --echo regdb
-	```
+    ```bash
+    dropdb --echo regdb
+    ```
 
 2. Get the code to your local environment
 
-	```bash
-	git clone ${GITHUB_CLONE_URL}
-	cd program_registry
-	```
+    ```bash
+    git clone ${GITHUB_CLONE_URL}
+    cd program_registry
+    ```
 
 3. Create and activate a python virtual environment using Python 3.6+ interpreter
 
-	```bash
-	python3 -m venv ${VENV_NAME} ${ENV_DIR}
-	. ${ENV_DIR}/${VENV_NAME}/bin/activate
-	```
+    ```bash
+    python3 -m venv ${VENV_NAME} ${ENV_DIR}
+    . ${ENV_DIR}/${VENV_NAME}/bin/activate
+    ```
 
 4. Set required environment variables for running Flask application
 
-	```bash
-	export FLASK_APP=program_registry
-	export DATABASE_URL=postgresql://regdb:@${PGSQL_SERVER_HOSTNAME}:${PGSQL_PORT}/registry
-	export FLASK_ENV="development"
-	```
+    ```bash
+    export FLASK_APP=program_registry
+    export DATABASE_URL=postgresql://regdb:@${PGSQL_SERVER_HOSTNAME}:${PGSQL_PORT}/registry
+    export FLASK_ENV="development"
+    ```
 
 5. Pip install Flask application all it's dependencies
 
-	```bash 
-	pip install -e .
-	```
-	
+    ```bash
+    pip install -e .
+    ```
+
 6. Load program registry database
 
-	* Option 1(Recommended): Create and seed tables using migration script
-	
-	```bash
-	flask db upgrade seed
-	```
+    * Option 1(Recommended): Create and seed tables using migration script
 
-	* Option 2 (Maybe faster in some instances): Create and seed tables using CSV or SQL file data
+    ```bash
+    flask db upgrade seed
+    ```
 
-	```bash
-	flask db upgrade schema
-	python -m seed_data 
-	```
-	
-	* To drop seed data from the database
-	
-	```bash
-	flask db downgrade
-	```
-	
-	Note: In the case of Option 2, this will drop all tables as well because the data load happens outside migrations.
+    * Option 2 (Maybe faster in some instances): Create and seed tables using CSV or SQL file data
+
+    ```bash
+    flask db upgrade schema
+    python -m seed_data
+    ```
+
+    * To drop seed data from the database
+
+    ```bash
+    flask db downgrade
+    ```
+
+    Note: In the case of Option 2, this will drop all tables as well because the data load happens outside migrations.
 
 7. Run tests, with any of the following options
-	
-	```bash
-	flask test --all
-	flask test endpoints
-	flask test endpoints,models
-	```
-	
+
+    ```bash
+    flask test --all
+    flask test endpoints
+    flask test endpoints,models
+    ```
+
 ### Run Development Server
 
 1. Start Flask app server
 
-	```bash
-	flask run --host ${FLASK_RUN_HOST} --port ${FLASK_RUN_PORT}
-	```
+    ```bash
+    flask run --host ${FLASK_RUN_HOST} --port ${FLASK_RUN_PORT}
+    ```
 
 2. API can then be accessed from base url `https://${FLASK_RUN_HOST}:${FLASK_RUN_PORT}/api`
 
-
 ### Access API Documentation
 
- OpenAPI specification can be run locally using [Connexion](https://github.com/zalando/connexion#why-connexion) 
+ OpenAPI specification can be run locally using [Connexion](https://github.com/zalando/connexion#why-connexion)
 
-```
+```bash
 connexion run -v --host ${FLASK_RUN_HOST} --port ${OPENAPI_SPEC_RUN_PORT} .openapi/swagger.yml
 ```
 
@@ -118,14 +117,13 @@ To update the OpenAPI specification through SwaggerHub, see the [OpenAPI setup n
 
 The official API documentation is published at [https://docs.brighthive.io](https://docs.brighthive.io). For any issues with the official API documentation, please [open a documentation issue](https://github.com/brighthive/program-registry/issues).
 
-
 ### Alternative Deployment Options
 
 #### Docker Container
 
 ##### Prerequisites
 
-1. Docker install ([Get Docker](https://www.docker.com/get-docker) for your environment) 
+1. Docker install ([Get Docker](https://www.docker.com/get-docker) for your environment)
 
 ##### Create Docker Image
 
@@ -146,7 +144,7 @@ The Postgres Add-on does not have automatic reset for each deployment so the dev
 
 * From UI: Go to Heroku app resources page (for each branch) > `Heroku Postgres :: Database` which redirects you to the Datastore. Click on `Settings` > `Reset Database`. Finally get back to the Heroku app, click on `More` > `Restart all dynos`.
 
- * From CLI: `heroku pg:reset DATABASE --app programs-registry-dev` for `develop` branch or `heroku pg:reset DATABASE --app programs-registry` for `master` branch.
+* From CLI: `heroku pg:reset DATABASE --app programs-registry-dev` for `develop` branch or `heroku pg:reset DATABASE --app programs-registry` for `master` branch.
 
 The DB URI may also change from time to time so the developers may need rotate the Database URI
 

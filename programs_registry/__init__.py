@@ -32,4 +32,3 @@ app = create_app(config_name=os.environ.get('FLASK_ENV'))
   
 if __name__ == '__main__':
     app.run()
-     

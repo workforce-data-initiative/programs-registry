@@ -34,16 +34,17 @@ def create_response(data, schema, status, custom_headers=None):
 
     return response
 
+
 def load_json(file_path):
     """Load json from file
-    
+
     :param file_path: absolute file path string
     :returns json_data: deserialized contents of json file
     """
-    
+
     with open(file_path, encoding='utf-8-sig') as json_path:
-            json_data = json.load(json_path)
-        
+        json_data = json.load(json_path)
+
     return json_data
 
 
