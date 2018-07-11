@@ -20,8 +20,8 @@ from flask_restful import Resource, abort
 from webargs.flaskparser import use_args
 
 from common.utils import create_response, parse_args
-from programs_registry.api.v1.models import db, Organization, Program, Service
-from programs_registry.api.v1.schemas import OrganizationSchema, OrganizationPostSchema, \
+from programs_registry.api.models import db, Organization, Program, Service, Location
+from programs_registry.api.schemas import OrganizationSchema, OrganizationPostSchema, \
                                             OrganizationProgramSchema, OrganizationServiceSchema, \
                                             ProgramPostSchema, ServicePostSchema
 
@@ -38,8 +38,8 @@ class ProviderResource(Resource):
     to align with HSDS nomenclature 
     
     GET,POST /providers
-    GET,PUT,DELETE /providers/id
-    GET /providers?name=provider_name
+    GET,PUT,DELETE /providers/<organization_id>
+    GET /providers?name=<provider_name>
     
     """
     
@@ -106,7 +106,7 @@ class ProviderProgramResource(Resource):
     Provider programs endpoint
     
     GET,POST /providers/<organization_id>/programs
-    GET,PUT,DELETE providers/<organization_id>/programs/<id>
+    GET,PUT,DELETE providers/<organization_id>/programs/<program_id>
     
     """
     
@@ -148,25 +148,9 @@ class ProviderProgramResource(Resource):
             prog.save()
             return create_response(prog, OrganizationProgramSchema(), HTTPStatus.ACCEPTED)
         else:
-            abort(HTTPStatus.NOT_FOUND, message="None found: program id {} from provider id {}".format(kwargs.get('program_id'),
-                                                                                                       kwargs.get('organization_id')))
-    
-    def delete(self, organization_id, program_id):
-        try:
-            prog_matches = Program.get_by({'id': program_id, 
-                                           'organization_id': organization_id})
-            
-            if prog_matches:
-                prog = prog_matches.pop()
-                prog.delete()
-                deleted = "Successfully deleted: program id {} from provider id {}".format(program_id, organization_id)
-                return create_response({"message": deleted}, schema=None, status=HTTPStatus.ACCEPTED)
-            else:
-                abort(HTTPStatus.NOT_FOUND, message="None found: program id {} from provider id {}".format(program_id,
-                                                                                                        organization_id))
-                
-        except Exception as err:
-            abort(HTTPStatus.NOT_MODIFIED, message=err)
+            not_found = "None found: program id {} from provider id {}".format(kwargs.get('program_id'),
+                                                                               kwargs.get('organization_id'))
+            abort(HTTPStatus.NOT_FOUND, message=not_found)
 
 
 class ProviderServiceResource(Resource):
@@ -175,7 +159,8 @@ class ProviderServiceResource(Resource):
     
     GET,POST /providers/<organization_id>/services
     GET,PUT,DELETE /providers/<organization_id>/services/<service_id>
-    GET /providers/<organization_id>/services?
+    GET /providers/<organization_id>/services?status=<service_status>
+        /providers/<organization_id>/services?name=<service_name>
     
     """
     
@@ -220,23 +205,24 @@ class ProviderServiceResource(Resource):
         else:
             abort(HTTPStatus.NOT_FOUND, message="None found: service id {} from provider id {}".format(kwargs.get('service_id'),
                                                                                                        kwargs.get('organization_id')))
-    def delete(self, organization_id, service_id):
-        try:
-            service_matches = Service.get_by({'id': service_id, 
-                                           'organization_id': organization_id})
-            
-            if service_matches:
-                service = service_matches.pop()
-                service.delete()
-                deleted = "Successfully deleted: service id {} from provider id {}".format(service_id, organization_id)
-                return create_response({"message": deleted}, schema=None, status=HTTPStatus.ACCEPTED)
-            else:
-                abort(HTTPStatus.NOT_FOUND, message="None found: service id {} from provider id {}".format(service_id,
-                                                                                                        organization_id))
-                
-        except Exception as err:
-            abort(HTTPStatus.NOT_MODIFIED, message=err)
 
 
 class ProviderLocationResource(Resource):
-    pass
+    """
+    Provider locations endpoint
+    
+    GET,POST /providers/<organization_id>/locations
+    GET,PUT,DELETE /providers/organization_id>/locations/<location_id>
+    GET /providers/<organization_id>/locations?name=<location_name>
+        /providers/<organization_id>/locations/<location_id>
+    
+    """
+    
+    def get(self):
+        pass
+    
+    def post(self):
+        pass
+    
+    def put(self):
+        pass
