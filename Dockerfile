@@ -1,15 +1,16 @@
-FROM python:3.6
-WORKDIR /app
-# For psycopg2 to work
+FROM brighthive/python:3.6
+LABEL Description="Image for Programs Registry API Flask application"
+# for psycopg2 to work
 RUN apt-get install libcurl4-openssl-dev
-ADD requirements.txt .
-RUN pip install -r requirements.txt
 
-# environment variables
-# FLASK_APP=program_registry
-# DATABASE_URL=postgresql://regdb:@${PGSQL_SERVER_HOSTNAME}:${PGSQL_PORT}/registry
-# FLASK_ENV="production"
+WORKDIR /programs_registry
+COPY . /programs_registry
 
-ENV APP_SETTINGS="production"
-ADD . .
-CMD ./init.sh
+ENV FLASK_APP="program_registry"
+ENV FLASK_ENV="production"
+EXPOSE 5000
+
+CMD ./init.sh  
+
+# TODO: switch to gunicorn for running production server
+

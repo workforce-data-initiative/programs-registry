@@ -15,6 +15,7 @@ TODO: add schema level validations for args
 
 """
 
+from flask_restful import Resource
 
 from programs_registry.api.models import db, PhysicalAddress
 

@@ -1,19 +1,24 @@
 version: '3'
 services:
-  web:
+  programs_registry:
+    restart: always
     build: .
-    ports:
-      - "5000:5000"
     volumes:
-      - .:/app
+      - .:/programs_registry
     depends_on:
-      - database
+      - postgres
     environment:
-    - DATABASE_URL=postgresql://postgres:postgres@database:5432/postgres
-    - APP_SETTINGS=production
-    - FLASK_APP=app.py
-  database:
-    image: "postgres"
+      - DATABASE_URL=postgresql://regdb:@postgres:5432/registry
+  postgres:
+    restart: always
+    image: postgres:9.6.6
+    volumes: 
+      - /var/lib/postgresql
+      - 
+    ports:
+      - 5432:5432
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      - POSTGRES_USER=regdb
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=registry
+

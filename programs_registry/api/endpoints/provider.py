@@ -189,7 +189,7 @@ class ProviderServiceResource(Resource):
     
     @use_args(ServicePostSchema(), locations=('view_args', 'json', 'form'))   
     def put(self, *args, **kwargs):
-        import ipdb; ipdb.set_trace()
+        #import ipdb; ipdb.set_trace()
         service_matches = Service.get_by(kwargs)
     
         if service_matches:
