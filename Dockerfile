@@ -1,7 +1,7 @@
-FROM brighthive/python:3.6
+FROM brighthive/python
 LABEL Description="Image for Programs Registry API Flask application"
 # for psycopg2 to work
-RUN apt-get install libcurl4-openssl-dev
+RUN apt-get -y install libcurl4-openssl-dev
 
 WORKDIR /programs_registry
 COPY . /programs_registry

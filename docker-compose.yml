@@ -13,8 +13,7 @@ services:
     restart: always
     image: postgres:9.6.6
     volumes: 
-      - /var/lib/postgresql
-      - 
+      - .:/var/lib/postgresql
     ports:
       - 5432:5432
     environment:
