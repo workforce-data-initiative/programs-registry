@@ -38,7 +38,7 @@ How to setup in your local development environment
 
     ```bash
     git clone ${GITHUB_CLONE_URL}
-    cd program_registry
+    cd programs_registry
     ```
 
 3. Create and activate a python virtual environment using Python 3.6+ interpreter
@@ -51,7 +51,7 @@ How to setup in your local development environment
 4. Set required environment variables for running Flask application
 
     ```bash
-    export FLASK_APP=program_registry
+    export FLASK_APP=programs_registry
     export DATABASE_URL=postgresql://regdb:@${PGSQL_SERVER_HOSTNAME}:${PGSQL_PORT}/registry
     export FLASK_ENV="development"
     ```

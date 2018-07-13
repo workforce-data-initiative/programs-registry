@@ -1,12 +1,10 @@
-FROM python:3.6
+FROM brighthive/python
 ARG HEROKU_DATASTORE_URI
-WORKDIR /app
-# For psycopg2 to work
-RUN apt-get install libcurl4-openssl-dev
-ADD requirements.txt .
-RUN pip install -r requirements.txt
-ENV APP_SETTINGS="production"
+WORKDIR /programs_registry
+COPY . /programs_registry
+
+ENV FLASK_APP="programs_registry"
+ENV FLASK_ENV="production"
 ENV DATABASE_URL=$HEROKU_DATASTORE_URI
-ENV FLASK_APP=app.py
-ADD . .
+
 CMD ./init.sh
