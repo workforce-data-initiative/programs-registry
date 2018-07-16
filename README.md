@@ -17,7 +17,7 @@ How to setup in your local development environment
 
 3. Create and/or connect to a Postgres v9.6+ database instance (a public docker image is a decent option)
 
-### Setup Environment
+### Setup Local Environment
 
 1. Login to the Postgres database instance as a privileged user and create programs registry database. From command line:
 
@@ -38,7 +38,7 @@ How to setup in your local development environment
 
     ```bash
     git clone ${GITHUB_CLONE_URL}
-    cd program_registry
+    cd programs_registry
     ```
 
 3. Create and activate a python virtual environment using Python 3.6+ interpreter
@@ -51,7 +51,7 @@ How to setup in your local development environment
 4. Set required environment variables for running Flask application
 
     ```bash
-    export FLASK_APP=program_registry
+    export FLASK_APP=programs_registry
     export DATABASE_URL=postgresql://regdb:@${PGSQL_SERVER_HOSTNAME}:${PGSQL_PORT}/registry
     export FLASK_ENV="development"
     ```
@@ -62,7 +62,9 @@ How to setup in your local development environment
     pip install -e .
     ```
 
-6. Load program registry database
+### Load Seed Data & Run Tests
+
+1. Load program registry database
 
     * Option 1(Recommended): Create and seed tables using migration script
 
@@ -85,7 +87,8 @@ How to setup in your local development environment
 
     Note: In the case of Option 2, this will drop all tables as well because the data load happens outside migrations.
 
-7. Run tests, with any of the following options
+
+2. Run tests, with any of the following options
 
     ```bash
     flask test --all
@@ -103,6 +106,19 @@ How to setup in your local development environment
 
 2. API can then be accessed from base url `https://${FLASK_RUN_HOST}:${FLASK_RUN_PORT}/api`
 
+
+### Deploy Using Docker
+
+#### Prerequisites
+
+1. Docker install ([Get Docker](https://www.docker.com/get-docker) for your environment)
+
+#### Build and Run Docker Container
+
+```bash
+docker-compose up --build
+```
+
 ### Access API Documentation
 
  OpenAPI specification can be run locally using [Connexion](https://github.com/zalando/connexion#why-connexion)
@@ -113,27 +129,13 @@ connexion run -v --host ${FLASK_RUN_HOST} --port ${OPENAPI_SPEC_RUN_PORT} .opena
 
 Then access the OpenAPI specification using url: `http://${FLASK_RUN_HOST}:${OPENAPI_SPEC_RUN_PORT}/api/ui/`
 
-To update the OpenAPI specification through SwaggerHub, see the [OpenAPI setup notes](https://github.com/brighthive/program-registry/blob/master/.openapi/README.md)
+To update the OpenAPI specification through SwaggerHub, see the [OpenAPI setup notes](https://github.com/workforce-data-initiative/program-registry/blob/master/.openapi/README.md)
 
-The official API documentation is published at [https://docs.brighthive.io](https://docs.brighthive.io). For any issues with the official API documentation, please [open a documentation issue](https://github.com/brighthive/program-registry/issues).
+The official API documentation is published at [https://docs.brighthive.io](https://docs.brighthive.io). For any issues with the official API documentation, please [open a documentation issue](https://github.com/workforce-data-initiative/program-registry/issues).
 
-### Alternative Deployment Options
+### Continuous Delivery with Heroku
 
-#### Docker Container
-
-##### Prerequisites
-
-1. Docker install ([Get Docker](https://www.docker.com/get-docker) for your environment)
-
-##### Create Docker Image
-
-```bash
-docker-compose up
-```
-
-### Continuous Delivery
-
-As part of CircleCI CI/CD pipeline, this repository uses `Heroku Container Registry` for automatic deployment of master and develop branches to Heroku. See [heroku.sh](https://github.com/brighthive/program-registry/blob/master/heroku.sh) for configurations, these can be updated to run with Heroku app of choice.
+As part of CircleCI CI/CD pipeline, this repository uses `Heroku Container Registry` for automatic deployment of master and develop branches to Heroku. See [heroku.sh](https://github.com/workforce-data-initiative/program-registry/blob/master/heroku.sh) for configurations, these can be updated to run with Heroku app of choice.
 
 Before running `sh heroku.sh`:
 

@@ -6,10 +6,10 @@ services:
     volumes:
       - .:/programs_registry
     depends_on:
-      - postgres
+      - database
     environment:
-      - DATABASE_URL=postgresql://regdb:@postgres:5432/registry
-  postgres:
+      - DATABASE_URL=postgresql://regdb:@database:5432/registry
+  database:
     restart: always
     image: postgres:9.6.6
     volumes: 

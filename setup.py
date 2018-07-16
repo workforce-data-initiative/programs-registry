@@ -17,8 +17,8 @@ setup(
         'flask-restful==0.3.6',
         'flask-marshmallow==0.8.0',
         'marshmallow-sqlalchemy==0.13.2',
-        'psycopg2==2.7.3.1',
-        'connexion==1.3',
+        'psycopg2-binary==2.7.4',
+        'connexion==1.4.2',
         'webargs==3.0.0'
     ],
     entry_points={
