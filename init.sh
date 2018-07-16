@@ -12,6 +12,7 @@ if [ ! -d "./migrations" ]; then
 fi
 
 flask db upgrade schema
+
 # TODO: refactor failing tests using seed data
 # flask test --all 
 
