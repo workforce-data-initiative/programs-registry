@@ -21,24 +21,10 @@ jobs:
           - v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-#      - run:
-#          name: Install virtual environment and required test libraries
-#          command: |
-#            python3 -m venv venv
-#            . venv/bin/activate
-#            pip install -U pycodestyle
       - save_cache:
           paths:
             - ./venv
           key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}
- #     - run:
- #         name: Run pycodestyle (formerly pep8) checks
- #         command: |
- #           python -m venv venv
- #           . venv/bin/activate
-            # Exclude check on venv files that include pip-installed packages
-            # Ignore pep8 error E501 - line too long
-#            pycodestyle --exclude='venv/**' --ignore='E501' .
       - run:
           name: Upgrade database, run tests and start server
           command: |

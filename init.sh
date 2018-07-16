@@ -16,4 +16,4 @@ flask db upgrade schema
 # TODO: refactor failing tests using seed data
 # flask test --all 
 
-flask run
+flask run &
