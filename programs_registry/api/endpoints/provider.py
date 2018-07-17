@@ -20,9 +20,10 @@ from flask_restful import Resource, abort
 from webargs.flaskparser import use_args
 
 from common.utils import create_response, parse_args
-from program_registry.api.v1.models import db, Organization, Program
-from program_registry.api.v1.schemas import OrganizationSchema, OrganizationPostSchema, \
-                                            OrganizationProgramSchema, ProgramPostSchema
+from programs_registry.api.models import db, Organization, Program, Service, Location
+from programs_registry.api.schemas import OrganizationSchema, OrganizationPostSchema, \
+                                            OrganizationProgramSchema, OrganizationServiceSchema, \
+                                            ProgramPostSchema, ServicePostSchema
 
 
 __all__ = ['ProviderResource',
@@ -37,8 +38,8 @@ class ProviderResource(Resource):
     to align with HSDS nomenclature 
     
     GET,POST /providers
-    GET,PUT,DELETE /providers/id
-    GET /providers?name=provider_name
+    GET,PUT,DELETE /providers/<organization_id>
+    GET /providers?name=<provider_name>
     
     """
     
@@ -105,7 +106,7 @@ class ProviderProgramResource(Resource):
     Provider programs endpoint
     
     GET,POST /providers/<organization_id>/programs
-    GET,PUT,DELETE providers/<organization_id>/programs/<id>
+    GET,PUT,DELETE providers/<organization_id>/programs/<program_id>
     
     """
     
@@ -125,7 +126,6 @@ class ProviderProgramResource(Resource):
             if args:
                 program = args[0]
                 program.save()
-                print(program)
                 return create_response(program, OrganizationProgramSchema(), HTTPStatus.CREATED)
             else:
                 abort(HTTPStatus.NO_CONTENT, message="Nil or invalid provider program data passed")
@@ -135,42 +135,94 @@ class ProviderProgramResource(Resource):
     
     @use_args(ProgramPostSchema(), locations=('view_args', 'json', 'form'))   
     def put(self, *args, **kwargs):
-        provider_programs = Program.get_by(kwargs)
+        prog_matches = Program.get_by(kwargs)
     
-        if program_matches:
-            program = program_matches.pop()
+        if prog_matches:
+            prog = prog_matches.pop()
                 
             for arg in args:
                 for key, value in arg.items():
                     if key is not 'id':
-                        setattr(program, key, value)
+                        setattr(prog, key, value)
         
-            program.save()
-            return create_response(program, OrganizationProgramSchema(), HTTPStatus.ACCEPTED)
+            prog.save()
+            return create_response(prog, OrganizationProgramSchema(), HTTPStatus.ACCEPTED)
         else:
-            abort(HTTPStatus.NOT_FOUND, message="None found: program id {} from provider id {}".format(kwargs.get('program_id'),
-                                                                                                       kwargs.get('organization_id')))
-    
-    def delete(self, organization_id, program_id):
-        try:
-            prog_matches = Program.get_by({'id': program_id, 
-                                           'organization_id': organization_id})
-            
-            if prog_matches:
-                prog = prog_matches.pop()
-                prog.delete()
-                deleted = "Successfully deleted: program id {} from provider id {}".format(program_id, organization_id)
-                return create_response({"message": deleted}, schema=None, status=HTTPStatus.ACCEPTED)
-            else:
-                abort(HTTPStatus.NOT_FOUND, message="None found: program id {} from provider id {}".format(program_id,
-                                                                                                        organization_id))
-                
-        except Exception as err:
-            abort(HTTPStatus.NOT_MODIFIED, message=err)
+            not_found = "None found: program id {} from provider id {}".format(kwargs.get('program_id'),
+                                                                               kwargs.get('organization_id'))
+            abort(HTTPStatus.NOT_FOUND, message=not_found)
 
 
 class ProviderServiceResource(Resource):
-    pass
+    """
+    Provider services endpoint
+    
+    GET,POST /providers/<organization_id>/services
+    GET,PUT,DELETE /providers/<organization_id>/services/<service_id>
+    GET /providers/<organization_id>/services?status=<service_status>
+        /providers/<organization_id>/services?name=<service_name>
+    
+    """
+    
+    @use_args(OrganizationServiceSchema(), locations=('view_args', 'query'))
+    def get(self, *args, **kwargs):
+        request_args = parse_args(args, kwargs)
+        provider_services = Service.get_by(request_args)
+         
+        if provider_services:
+            return create_response(provider_services, OrganizationServiceSchema(many=True), HTTPStatus.OK)
+ 
+        abort(HTTPStatus.NOT_FOUND, message="None found: provider with {}".format(request_args))
+    
+    @use_args(ServicePostSchema(), locations=('view_args', 'json', 'form'))  
+    def post(self, *args, **kwargs):
+        try:
+            if args:
+                service = args[0]
+                service.save()
+                return create_response(service, OrganizationServiceSchema(), HTTPStatus.CREATED)
+            else:
+                abort(HTTPStatus.NO_CONTENT, message="Nil or invalid provider service data passed")
+                
+        except Exception as err:
+            abort(HTTPStatus.BAD_REQUEST, message=err)
+    
+    @use_args(ServicePostSchema(), locations=('view_args', 'json', 'form'))   
+    def put(self, *args, **kwargs):
+        #import ipdb; ipdb.set_trace()
+        service_matches = Service.get_by(kwargs)
+    
+        if service_matches:
+            service = service_matches.pop()
+                
+            for arg in args:
+                for key, value in arg.items():
+                    if key is not 'id':
+                        setattr(service, key, value)
+        
+            service.save()
+            return create_response(service, OrganizationServiceSchema(), HTTPStatus.ACCEPTED)
+        else:
+            abort(HTTPStatus.NOT_FOUND, message="None found: service id {} from provider id {}".format(kwargs.get('service_id'),
+                                                                                                       kwargs.get('organization_id')))
+
 
 class ProviderLocationResource(Resource):
-    pass
+    """
+    Provider locations endpoint
+    
+    GET,POST /providers/<organization_id>/locations
+    GET,PUT,DELETE /providers/organization_id>/locations/<location_id>
+    GET /providers/<organization_id>/locations?name=<location_name>
+        /providers/<organization_id>/locations/<location_id>
+    
+    """
+    
+    def get(self):
+        pass
+    
+    def post(self):
+        pass
+    
+    def put(self):
+        pass

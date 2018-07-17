@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Flask-restful endpoint functions for Programs Registry resources
+Flask-restful endpoint functions for Programs Registry SERVICE resources
 
 Request arguments are passed through webargs.flaskparser.use_args (decorator),
 read from the specified locations and injected into the the GET, POST, PUT or DELETE.
@@ -19,12 +19,16 @@ from http import HTTPStatus
 from flask_restful import Resource, abort 
 from webargs.flaskparser import use_args
 
-from common.utils import create_response
-from .models import *
-from .schemas import *
+from common.utils import create_response, parse_args
+from programs_registry.api.models import db, Service
+from programs_registry.api.schemas import ServiceSchema, ServicePostSchema
 
 
-class ServicesResource(Resource):
+__all__ = ['ServiceResource',
+           'ServiceLocationResource']
+
+
+class ServiceResource(Resource):
     """Services endpoint
     
     GET,POST /services
@@ -92,21 +96,7 @@ class ServicesResource(Resource):
                 
         except Exception as err:
             abort(HTTPStatus.NOT_MODIFIED, message=err)
-        
+            
 
-class LocationsResource(Resource):
+class ServiceLocationResource(Resource):
     pass
-
-class PhysicalAddressResource(Resource):
-    pass
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                

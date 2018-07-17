@@ -20,8 +20,8 @@ from flask_restful import Resource, abort
 from webargs.flaskparser import use_args
 
 from common.utils import create_response, parse_args
-from program_registry.api.v1.models import db, Program
-from program_registry.api.v1.schemas import ProgramSchema, ProgramPostSchema
+from programs_registry.api.models import db, Program
+from programs_registry.api.schemas import ProgramSchema, ProgramPostSchema
 
 
 __all__ = ['ProgramResource',

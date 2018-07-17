@@ -2,7 +2,7 @@
 
 import os
 
-from program_registry import create_app
+from programs_registry import create_app
 
 
 config_name = os.environ.get('FLASK_ENV', default='production')

@@ -10,7 +10,7 @@ class Config(object):
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY', default='Secret')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    
+
     @property
     def qualified_name(self):
         module_name = self.__module__

@@ -4,12 +4,10 @@ from datetime import datetime, date
 from marshmallow.decorators import pre_load
 from flask_marshmallow import Marshmallow
 
-
 from .models import *
 
 
 ma = Marshmallow() 
-
 
 # ---------------------------
 # JSON dump schemas - GET
@@ -64,12 +62,22 @@ class OrganizationProgramSchema(ma.ModelSchema):
     potential_outcome = ma.Nested(PotentialOutcomeSchema, exclude=('programs',)) 
     prerequisite = ma.Nested(PrerequisiteSchema, exclude=('programs',)) 
     services = ma.Nested('ServiceSchema', many=True, exclude=('program', 'organization'))
-        
+
+
+class OrganizationServiceSchema(ma.ModelSchema):
+    class Meta:
+        model = Service
+        exclude = ('service_id',)
+
+    format = ma.Nested(FormatSchema, exclude=('services',))
+    locations = ma.Nested('LocationSchema', many=True, exclude=('services', 'organization'))
+
 
 class ServiceSchema(ma.ModelSchema): 
     class Meta:
         model = Service
-    
+        exclude = ('service_id',)
+
     format = ma.Nested(FormatSchema, exclude=('services',))
     program = ma.Nested('ProgramSchema', exclude=('services', 'organization'))
     organization = ma.Nested(OrganizationSchema, exclude=('programs', 'services', 'locations'))
@@ -81,7 +89,7 @@ class LocationSchema(ma.ModelSchema):
         model = Location
     
     organization = ma.Nested(OrganizationSchema, exclude=('locations',))
-    address = ma.Nested('PhysicalAddressSchema')
+    physical_address = ma.Nested('PhysicalAddressSchema')
     services = ma.Nested(ServiceSchema, many=True)
     
 
@@ -119,6 +127,7 @@ class ProgramPostSchema(ma.ModelSchema):
 class ServicePostSchema(ma.ModelSchema):
     class Meta:
         model = Service
+        exclude = ('service_id',)
         include_fk = True
         sqla_session = db.session
     
