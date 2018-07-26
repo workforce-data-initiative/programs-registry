@@ -1080,6 +1080,11 @@ paths:
       summary: "Add new location address"
       operationId: location.address.post
       parameters:
+      - in: "path"
+        name: locationId
+        required: true
+        type: "integer"
+        format: "int64"
       - in: "body"
         name: "body"
         required: true
@@ -1096,6 +1101,11 @@ paths:
       summary: "Get all location addresses"
       operationId: location.address.get.all
       parameters:
+      - in: "path"
+        name: locationId
+        required: true
+        type: "integer"
+        format: "int64"
       - in: "query"
         name: "city"
         description: "Name(in full or part) of city of location(s) address"
@@ -1128,8 +1138,8 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: locationId
-        in: path
+      - in: "path"
+        name: locationId
         required: true
         type: "integer"
         format: "int64"
