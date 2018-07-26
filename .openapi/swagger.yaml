@@ -240,8 +240,6 @@ paths:
             $ref: "#/definitions/Program"
         404:
           description: "Provider program not found"
-      security:
-      - api_key: []
     put:
       tags:
       - "provider"
