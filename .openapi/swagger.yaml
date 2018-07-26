@@ -1285,96 +1285,11 @@ securityDefinitions:
 definitions:
   Provider:
     type: "object"
-    required:
-    - "name"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-      description:
-        type: "string"
-      email:
-        type: "string"
-      url:
-        type: "string"
-      year_incorporated:
-        type: "string"
-    xml:
-      name: "Provider"
   Program:
     type: "object"
-    required:
-    - "organization_id"
-    - "name"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      organization_id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-      alternate_name:
-        type: "string"
-    xml:
-      name: "Program"
   Service:
     type: "object"
-    required:
-    - "name"
-    - "organization_id"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      organization_id:
-        type: "integer"
-        format: "int64"
-      program_id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-      description:
-        type: "string"
-      email:
-        type: "string"
-      url:
-        type: "string"
-      status:
-        type: "string"
-      fees:
-        type: "string"
-    xml:
-      name: "Service"
   Location:
     type: "object"
-    required:
-    - "name"
-    - "organization_id"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      organization_id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-      alternate_name:
-        type: "string"
-      description:
-        type: "string"
-      transportation:
-        type: "string"
-      latitude:
-        type: "string"
-      longitude:
-        type: "string"
-    xml:
-      name: "Location"
   PhysicalAddress:
     type: object
