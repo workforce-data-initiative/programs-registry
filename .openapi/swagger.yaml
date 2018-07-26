@@ -41,6 +41,8 @@ paths:
           description: "No content"
         400:
           description: "Bad request"
+      security:
+      - api_key: []
     get:
       tags:
       - "provider"
@@ -86,8 +88,6 @@ paths:
             $ref: "#/definitions/Provider"
         404:
           description: "Provider organization not found"
-      security:
-      - api_key: []
     put:
       tags:
       - "provider"
@@ -120,6 +120,8 @@ paths:
           description: "Not modified"
         404:
           description: "Provider organization not found"
+      security:
+      - api_key: []
     delete:
       tags:
       - "provider"
@@ -142,6 +144,8 @@ paths:
           description: "Not modified"
         404:
           description: "Provider organization not found"
+      security:
+      - api_key: []
   /providers/{organizationId}/programs:
     post:
       tags:
@@ -175,6 +179,8 @@ paths:
           description: "No content"
         400:
           description: "Bad request"
+      security:
+      - api_key: []
     get:
       tags:
       - "provider"
@@ -272,6 +278,8 @@ paths:
             $ref: "#/definitions/Program"
         404:
           description: "Program not found"
+      security:
+      - api_key: []          
   /providers/{organizationId}/services:
     post:
       tags:
@@ -305,6 +313,8 @@ paths:
           description: "No content"
         400:
           description: "Bad request"
+      security:
+      - api_key: []
     get:
       tags:
       - "provider"
@@ -333,8 +343,6 @@ paths:
             $ref: "#/definitions/Service"
         404:
           description: "Provider service not found"
-      security:
-      - api_key: []
   /providers/{organizationId}/services/{serviceId}:
     get:
       tags:
@@ -400,7 +408,8 @@ paths:
             $ref: "#/definitions/Service"
         404:
           description: "Provider service not found"
-          
+      security:
+      - api_key: []        
   # NOT IMPLEMENTED
   /providers/{organizationId}/locations:
     post:
@@ -424,6 +433,8 @@ paths:
           description: "Created"
           schema:
             $ref: "#/definitions/Location"
+      security:
+      - api_key: []            
     get:
       tags:
       - "provider"
@@ -488,7 +499,9 @@ paths:
           description: "Accepted"
           schema:
             $ref: "#/definitions/Location"
-
+      security:
+      - api_key: []
+      
   /programs:
     post:
       tags:
@@ -517,6 +530,8 @@ paths:
           description: "No content"
         400:
           description: "Bad request"
+      security:
+      - api_key: []
     get:
       tags:
       - "program"
@@ -568,8 +583,6 @@ paths:
               $ref: "#/definitions/Program"
         404:
           description: "Program not found"
-      security:
-      - api_key: []
     put:
       tags:
       - "program"
@@ -603,6 +616,8 @@ paths:
           description: "Not modified"
         404:
           description: "Program not found"
+      security:
+      - api_key: []
     delete:
       tags:
       - "program"
@@ -631,7 +646,8 @@ paths:
           description: "Not modified"
         404:
           description: "Program not found"
-
+      security:
+      - api_key: []
   # NOT IMPLEMENTED
   /programs/{programId}/services:
     post:
@@ -655,6 +671,8 @@ paths:
           description: "Created"
           schema:
             $ref: "#/definitions/Service"
+      security:
+      - api_key: []
     get:
       tags:
       - "program"
@@ -731,6 +749,8 @@ paths:
           description: "Accepted"
           schema:
             $ref: "#/definitions/Service"
+      security:
+      - api_key: []
 
   /services:
     post:
@@ -760,6 +780,8 @@ paths:
           description: "No content"
         400:
           description: "Bad request"
+      security:
+      - api_key: []
     get:
       tags:
       - "service"
@@ -786,8 +808,6 @@ paths:
               $ref: "#/definitions/Service"
         404:
           description: "Service not found"
-      security:
-      - api_key: []
   /services/{serviceId}:
     get:
       tags:
@@ -844,6 +864,8 @@ paths:
           description: "Not modified"
         404:
           description: "Service not found"
+      security:
+      - api_key: []          
     delete:
       tags:
       - "service"
@@ -866,7 +888,9 @@ paths:
           description: "Not modified"
         404:
           description: "Service not found"
-          
+      security:
+      - api_key: []
+      
   # NOT IMPLEMENTED
   /services/{serviceId}/locations:
     post:
@@ -890,6 +914,8 @@ paths:
           description: "Created"
           schema:
             $ref: "#/definitions/Location"
+      security:
+      - api_key: []            
     get:
       tags:
       - "service"
@@ -962,7 +988,9 @@ paths:
           description: "Accepted"
           schema:
             $ref: "#/definitions/Location"
-  
+      security:
+      - api_key: []
+      
   # NOT IMPLEMENTED
   /locations:
     post:
@@ -981,6 +1009,8 @@ paths:
           description: "Created"
           schema:
             $ref: "#/definitions/Location"
+      security:
+      - api_key: []            
     get:
       tags:
       - "location"
@@ -1049,6 +1079,8 @@ paths:
           description: "Accepted"
           schema:
             $ref: "#/definitions/Location"
+      security:
+      - api_key: []            
     delete:
       tags:
       - "location"
@@ -1071,7 +1103,9 @@ paths:
           description: "Not modified"
         404:
           description: "Location not found"
-          
+      security:
+      - api_key: []
+      
   # NOT IMPLEMENTED
   /locations/{locationId}/address:
     post:
@@ -1095,6 +1129,8 @@ paths:
           description: "Created"
           schema:
             $ref: "#/definitions/PhysicalAddress"
+      security:
+      - api_key: []            
     get:
       tags:
       - "location"
@@ -1186,6 +1222,8 @@ paths:
           description: "Accepted"
           schema:
             $ref: "#/definitions/PhysicalAddress"
+      security:
+      - api_key: []
     delete:
       tags:
       - "location"
@@ -1212,7 +1250,9 @@ paths:
           description: "Not modified"
         404:
           description: "Address not found"
-          
+      security:
+      - api_key: []
+      
   # NOT IMPLEMENTED
   /locations/{locationId}/services:
     get:
