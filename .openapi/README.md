@@ -21,4 +21,3 @@ Be sure to set:
 - a separate branch other that the main ones (In our case we chose *SWAGGERHUB*)
 - swagger output folder as `.openapi` and 
 - swagger file as `swagger.yaml`
-
