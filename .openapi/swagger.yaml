@@ -764,7 +764,7 @@ paths:
       tags:
       - "service"
       summary: "Get all services"
-      description: "Returns an list of existing services under a given org"
+      description: "Get list of all services"
       operationId:  service.get.all
       produces:
       - "application/json"
@@ -1077,42 +1077,195 @@ paths:
     post:
       tags:
         - "location"
-      summary: "Add new location"
-      operationId: location.post
+      summary: "Add new location address"
+      operationId: location.address.post
       parameters:
       - in: "body"
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/Location"
+          $ref: "#/definitions/PhysicalAddress"
       responses:
         201:
           description: "Created"
           schema:
-            $ref: "#/definitions/Location"
+            $ref: "#/definitions/PhysicalAddress"
     get:
       tags:
       - "location"
-      summary: "Get all locations"
-      operationId: location.get.all
+      summary: "Get all location addresses"
+      operationId: location.address.get.all
       parameters:
       - in: "query"
-        name: "name"
-        description: "The name(in full or part) of location(s)"
+        name: "city"
+        description: "Name(in full or part) of city of location(s) address"
         type: "string"
+      - in: "query"
+        name: "state"
+        description: "Name(in full or part) of state of location(s) address"
+        type: "string"
+      - in: "query"
+        name: "zip"
+        description: "Zip code of address of location(s)"
+        type: "integer"
+        format: "int64"
       responses:
         200:
           description: "OK"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Location"
+              $ref: "#/definitions/PhysicalAddress"
   
   # NOT IMPLEMENTED
+  /locations/{locationId}/address/{addressId}:
+    get:
+      tags:
+      - "location"
+      summary: "Get location address by ID"
+      description: ""
+      operationId: location.address.get.id
+      produces:
+      - "application/json"
+      parameters:
+      - name: locationId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: addressId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PhysicalAddress"
+    put:
+      tags:
+      - "location"
+      summary: "Update existing location address"
+      description: ""
+      operationId: location.address.put
+      consumes:
+      - "application/json"
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: locationId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: addressId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "Updated location address attributes"
+        required: true
+        schema:
+          $ref: "#/definitions/PhysicalAddress"
+      responses:
+        202:
+          description: "Accepted"
+          schema:
+            $ref: "#/definitions/PhysicalAddress"
+    delete:
+      tags:
+      - "location"
+      summary: "Delete existing location address"
+      description: ""
+      operationId: location.address.delete
+      produces:
+      - "application/json"
+      parameters:
+      - name: locationId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: addressId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        202:
+          description: "Deletion accepted"
+        304:
+          description: "Not modified"
+        404:
+          description: "Address not found"
+          
+  # NOT IMPLEMENTED
   /locations/{locationId}/services:
+    get:
+      tags:
+      - "location"
+      summary: "Get all services at location"
+      description: "Returns a list of all services at location"
+      operationId:  location.service.get.all
+      produces:
+      - "application/json"
+      parameters:
+      - name: locationId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "query"
+        name: "name"
+        description: "The name(in full or part) of service(s) to find"
+        type: "string"
+      - in: "query"
+        name: "status"
+        description: "The status of service(s) to find"
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Service"
+        404:
+          description: "Service not found"
   
   # NOT IMPLEMENTED
   /locations/{locationId}/services/{serviceId}:
+    get:
+      tags:
+      - "location"
+      summary: "Get service at location by ID"
+      description: ""
+      operationId: location.service.get
+      produces:
+      - "application/json"
+      parameters:
+      - name: locationId
+        in: path
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: serviceId
+        in: path
+        description: "Numeric ID of service"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Service"
+        404:
+          description: "Service not found"
 
 securityDefinitions:
   api_key:
@@ -1139,7 +1292,7 @@ definitions:
       year_incorporated:
         type: "string"
     xml:
-      name: "Organization"
+      name: "Provider"
   Program:
     type: "object"
     required:
